@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
-import { Separator } from "@/src/components/ui/separator";
 import { Label } from "@radix-ui/react-label";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
@@ -23,69 +22,73 @@ const LoginPage = () => {
       <div className="flex-col w-[400px]">
         <Logo />
         <Card className="w-full max-w-sm my-8">
-          <CardHeader>
-            <CardTitle className="text-center">Sign in</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form>
-              <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                    <Button
-                      variant="link"
-                      className="ml-auto"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <>
-                          <Eye /> Show
-                        </>
-                      ) : (
-                        <>
-                          <EyeOff /> Hide
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                  <Input
-                    id="password"
-                    type={`${showPassword ? "text" : "password"}`}
-                    required
-                  />
-                </div>
+          <form>
+            <CardHeader>
+              <CardTitle className="text-center">Sign in</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                />
               </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full my-2">
-              Login
-            </Button>
-            <Link
-              href={"/forgot-password"}
-              className="ml-auto underline hover:no-underline"
-            >
-              Forget your password?
-            </Link>
-          </CardFooter>
+              <div className="">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                  <Button
+                    variant="link"
+                    className="ml-auto"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <>
+                        <Eye /> Show
+                      </>
+                    ) : (
+                      <>
+                        <EyeOff /> Hide
+                      </>
+                    )}
+                  </Button>
+                </div>
+                <Input
+                  id="password"
+                  type={`${showPassword ? "text" : "password"}`}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+            </CardContent>
+            <CardFooter className="flex-col gap-2">
+              <Button type="submit" className="w-full my-2">
+                Login
+              </Button>
+              <Link
+                href={"/forgot-password"}
+                className="ml-auto underline hover:no-underline"
+              >
+                Forget your password?
+              </Link>
+            </CardFooter>
+          </form>
         </Card>
         <div className="flex justify-center items-center my-4">
           <div className="border  md:w-1/4"></div>
           <h3 className="text-slate-500 mx-2">New to Community</h3>
           <div className="border  md:w-1/4"></div>
         </div>
-        <Button variant={"outline"} className="w-full border-black rounded-3xl">
-          Sign up
-        </Button>
+        <Link href={"/register"}>
+          <Button
+            variant={"outline"}
+            className="w-full border-black rounded-3xl"
+          >
+            Sign up
+          </Button>
+        </Link>
       </div>
     </div>
   );
