@@ -1,4 +1,5 @@
 "use client";
+import PSForm from "@/src/components/Form/PSForm";
 import PSInput from "@/src/components/Form/PSInput";
 import Logo from "@/src/components/logo/Logo";
 import { Button } from "@/src/components/ui/button";
@@ -9,17 +10,46 @@ import {
   CardHeader,
   CardTitle,
 } from "@/src/components/ui/card";
+import { registerUser } from "@/src/services/actions/registerUser";
+import { userLogin } from "@/src/services/actions/userLogin";
+import { storeUserInfo } from "@/src/services/auth.services";
+import modifyPayload from "@/src/utils/modifyPayload";
 import { Label } from "@radix-ui/react-label";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [error, setError] = useState();
+  const router = useRouter();
 
-  const handleSubmit = (values: FieldValues) => {
-    console.log(values);
+  const handleSubmit = async (values: FieldValues) => {
+    // console.log(values);
+
+    const data = modifyPayload(values);
+    try {
+      const res = await registerUser(data);
+      console.log(res);
+      if (res?.data?.id) {
+        toast.success(res?.message);
+        const result = await userLogin({
+          email: values.email,
+          password: values.password,
+        });
+        if (result?.data?.accessToken) {
+          storeUserInfo(result?.data?.accessToken);
+          router.push("/dashboard");
+        }
+      } else {
+        setError(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -27,7 +57,7 @@ const RegisterPage = () => {
       <Logo />
 
       <Card className="w-full max-w-sm mt-8 shadow-sm">
-        <form onSubmit={handleSubmit}>
+        <PSForm onSubmit={handleSubmit}>
           <CardHeader>
             <CardTitle className="text-center text-2xl font-semibold">
               Create Your Account
@@ -133,11 +163,11 @@ const RegisterPage = () => {
           </CardContent>
 
           <CardFooter className="flex flex-col gap-3 mt-2">
-            <button type="submit" className="w-full">
+            <Button type="submit" className="w-full">
               Sign Up
-            </button>
+            </Button>
           </CardFooter>
-        </form>
+        </PSForm>
       </Card>
 
       {/* Divider */}
