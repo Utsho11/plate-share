@@ -32,32 +32,35 @@ const Navbar = () => {
     <section className="p-2">
       <div className="container">
         {/* Desktop Menu */}
-        <nav className="hidden items-center justify-between lg:flex">
-          {/*Logo */}
-          <div className="flex items-center gap-6">
-            {/* Logo */}
-            <Link href={"/"} className="flex items-center gap-2">
-              <div className="flex justify-center items-center border-2 border-black  rounded-full w-8 h-8">
-                <UtensilsCrossed size={16} />
-              </div>
-              <span
-                className={`${lobster.className} text-lg font-semibold tracking-tighter`}
-              >
-                PlateShare
-              </span>
-            </Link>
-          </div>
-          {/* nav items */}
-          <div className="flex items-center">
-            <NavigationMenu>
-              <NavigationMenuList>
-                {menu.map((item) => renderMenuItem(item))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-          {/* auth items */}
-          <div className="flex gap-2">
-            <AuthButton />
+        <nav className="bg-white border-b">
+          <div className="mx-auto max-w-7xl px-4 py-3 grid grid-cols-12 items-center gap-4">
+            {/* Left (3 columns) */}
+            <div className="col-span-6 sm:col-span-3 flex items-center">
+              <Link href="/" className="flex items-center gap-2">
+                <div className="flex justify-center items-center border-2 border-black rounded-full w-8 h-8">
+                  <UtensilsCrossed size={16} />
+                </div>
+                <span
+                  className={`${lobster.className} text-xl font-semibold tracking-tight`}
+                >
+                  PlateShare
+                </span>
+              </Link>
+            </div>
+
+            {/* Middle (6 columns) */}
+            <div className="hidden sm:flex col-span-6 justify-center">
+              <NavigationMenu>
+                <NavigationMenuList>
+                  {menu.map((item) => renderMenuItem(item))}
+                </NavigationMenuList>
+              </NavigationMenu>
+            </div>
+
+            {/* Right (3 columns) */}
+            <div className="col-span-6 sm:col-span-3 flex justify-end">
+              <AuthButton />
+            </div>
           </div>
         </nav>
 
