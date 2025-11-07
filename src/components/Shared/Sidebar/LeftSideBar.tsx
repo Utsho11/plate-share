@@ -38,23 +38,6 @@ const LeftSidebar = () => {
 
   return (
     <aside className="hidden md:block md:col-span-3 sticky top-20 h-[calc(100vh-80px)] overflow-y-auto space-y-4 pr-2">
-      {/* Profile */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm font-medium">Your Profile</CardTitle>
-        </CardHeader>
-        <CardContent className="flex items-center gap-3">
-          <Avatar>
-            <AvatarImage src="https://i.pravatar.cc/100" />
-            <AvatarFallback>UR</AvatarFallback>
-          </Avatar>
-          <div>
-            <p className="text-sm font-semibold">Utsho Roy</p>
-            <p className="text-xs text-muted-foreground">Food Explorer</p>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Navigation */}
       <Card>
         <CardHeader>

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-
-import { authKey } from "@/src/Constants/Constants";
+import { authKey } from "@/src/constants/constants";
 import { decodedToken } from "@/src/utils/jwt";
 import { cookies } from "next/headers";
 
