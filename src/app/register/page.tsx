@@ -42,7 +42,7 @@ const RegisterPage = () => {
         });
         if (result?.data?.accessToken) {
           storeUserInfo(result?.data?.accessToken);
-          router.push("/dashboard");
+          router.push("/home");
         }
       } else {
         setError(res.message);
