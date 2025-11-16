@@ -1,4 +1,4 @@
-import PSForm from "@/src/components/Form/PSForm";
+"use client";
 import { Button } from "@/src/components/ui/button";
 
 import {
