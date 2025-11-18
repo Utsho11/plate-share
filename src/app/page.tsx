@@ -14,7 +14,7 @@ export default function Home() {
       <h1
         className={`${lobster.className} text-xl sm:text-3xl mt-6 mb-2 text-gray-900`}
       >
-        Welcome to PlatShare Community
+        Welcome to PlateShare Community
       </h1>
 
       <p className="text-gray-600 text-base mb-10 text-center max-w-md">

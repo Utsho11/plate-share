@@ -32,7 +32,7 @@ const Navbar = () => {
     <section className="p-2">
       <div className="container">
         {/* Desktop Menu */}
-        <nav className="bg-white border-b">
+        <nav className="bg-white border-b hidden md:block">
           <div className="mx-auto max-w-7xl px-4 py-3 grid grid-cols-12 items-center gap-4">
             {/* Left (3 columns) */}
             <div className="col-span-6 sm:col-span-3 flex items-center">

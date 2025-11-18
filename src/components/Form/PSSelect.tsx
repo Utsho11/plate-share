@@ -27,7 +27,7 @@ const PSSelect = ({ name, options, placeholder, required }: TFormInput) => {
       defaultValue=""
       render={({ field, fieldState: { error } }) => (
         <Select value={field.value} onValueChange={field.onChange}>
-          <SelectTrigger>
+          <SelectTrigger className="w-full">
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>

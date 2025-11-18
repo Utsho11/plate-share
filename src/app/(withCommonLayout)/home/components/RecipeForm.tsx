@@ -1,8 +1,10 @@
-import PSForm from "@/src/components/Form/PSForm";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import PSInput from "@/src/components/Form/PSInput";
 import PSSelect from "@/src/components/Form/PSSelect";
 import PSTextArea from "@/src/components/Form/PSTextArea";
 import { Button } from "@/src/components/ui/button";
+import { useCreateRecipeMutation } from "@/src/redux/api/recipeApi";
+import modifyPayload from "@/src/utils/modifyPayload";
 import {
   AlignLeft,
   ChefHat,
@@ -20,6 +22,7 @@ import {
   useForm,
   type FieldValues,
 } from "react-hook-form";
+import { toast } from "sonner";
 
 export const RECIPE_TYPE = ["VEG", "NON_VEG", "VEGAN"];
 
@@ -38,13 +41,34 @@ const RecipeForm = () => {
 
   const { control, handleSubmit } = methods;
 
+  const [createRecipe] = useCreateRecipeMutation();
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "ingredients",
   });
 
-  const onSubmit = (values: FieldValues) => {
-    console.log(values);
+  const {
+    fields: instructionFields,
+    append: appendInstruction,
+    remove: removeInstruction,
+  } = useFieldArray({
+    control,
+    name: "instructions",
+  });
+
+  const onSubmit = async (values: FieldValues) => {
+    const data = modifyPayload(values);
+
+    try {
+      const res = await createRecipe(data).unwrap();
+      console.log(res);
+      if (res?.id) {
+        toast.success("Recipe shared successfully!!");
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
   };
 
   const handleFieldAppend = () => {
@@ -52,9 +76,12 @@ const RecipeForm = () => {
   };
 
   return (
-    <div>
+    <div className="">
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="h-[400px] overflow-y-scroll"
+        >
           <div className="w-full max-w-3xl mx-auto p-4 md:p-6 bg-white border rounded-2xl shadow-sm space-y-6">
             {/* Header */}
             <h1 className="text-2xl font-semibold flex items-center gap-2">
@@ -132,7 +159,7 @@ const RecipeForm = () => {
             {/* ingredients */}
 
             <div className="flex justify-between items-center mb-5">
-              <h1 className="text-xl">Add Recipe Ingredients</h1>
+              <h1 className="text-xl font-semibold">Add Recipe Ingredients</h1>
               <Button
                 type="button"
                 onClick={() => handleFieldAppend()}
@@ -157,11 +184,49 @@ const RecipeForm = () => {
                     type="button"
                     onClick={() => remove(index)}
                     size={"icon-sm"}
+                    variant={"destructive"}
                   >
                     <TrashIcon />
                   </Button>
                 </div>
               ))}
+            </div>
+
+            {/* Add instructions */}
+            <div className="mt-8">
+              <div className="flex justify-between items-center mb-5">
+                <h1 className="text-xl font-semibold">
+                  Add Cooking Instructions
+                </h1>
+
+                <Button
+                  type="button"
+                  onClick={() => appendInstruction({ step: "" })}
+                  size="icon-sm"
+                >
+                  <Plus />
+                </Button>
+              </div>
+
+              <div className="space-y-5">
+                {instructionFields.map((field, index) => (
+                  <div key={field.id} className="flex gap-3 items-center">
+                    <PSInput
+                      name={`instructions.${index}.step`}
+                      placeholder={`Step ${index + 1}`}
+                    />
+
+                    <Button
+                      type="button"
+                      onClick={() => removeInstruction(index)}
+                      size="icon-sm"
+                      variant={"destructive"}
+                    >
+                      <TrashIcon />
+                    </Button>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Submit Button */}
