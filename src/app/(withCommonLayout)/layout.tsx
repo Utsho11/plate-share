@@ -5,7 +5,9 @@ import RightSidebar from "@/src/components/Shared/Sidebar/RightSideBar";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen">
-      <Navbar />
+      <div className="sticky top-0 z-50">
+        <Navbar />
+      </div>
 
       <div className="mx-auto max-w-7xl px-4 py-4 grid grid-cols-1 md:grid-cols-12 gap-4">
         <aside className="hidden md:block md:col-span-3">

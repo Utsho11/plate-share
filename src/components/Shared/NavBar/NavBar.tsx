@@ -29,7 +29,7 @@ const Navbar = () => {
   });
 
   return (
-    <section className="p-2">
+    <section className="">
       <div className="container">
         {/* Desktop Menu */}
         <nav className="bg-white border-b hidden md:block">
@@ -65,8 +65,8 @@ const Navbar = () => {
         </nav>
 
         {/* Mobile Menu */}
-        <div className="block lg:hidden">
-          <div className="flex items-center justify-between">
+        <div className="bg-white border px-2 block lg:hidden">
+          <div className="flex items-center justify-between py-1">
             {/* Logo */}
             <a href={"/"} className="flex items-center gap-2">
               <div className="flex justify-center items-center border-2 border-black rounded-full w-12 h-12">

@@ -14,7 +14,7 @@ import RecipeForm from "./RecipeForm";
 
 const ShareRecipe = () => {
   return (
-    <div>
+    <div className="w-full max-w-xl mx-auto">
       <Dialog>
         <DialogTrigger asChild>
           <Button className="w-full h-fit justify-start rounded-2xl bg-white text-gray-700 shadow-sm border hover:bg-gray-100">
