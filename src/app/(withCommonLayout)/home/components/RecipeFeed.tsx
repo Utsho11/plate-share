@@ -6,7 +6,7 @@ import { useGetAllRecipeQuery } from "@/src/redux/api/recipeApi";
 const RecipeFeed = () => {
   const { data } = useGetAllRecipeQuery({});
 
-  console.log({ data });
+  // console.log({ data });
 
   return (
     <div>

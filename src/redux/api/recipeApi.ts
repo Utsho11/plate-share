@@ -29,7 +29,26 @@ export const recipeApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.recipies],
     }),
+
+    getRecipeById: build.query({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      query: (id) => ({
+        url: `/recipe/${id}`,
+        method: "GET",
+      }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformResponse: (response: any) => {
+        return {
+          recipie: response,
+        };
+      },
+      providesTags: [tagTypes.recipies],
+    }),
   }),
 });
 
-export const { useCreateRecipeMutation, useGetAllRecipeQuery } = recipeApi;
+export const {
+  useCreateRecipeMutation,
+  useGetAllRecipeQuery,
+  useGetRecipeByIdQuery,
+} = recipeApi;

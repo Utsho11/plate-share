@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       "images.unsplash.com", // Add any other image host you use
       "example.com",
       "shorturl.at",
+      "res.cloudinary.com",
     ],
   },
 };

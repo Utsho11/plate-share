@@ -15,11 +15,26 @@ import {
   Heart,
   MessageCircle,
   Share2,
+  ThumbsDown,
+  ThumbsUp,
 } from "lucide-react";
+import Image from "next/image";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const RecipePreviewCard = ({ data }) => {
+  const router = useRouter();
+
+  const handleClick = (id) => {
+    console.log(id);
+    router.push(`recipe/${id}`);
+  };
+
   return (
-    <Card className="w-full max-w-xl mx-auto rounded-xl border shadow-sm my-4">
+    <Card
+      className="w-full max-w-xl mx-auto rounded-xl border shadow-sm my-4"
+      onClick={() => handleClick(data._id)}
+    >
       {/* Post Header */}
       <CardHeader className="flex flex-row items-center justify-between p-4">
         <div className="flex items-center gap-3">
@@ -57,26 +72,32 @@ const RecipePreviewCard = ({ data }) => {
 
       {/* Image */}
       {data?.images?.length > 0 && (
-        <img
+        <Image
           src={data?.images[0]}
           alt="Recipe"
+          width={100}
+          height={100}
           className="w-full h-64 object-cover"
         />
       )}
 
       {/* Footer Actions Like Facebook */}
       <CardFooter className="flex items-center justify-between px-4 py-3 border-t mt-2">
-        <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-black transition">
-          <Heart className="w-4 h-4" /> Like
-        </button>
+        <Button variant={"outline"}>
+          <ThumbsUp className="w-4 h-4" /> Like
+        </Button>
 
-        <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-black transition">
+        <Button variant={"outline"}>
+          <ThumbsDown className="w-4 h-4" /> DisLike
+        </Button>
+
+        <Button variant={"outline"}>
           <MessageCircle className="w-4 h-4" /> Comment
-        </button>
+        </Button>
 
-        <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-black transition">
+        <Button variant={"outline"}>
           <Share2 className="w-4 h-4" /> Share
-        </button>
+        </Button>
       </CardFooter>
     </Card>
   );
