@@ -12,7 +12,6 @@ import {
 import {
   Clock,
   MoreHorizontal,
-  Heart,
   MessageCircle,
   Share2,
   ThumbsDown,
@@ -26,7 +25,7 @@ const RecipePreviewCard = ({ data }) => {
   const router = useRouter();
 
   const handleClick = (id) => {
-    console.log(id);
+    // console.log(id);
     router.push(`recipe/${id}`);
   };
 

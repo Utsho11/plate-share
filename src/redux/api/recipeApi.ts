@@ -31,17 +31,10 @@ export const recipeApi = baseApi.injectEndpoints({
     }),
 
     getRecipeById: build.query({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      query: (id) => ({
+      query: (id: string | string[] | undefined) => ({
         url: `/recipe/${id}`,
         method: "GET",
       }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transformResponse: (response: any) => {
-        return {
-          recipie: response,
-        };
-      },
       providesTags: [tagTypes.recipies],
     }),
   }),
