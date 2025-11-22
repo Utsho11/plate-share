@@ -20,20 +20,35 @@ import {
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import {
+  useDownVoteMutation,
+  useUpVoteMutation,
+} from "@/src/redux/api/voteApi";
+import { toast } from "sonner";
+import type { IRecipe } from "@/src/types";
 
-const RecipePreviewCard = ({ data }) => {
+const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
+  const [upVote] = useUpVoteMutation();
+  const [downVote] = useDownVoteMutation();
   const router = useRouter();
 
-  const handleClick = (id) => {
+  const handleClick = (id: string) => {
     // console.log(id);
     router.push(`recipe/${id}`);
   };
 
+  const handleUpVote = (id: string) => {
+    upVote(id);
+    toast.success("Your vote has been recorded.");
+  };
+
+  const handleDownVote = (id: string) => {
+    downVote(id);
+    toast.success("Your vote has been recorded.");
+  };
+
   return (
-    <Card
-      className="w-full max-w-xl mx-auto rounded-xl border shadow-sm my-4"
-      onClick={() => handleClick(data._id)}
-    >
+    <Card className="w-full max-w-xl mx-auto rounded-xl border shadow-sm my-4">
       {/* Post Header */}
       <CardHeader className="flex flex-row items-center justify-between p-4">
         <div className="flex items-center gap-3">
@@ -61,6 +76,13 @@ const RecipePreviewCard = ({ data }) => {
           {data?.description}
         </p>
 
+        <p
+          className="font-semibold hover:text-blue-400 hover:underline hover:cursor-pointer text-sm"
+          onClick={() => handleClick(data._id)}
+        >
+          See more...
+        </p>
+
         {/* Meta info */}
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <Clock className="w-4 h-4" /> {data?.cookingTime}
@@ -82,12 +104,20 @@ const RecipePreviewCard = ({ data }) => {
 
       {/* Footer Actions Like Facebook */}
       <CardFooter className="flex items-center justify-between px-4 py-3 border-t mt-2">
-        <Button variant={"outline"}>
-          <ThumbsUp className="w-4 h-4" /> Like
+        <Button
+          variant={"outline"}
+          className="p-2"
+          onClick={() => handleUpVote(data._id)}
+        >
+          <ThumbsUp className="w-4 h-4" /> | {data.upvoteCount}
         </Button>
 
-        <Button variant={"outline"}>
-          <ThumbsDown className="w-4 h-4" /> DisLike
+        <Button
+          variant={"outline"}
+          className="p-2"
+          onClick={() => handleDownVote(data._id)}
+        >
+          <ThumbsDown className="w-4 h-4" />| {data.downvoteCount}
         </Button>
 
         <Button variant={"outline"}>
