@@ -4,6 +4,15 @@ import {
   CardContent,
   CardFooter,
 } from "@/src/components/ui/card";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/src/components/ui/dialog";
+
 import {
   Avatar,
   AvatarFallback,
@@ -26,6 +35,9 @@ import {
 } from "@/src/redux/api/voteApi";
 import { toast } from "sonner";
 import type { IRecipe } from "@/src/types";
+import PSForm from "../Form/PSForm";
+import type { FieldValues } from "react-hook-form";
+import PSTextArea from "../Form/PSTextArea";
 
 const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
   const [upVote] = useUpVoteMutation();
@@ -45,6 +57,10 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
   const handleDownVote = (id: string) => {
     downVote(id);
     toast.success("Your vote has been recorded.");
+  };
+
+  const onSubmit = (values: FieldValues) => {
+    console.log(values);
   };
 
   return (
@@ -120,9 +136,24 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
           <ThumbsDown className="w-4 h-4" />| {data.downvoteCount}
         </Button>
 
-        <Button variant={"outline"}>
-          <MessageCircle className="w-4 h-4" /> Comment
-        </Button>
+        <Dialog>
+          <DialogTrigger>
+            <span className="flex justify-center items-center p-2 gap-2 border rounded-lg hover:bg-accent font-semibold text-sm">
+              <MessageCircle className="w-4 h-4" /> Comment
+            </span>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Leave a comment</DialogTitle>
+            </DialogHeader>
+            <PSForm onSubmit={onSubmit}>
+              <PSTextArea name="comment" />
+              <Button type="submit" variant={"outline"} className="my-4">
+                Post Comment
+              </Button>
+            </PSForm>
+          </DialogContent>
+        </Dialog>
 
         <Button variant={"outline"}>
           <Share2 className="w-4 h-4" /> Share
