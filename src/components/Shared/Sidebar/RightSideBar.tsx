@@ -43,6 +43,7 @@ const RightSidebar = () => {
                 alt={recipe.title}
                 width={60}
                 height={60}
+                loading="lazy"
                 className="rounded-md object-cover"
               />
               <div>

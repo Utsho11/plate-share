@@ -17,7 +17,7 @@ import Image from "next/image";
 export default function RecipeDetailPage() {
   const { id } = useParams();
 
-  console.log(id);
+  // console.log(id);
 
   const {
     data: recipe,

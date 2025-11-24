@@ -35,9 +35,7 @@ import {
 } from "@/src/redux/api/voteApi";
 import { toast } from "sonner";
 import type { IRecipe } from "@/src/types";
-import PSForm from "../Form/PSForm";
-import type { FieldValues } from "react-hook-form";
-import PSTextArea from "../Form/PSTextArea";
+import CommentForm from "@/src/app/(withCommonLayout)/recipe/[id]/component/CommentForm";
 
 const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
   const [upVote] = useUpVoteMutation();
@@ -57,10 +55,6 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
   const handleDownVote = (id: string) => {
     downVote(id);
     toast.success("Your vote has been recorded.");
-  };
-
-  const onSubmit = (values: FieldValues) => {
-    console.log(values);
   };
 
   return (
@@ -146,12 +140,7 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
             <DialogHeader>
               <DialogTitle>Leave a comment</DialogTitle>
             </DialogHeader>
-            <PSForm onSubmit={onSubmit}>
-              <PSTextArea name="comment" />
-              <Button type="submit" variant={"outline"} className="my-4">
-                Post Comment
-              </Button>
-            </PSForm>
+            <CommentForm recipeId={data?._id} />
           </DialogContent>
         </Dialog>
 
