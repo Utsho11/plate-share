@@ -13,6 +13,9 @@ import {
 } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
+import CommentForm from "./component/CommentForm";
+import { useGetAllCommentsQuery } from "@/src/redux/api/commentApi";
+import CommentCard from "./component/CommentCard";
 
 export default function RecipeDetailPage() {
   const { id } = useParams();
@@ -27,7 +30,11 @@ export default function RecipeDetailPage() {
     skip: !id,
   });
 
-  console.log(recipe);
+  const { data: allComments } = useGetAllCommentsQuery(id, { skip: !id });
+
+  console.log(allComments);
+
+  // console.log(recipe);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Failed to load recipe</div>;
@@ -128,6 +135,10 @@ export default function RecipeDetailPage() {
         <br />
         Updated: {new Date(recipe.updatedAt).toLocaleString()}
       </div>
+
+      {/* Comment Section */}
+      <CommentForm recipeId={recipe?._id} />
+      <CommentCard allComments={allComments} />
     </div>
   );
 }

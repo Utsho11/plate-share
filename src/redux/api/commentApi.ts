@@ -12,22 +12,13 @@ export const commentApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.comments],
     }),
 
-    // getAllRecipe: build.query({
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   query: (args: Record<string, any>) => ({
-    //     url: "/recipe",
-    //     method: "GET",
-    //     params: args,
-    //   }),
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //   transformResponse: (response: any, meta: any) => {
-    //     return {
-    //       recipies: response,
-    //       meta,
-    //     };
-    //   },
-    //   providesTags: [tagTypes.recipies],
-    // }),
+    getAllComments: build.query({
+      query: (id) => ({
+        url: `/comment/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.comments],
+    }),
 
     // getRecipeById: build.query({
     //   query: (id: string | string[] | undefined) => ({
@@ -39,4 +30,4 @@ export const commentApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateCommentMutation } = commentApi;
+export const { useCreateCommentMutation, useGetAllCommentsQuery } = commentApi;
