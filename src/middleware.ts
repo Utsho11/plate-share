@@ -5,8 +5,14 @@ import type { NextRequest } from "next/server";
 
 type Role = keyof typeof roleBasedPrivateRoutes;
 
-const AuthRoutes = ["/login", "/register"];
-const commonPrivateRoutes = ["/dashboard", "/dashboard/change-password"];
+const AuthRoutes = ["/", "/login", "/register"];
+
+const commonPrivateRoutes = [
+  "/home",
+  "/dashboard",
+  "/dashboard/change-password",
+];
+
 const roleBasedPrivateRoutes = {
   USER: [/^\/dashboard\/user/],
   ADMIN: [/^\/dashboard\/admin/],
@@ -14,48 +20,69 @@ const roleBasedPrivateRoutes = {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
   const accessToken = (await cookies()).get("accessToken")?.value;
 
-  if (!accessToken) {
-    if (AuthRoutes.includes(pathname)) {
-      return NextResponse.next();
-    } else {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
+  // --------------------------------------------------------
+  // 1️⃣ User logged in → prevent access to "/", "/login", "/register"
+  // --------------------------------------------------------
+  if (accessToken && AuthRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/home", request.url));
   }
 
+  // --------------------------------------------------------
+  // 2️⃣ User not logged in → allow only public routes
+  // --------------------------------------------------------
+  if (!accessToken) {
+    if (AuthRoutes.includes(pathname)) {
+      return NextResponse.next(); // allow public pages
+    }
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  // --------------------------------------------------------
+  // 3️⃣ Logged in → allow common private routes
+  // --------------------------------------------------------
   if (
-    accessToken &&
-    (commonPrivateRoutes.includes(pathname) ||
-      commonPrivateRoutes.some((route) => pathname.startsWith(route)))
+    commonPrivateRoutes.includes(pathname) ||
+    commonPrivateRoutes.some((route) => pathname.startsWith(route))
   ) {
     return NextResponse.next();
   }
 
-  let decodedData = null;
+  // --------------------------------------------------------
+  // 4️⃣ Role-based routes
+  // --------------------------------------------------------
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let decodedData: any = null;
 
-  if (accessToken) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    decodedData = jwtDecode(accessToken) as any;
+  try {
+    decodedData = jwtDecode(accessToken);
+  } catch (error) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  const role = decodedData?.role;
+  const role = decodedData?.role as Role;
 
-  // if (role === 'ADMIN' && pathname.startsWith('/dashboard/admin')) {
-  //    return NextResponse.next();
-  // }
-
-  if (role && roleBasedPrivateRoutes[role as Role]) {
-    const routes = roleBasedPrivateRoutes[role as Role];
-    if (routes.some((route) => pathname.match(route))) {
+  if (role && roleBasedPrivateRoutes[role]) {
+    const allowedRoutes = roleBasedPrivateRoutes[role];
+    if (allowedRoutes.some((pattern) => pattern.test(pathname))) {
       return NextResponse.next();
     }
   }
 
-  return NextResponse.redirect(new URL("/", request.url));
+  // --------------------------------------------------------
+  // 5️⃣ If nothing matches → redirect to home
+  // --------------------------------------------------------
+  return NextResponse.redirect(new URL("/home", request.url));
 }
 
 export const config = {
-  matcher: ["/login", "/register", "/dashboard/:page*", "/doctors/:page*"],
+  matcher: [
+    "/",
+    "/login",
+    "/register",
+    "/dashboard/:page*",
+    "/doctors/:page*",
+    "/home",
+  ],
 };
