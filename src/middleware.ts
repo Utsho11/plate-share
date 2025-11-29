@@ -25,6 +25,10 @@ export async function middleware(request: NextRequest) {
   // --------------------------------------------------------
   // 1️⃣ User logged in → prevent access to "/", "/login", "/register"
   // --------------------------------------------------------
+
+  // console.log({ pathname });
+  // console.log({ accessToken });
+
   if (accessToken && AuthRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
