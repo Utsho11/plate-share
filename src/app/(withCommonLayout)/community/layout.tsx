@@ -1,15 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/src/components/ui/card";
-
-const demoCommunities = [
-  { id: 1, name: "Web Developers", members: 1200 },
-  { id: 2, name: "Food Lovers", members: 850 },
-  { id: 3, name: "Travel Explorers", members: 430 },
-];
+import RightCommunityBar from "./component/RightCommunityBar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -21,26 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         {/* Right Sidebar */}
         <aside className="hidden lg:block lg:col-span-3">
           <div className="sticky top-24">
-            <Card>
-              <CardHeader>
-                <CardTitle>My Communities</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {demoCommunities.map((c) => (
-                    <div
-                      key={c.id}
-                      className="p-3 border rounded-lg hover:bg-gray-100 cursor-pointer"
-                    >
-                      <h2 className="font-medium">{c.name}</h2>
-                      <p className="text-sm text-gray-500">
-                        {c.members} members
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <RightCommunityBar />
           </div>
         </aside>
       </div>
