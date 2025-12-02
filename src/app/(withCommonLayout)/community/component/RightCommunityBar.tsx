@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/src/components/ui/button";
 import {
   Card,
@@ -14,13 +15,13 @@ import {
 import { Newspaper, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import CreateCommunity from "./CreateCommunity";
+import { useGetAllCommunitiesQuery } from "@/src/redux/api/communityApi";
 
-const demoCommunities = [
-  { id: 1, name: "Web Developers", members: 1200 },
-  { id: 2, name: "Food Lovers", members: 850 },
-  { id: 3, name: "Travel Explorers", members: 430 },
-];
 const RightCommunityBar = () => {
+  const { data } = useGetAllCommunitiesQuery({});
+
+  // console.log(data);
+
   return (
     <Card>
       <CardHeader>
@@ -48,13 +49,13 @@ const RightCommunityBar = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {demoCommunities.map((c) => (
+          {data.map((c: any) => (
             <div
-              key={c.id}
+              key={c._id}
               className="p-3 border rounded-lg hover:bg-gray-100 cursor-pointer"
             >
               <h2 className="font-medium">{c.name}</h2>
-              <p className="text-sm text-gray-500">{c.members} members</p>
+              {/* <p className="text-sm text-gray-500">{c.} members</p> */}
             </div>
           ))}
         </div>

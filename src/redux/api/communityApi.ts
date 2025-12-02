@@ -14,7 +14,7 @@ export const communityApi = baseApi.injectEndpoints({
 
     getAllCommunities: build.query({
       query: (id) => ({
-        url: `/community/${id}`,
+        url: `/community/get-all`,
         method: "GET",
       }),
       providesTags: [tagTypes.communities],
