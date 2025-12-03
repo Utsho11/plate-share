@@ -12,20 +12,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/src/components/ui/dialog";
-import { Newspaper, PlusCircle } from "lucide-react";
+import { Globe, Newspaper, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import CreateCommunity from "./CreateCommunity";
 import { useGetAllCommunitiesQuery } from "@/src/redux/api/communityApi";
 
 const RightCommunityBar = () => {
-  const { data } = useGetAllCommunitiesQuery({});
+  const { data, isLoading } = useGetAllCommunitiesQuery({});
 
   // console.log(data);
 
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <Card>
-      <CardHeader>
-        <div className="mb-4">
+      <CardHeader className="">
+        <div className="mb-4 space-y-2">
           <Link href="/community" className="text-start w-full">
             <Button
               variant="outline"
@@ -44,6 +46,15 @@ const RightCommunityBar = () => {
               <CreateCommunity />
             </DialogContent>
           </Dialog>
+          <Link href="/community" className="text-start w-full">
+            <Button
+              variant="outline"
+              className="w-full justify-start"
+              style={{ textDecoration: "none", padding: "0 4px" }}
+            >
+              <Globe /> Explore Communities
+            </Button>
+          </Link>
         </div>
         <CardTitle>My Communities</CardTitle>
       </CardHeader>
@@ -52,10 +63,13 @@ const RightCommunityBar = () => {
           {data.map((c: any) => (
             <div
               key={c._id}
-              className="p-3 border rounded-lg hover:bg-gray-100 cursor-pointer"
+              className="p-3 border rounded-lg hover:bg-gray-100 cursor-pointer flex justify-between items-center"
             >
-              <h2 className="font-medium">{c.name}</h2>
-              {/* <p className="text-sm text-gray-500">{c.} members</p> */}
+              <div>
+                <h2 className="font-medium">{c.name}</h2>
+                {/* <p className="text-sm text-gray-500">{c.} members</p> */}
+              </div>
+              <Button variant={"destructive"}>Leave</Button>
             </div>
           ))}
         </div>
