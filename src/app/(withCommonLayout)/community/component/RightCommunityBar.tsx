@@ -15,14 +15,34 @@ import {
 import { Globe, Newspaper, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import CreateCommunity from "./CreateCommunity";
-import { useGetAllCommunitiesQuery } from "@/src/redux/api/communityApi";
+import {
+  useGetAllCommunitiesQuery,
+  useGetAllMyCommunitiesQuery,
+  useLeaveCommunityMutation,
+} from "@/src/redux/api/communityApi";
+import { toast } from "sonner";
 
 const RightCommunityBar = () => {
   const { data, isLoading } = useGetAllCommunitiesQuery({});
+  const { data: myCommunities, isLoading: myCommunitiesLoading } = useGetAllMyCommunitiesQuery({});
+  const [leaveCommunity] = useLeaveCommunityMutation();
 
   // console.log(data);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (myCommunitiesLoading) return <div>Loading...</div>;
+
+  const handleLeaveCommunity = async (id: string) => {
+    try {
+      const res = await leaveCommunity(id).unwrap();
+      // console.log(res);
+      if (res?._id) {
+        toast.success("Leave Community.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.data || "Failed to leave community.");
+    }
+  };
 
   return (
     <Card>
@@ -60,16 +80,21 @@ const RightCommunityBar = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {data.map((c: any) => (
+          {myCommunities.map((c: any) => (
             <div
               key={c._id}
               className="p-3 border rounded-lg hover:bg-gray-100 cursor-pointer flex justify-between items-center"
             >
               <div>
-                <h2 className="font-medium">{c.name}</h2>
+                <h2 className="font-medium">{c.community_id.name}</h2>
                 {/* <p className="text-sm text-gray-500">{c.} members</p> */}
               </div>
-              <Button variant={"destructive"}>Leave</Button>
+              <Button
+                variant={"destructive"}
+                onClick={() => handleLeaveCommunity(c._id)}
+              >
+                Leave
+              </Button>
             </div>
           ))}
         </div>

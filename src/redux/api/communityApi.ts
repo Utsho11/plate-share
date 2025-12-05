@@ -13,11 +13,28 @@ export const communityApi = baseApi.injectEndpoints({
     }),
 
     getAllCommunities: build.query({
-      query: (id) => ({
+      query: () => ({
         url: `/community/get-all`,
         method: "GET",
       }),
       providesTags: [tagTypes.communities],
+    }),
+    
+    getAllMyCommunities: build.query({
+      query: () => ({
+        url: `/community/get-my-communities`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.communities],
+    }),
+
+    leaveCommunity: build.mutation({
+      query: (id) => ({
+        url: `/community/leave-community`,
+        method: "DELETE",
+        data: { c_id: id },
+      }),
+      invalidatesTags: [tagTypes.communities],
     }),
 
     // getRecipeById: build.query({
@@ -30,5 +47,8 @@ export const communityApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateCommunityMutation, useGetAllCommunitiesQuery } =
-  communityApi;
+export const {
+  useCreateCommunityMutation,
+  useGetAllCommunitiesQuery,
+  useLeaveCommunityMutation,useGetAllMyCommunitiesQuery
+} = communityApi;
