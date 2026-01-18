@@ -14,7 +14,7 @@ import { userLogin } from "@/src/services/actions/userLogin";
 import { storeUserInfo } from "@/src/services/auth.services";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -28,23 +28,27 @@ export const validationScheme = z.object({
 });
 
 const LoginPage = () => {
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
 
   const handleSubmit = async (values: FieldValues) => {
     // console.log(values);
-    try {
-      const res = await userLogin(values);
-      if (res?.data?.accessToken) {
+    setIsLoading(true)
+    const res = await userLogin(values);
+    try {      
+      if (res.data.accessToken) {
         toast.success(res?.message);
         storeUserInfo(res?.data?.accessToken);
         router.push("/home");
-      } else {
-        setError(res.message);
-      }
-    } catch (error) {
-      console.log(error);
+      } 
+    } catch (err) {
+      console.log("Error:",err);
+      toast.error(res?.message || "Something went wrong!!");
+    }finally{
+      setIsLoading(false)
     }
   };
 
@@ -109,8 +113,11 @@ const LoginPage = () => {
           </CardContent>
 
           <CardFooter className="flex flex-col gap-3 my-4">
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={isLoading}>
+      {
+       isLoading? <><Loader2 className="size-4 animate-spin" />
+    Loging in..</>:<>Login</>
+      }
             </Button>
 
             <Link

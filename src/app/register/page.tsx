@@ -15,7 +15,7 @@ import { userLogin } from "@/src/services/actions/userLogin";
 import { storeUserInfo } from "@/src/services/auth.services";
 import modifyPayload from "@/src/utils/modifyPayload";
 import { Label } from "@radix-ui/react-label";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -24,31 +24,34 @@ import { toast } from "sonner";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [error, setError] = useState();
+  // const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSubmit = async (values: FieldValues) => {
     // console.log(values);
-
+setIsLoading(true)
     const data = modifyPayload(values);
+    const res = await registerUser(data);
     try {
-      const res = await registerUser(data);
-      console.log(res);
-      if (res?.data?.id) {
+      // console.log(res);
+      if (res.data.id) {
         toast.success(res?.message);
         const result = await userLogin({
           email: values.email,
           password: values.password,
         });
-        if (result?.data?.accessToken) {
+        if (result.data.accessToken) {
           storeUserInfo(result?.data?.accessToken);
           router.push("/home");
         }
-      } else {
-        setError(res.message);
-      }
+      } 
     } catch (error) {
       console.log(error);
+      toast.error(res.message)
+    }
+    finally{
+      setIsLoading(false)
     }
   };
 
@@ -163,8 +166,11 @@ const RegisterPage = () => {
           </CardContent>
 
           <CardFooter className="flex flex-col gap-3 mt-2">
-            <Button type="submit" className="w-full">
-              Sign Up
+            <Button type="submit" className="w-full"    disabled={isLoading}>
+               {
+       isLoading? <><Loader2 className="size-4 animate-spin" />
+    Registering...</>:<>Sign up</>
+      }
             </Button>
           </CardFooter>
         </PSForm>
@@ -181,6 +187,7 @@ const RegisterPage = () => {
         <Button
           variant="outline"
           className="w-full rounded-full border-gray-800"
+       
         >
           Sign In
         </Button>

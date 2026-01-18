@@ -138,7 +138,7 @@ export default function RecipeDetailPage() {
 
       {/* Comment Section */}
       <CommentForm recipeId={recipe?._id} />
-      <CommentCard allComments={allComments} />
+      {allComments?<CommentCard allComments={allComments} />:<p>No comments found!!</p>}
     </div>
   );
 }

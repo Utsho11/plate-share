@@ -2,24 +2,14 @@
 "use server";
 
 import { authKey } from "@/src/constants/constants";
-import { decodedToken } from "@/src/utils/jwt";
 import { cookies } from "next/headers";
 
-import { redirect } from "next/navigation";
 
-const setAccessToken = async (token: string, option?: any) => {
+const setAccessToken = async (token: string) => {
   const cookieStore = await cookies();
   cookieStore.set(authKey, token);
 
-  const decodedData = decodedToken(token) as any;
 
-  if (option && option.passwordChangeRequired) {
-    if (decodedData?.role === "PATIENT") redirect("/dashboard");
-    else redirect("/dashboard/change-password");
-  }
-  if (option && !option.passwordChangeRequired && option.redirect) {
-    redirect(option.redirect);
-  }
 };
 
 export default setAccessToken;
