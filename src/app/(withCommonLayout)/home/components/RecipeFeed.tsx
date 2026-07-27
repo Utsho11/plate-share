@@ -1,16 +1,25 @@
 "use client";
 
 import RecipePreviewCard from "@/src/components/Recipe/RecipePreviewCard";
+import RecipeCardSkeleton from "@/src/components/Recipe/Skeleton/RecipeCardSkeleton";
 import { useGetAllRecipeQuery } from "@/src/redux/api/recipeApi";
+import type { IRecipe } from "@/src/types";
 
 const RecipeFeed = () => {
-  const { data } = useGetAllRecipeQuery({});
+  const { data, isLoading } = useGetAllRecipeQuery({});
 
   // console.log({ data });
 
   return (
     <div>
-      {data?.recipies.map((recipe: any) => (
+      {isLoading && (
+        <>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <RecipeCardSkeleton key={index} />
+          ))}
+        </>
+      )}
+      {data?.recipies.map((recipe: IRecipe) => (
         <RecipePreviewCard key={recipe._id} data={recipe} />
       ))}
       {/* <RecipePreviewCard data={data}/> */}
