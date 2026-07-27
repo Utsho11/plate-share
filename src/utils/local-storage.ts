@@ -23,6 +23,7 @@ export const removeFromLocalStorage = (key: string) => {
 
 export const getNewAccessToken = async () => {
   return await axiosInstance({
+    // url: "https://plate-share-server-three.vercel.app/api/v1/auth/refresh-token",
     url: "http://localhost:5000/api/v1/auth/refresh-token",
     method: "POST",
     headers: {

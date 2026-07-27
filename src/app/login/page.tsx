@@ -38,6 +38,10 @@ const LoginPage = () => {
     // console.log(values);
     setIsLoading(true)
     const res = await userLogin(values);
+
+    console.log(res);
+    
+
     try {      
       if (res.data.accessToken) {
         toast.success(res?.message);
