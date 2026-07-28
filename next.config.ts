@@ -4,11 +4,11 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
   images: {
-    domains: [
-      "images.unsplash.com", // Add any other image host you use
-      "example.com",
-      "shorturl.at",
-      "res.cloudinary.com",
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "example.com" },
+      { protocol: "https", hostname: "shorturl.at" },
+      { protocol: "https", hostname: "res.cloudinary.com" },
     ],
   },
 };

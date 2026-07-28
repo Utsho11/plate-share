@@ -16,6 +16,7 @@ import Image from "next/image";
 import CommentForm from "./component/CommentForm";
 import { useGetAllCommentsQuery } from "@/src/redux/api/commentApi";
 import CommentCard from "./component/CommentCard";
+import RecipeDetailsSkeleton from "@/src/components/Recipe/Skeleton/RecipeDetailsSkeleton";
 
 export default function RecipeDetailPage() {
   const { id } = useParams();
@@ -36,7 +37,9 @@ export default function RecipeDetailPage() {
 
   // console.log(recipe);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return <RecipeDetailsSkeleton />;
+  }
   if (error) return <div>Failed to load recipe</div>;
 
   return (
@@ -104,7 +107,7 @@ export default function RecipeDetailPage() {
                 <span className="font-medium">{item.name}</span>
                 <span className="text-muted-foreground">{item.quantity}</span>
               </div>
-            )
+            ),
           )}
         </CardContent>
       </Card>
@@ -138,7 +141,11 @@ export default function RecipeDetailPage() {
 
       {/* Comment Section */}
       <CommentForm recipeId={recipe?._id} />
-      {allComments?<CommentCard allComments={allComments} />:<p>No comments found!!</p>}
+      {allComments ? (
+        <CommentCard allComments={allComments} />
+      ) : (
+        <p>No comments found!!</p>
+      )}
     </div>
   );
 }
