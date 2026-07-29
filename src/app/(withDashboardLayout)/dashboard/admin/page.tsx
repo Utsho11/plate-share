@@ -23,6 +23,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar"
 import { toast } from "sonner";
 import { useGetAllUsersQuery, useUpdateUserStatusRoleMutation } from "@/src/redux/api/userApi";
 
+interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+  type: string;
+  recipesCount: number;
+  avatar: string;
+}
+
 export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState<"users" | "recipes" | "analytics">("users");
   const [userSearch, setUserSearch] = useState("");
@@ -31,7 +42,7 @@ export default function AdminDashboardPage() {
   const [updateUserStatusRole] = useUpdateUserStatusRoleMutation();
 
   const rawUsers = apiUsersData?.data || [];
-  const defaultUsers = [
+  const defaultUsers: AdminUser[] = [
     {
       id: "1",
       name: "PlateShare Admin",
@@ -84,16 +95,16 @@ export default function AdminDashboardPage() {
     },
   ];
 
-  const usersList = rawUsers.length > 0
+  const usersList: AdminUser[] = rawUsers.length > 0
     ? rawUsers.map((u: Record<string, unknown>) => ({
         id: (u._id || u.id) as string,
         name: u.firstName ? `${u.firstName} ${u.lastName || ""}` : (u.name as string) || "User",
-        email: u.email,
-        role: u.role || "USER",
-        status: u.status || "ACTIVE",
-        type: u.type || "REGULAR",
-        recipesCount: u.recipesCount || 0,
-        avatar: u.profilePhoto || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400",
+        email: (u.email as string) || "",
+        role: (u.role as string) || "USER",
+        status: (u.status as string) || "ACTIVE",
+        type: (u.type as string) || "REGULAR",
+        recipesCount: (u.recipesCount as number) || 0,
+        avatar: (u.profilePhoto as string) || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400",
       }))
     : defaultUsers;
 
