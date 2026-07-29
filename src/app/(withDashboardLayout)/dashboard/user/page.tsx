@@ -48,11 +48,18 @@ export default function UserDashboardPage() {
           </div>
         </div>
 
-        <Link href="/home">
-          <Button className="bg-white text-orange-600 hover:bg-orange-50 font-semibold shadow-sm">
-            <PlusCircle size={18} className="mr-2" /> Share New Recipe
-          </Button>
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link href="/dashboard/user/profile">
+            <Button variant="outline" className="bg-white/10 hover:bg-white/20 text-white border-white/40 font-semibold shadow-sm text-xs">
+              <Edit size={16} className="mr-1.5" /> Edit Profile &amp; Settings
+            </Button>
+          </Link>
+          <Link href="/recipes/create">
+            <Button className="bg-white text-orange-600 hover:bg-orange-50 font-semibold shadow-sm text-xs">
+              <PlusCircle size={16} className="mr-1.5" /> Share New Recipe
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* User Stats Grid */}

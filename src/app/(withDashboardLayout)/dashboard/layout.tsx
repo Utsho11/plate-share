@@ -25,9 +25,10 @@ export default function DashboardLayout({
 
   const navLinks = [
     { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
-    { label: "Admin Panel", href: "/dashboard/admin", icon: ShieldAlert },
+    { label: "Admin Control", href: "/dashboard/admin", icon: ShieldAlert },
     { label: "User Workspace", href: "/dashboard/user", icon: ChefHat },
-    { label: "Manage Recipes", href: "/home", icon: UtensilsCrossed },
+    { label: "My Profile Settings", href: "/dashboard/user/profile", icon: Users },
+    { label: "Manage Recipes", href: "/recipes", icon: UtensilsCrossed },
     { label: "Community", href: "/community", icon: Users },
   ];
 
