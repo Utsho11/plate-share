@@ -86,7 +86,6 @@ export const config = {
     "/login",
     "/register",
     "/dashboard/:page*",
-    "/doctors/:page*",
     "/home",
   ],
 };

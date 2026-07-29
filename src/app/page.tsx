@@ -24,12 +24,12 @@ export default function Home() {
 
       <div className="w-full max-w-sm bg-white p-6 rounded-xl shadow-sm border border-gray-200">
         <p className="text-center text-gray-700 mb-4 font-medium">
-          New to PlatShare?
+          New to PlateShare?
         </p>
 
         <Link
           href="/register"
-          aria-label="Create a new PlatShare account"
+          aria-label="Create a new PlateShare account"
           className="block w-full text-center px-6 py-3 bg-[#f77f00] text-white rounded-md hover:bg-[#fcbf49] transition font-medium"
         >
           Create Account
@@ -47,7 +47,7 @@ export default function Home() {
 
         <Link
           href="/login"
-          aria-label="Sign in to your PlatShare account"
+          aria-label="Sign in to your PlateShare account"
           className="block w-full text-center px-6 py-3 border border-gray-800 text-gray-800 rounded-md hover:bg-gray-800 hover:text-white transition font-medium"
         >
           Sign In

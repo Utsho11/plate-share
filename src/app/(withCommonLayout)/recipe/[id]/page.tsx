@@ -57,13 +57,15 @@ export default function RecipeDetailPage() {
       </div>
 
       {/* Image */}
-      <div className="w-full">
+      <div className="w-full overflow-hidden rounded-xl">
         {recipe.images?.length > 0 ? (
           <Image
             src={recipe.images[0]}
             alt={recipe.title}
-            width={100}
-            height={100}
+            width={800}
+            height={450}
+            priority
+            className="w-full h-72 sm:h-96 object-cover rounded-xl shadow-sm"
           />
         ) : (
           <div className="w-full h-64 bg-muted rounded-xl flex items-center justify-center">
@@ -76,13 +78,15 @@ export default function RecipeDetailPage() {
       <Card className="rounded-xl border">
         <CardContent className="p-4 flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Clock className="w-4 h-4" />
-            {recipe.cookingTime}
+            <Clock className="w-4 h-4 text-orange-500" />
+            <span className="font-medium text-foreground">{recipe.cookingTime}</span>
           </div>
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <User className="w-4 h-4" />
-            Author ID: {recipe.author._id}
+            <User className="w-4 h-4 text-orange-500" />
+            <span className="font-medium text-foreground">
+              By {typeof recipe.author === "object" ? (recipe.author?.name || recipe.author?.email || "Community Chef") : "Community Chef"}
+            </span>
           </div>
         </CardContent>
       </Card>

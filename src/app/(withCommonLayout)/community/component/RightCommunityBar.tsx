@@ -22,35 +22,39 @@ import {
 } from "@/src/redux/api/communityApi";
 import { toast } from "sonner";
 
+interface TCommunityItem {
+  _id: string;
+  name: string;
+}
+
+interface TMyCommunityItem {
+  _id: string;
+  community_id: TCommunityItem;
+}
+
 const RightCommunityBar = () => {
-  const { data, isLoading } = useGetAllCommunitiesQuery({});
   const { data: myCommunities, isLoading: myCommunitiesLoading } =
     useGetAllMyCommunitiesQuery({});
-  const { data: communities, isLoading: communitiesLoading } =
+  const { data: communities } =
     useGetAllCommunitiesQuery({});
   const [leaveCommunity] = useLeaveCommunityMutation();
 
-  console.log(communities);
-  console.log(myCommunities);
+  const myIds = myCommunities?.map((c: TMyCommunityItem) => c.community_id?._id) || [];
 
-  const myIds = myCommunities?.map((c) => c.community_id?._id) || [];
-
-  const filteredCommunity = communities?.filter((c) => !myIds.includes(c._id));
-
-  // console.log({ filteredCommunity });
+  const filteredCommunity = communities?.filter((c: TCommunityItem) => !myIds.includes(c._id));
 
   if (myCommunitiesLoading) return <div>Loading...</div>;
 
   const handleLeaveCommunity = async (id: string) => {
     try {
       const res = await leaveCommunity(id).unwrap();
-      // console.log(res);
       if (res?._id) {
         toast.success("Leave Community.");
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
-      toast.error(error.data || "Failed to leave community.");
+      const err = error as { data?: { message?: string } };
+      toast.error(err?.data?.message || "Failed to leave community.");
     }
   };
 
@@ -91,13 +95,13 @@ const RightCommunityBar = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {myCommunities.map((c: any) => (
+            {myCommunities?.map((c: TMyCommunityItem) => (
               <div
                 key={c._id}
                 className="p-3 border rounded-lg hover:bg-gray-100 cursor-pointer flex justify-between items-center"
               >
                 <div>
-                  <h2 className="font-medium">{c.community_id.name}</h2>
+                  <h2 className="font-medium">{c.community_id?.name}</h2>
                   {/* <p className="text-sm text-gray-500">{c.} members</p> */}
                 </div>
                 <Button
@@ -118,7 +122,7 @@ const RightCommunityBar = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {filteredCommunity.map((c: any) => (
+            {filteredCommunity?.map((c: TCommunityItem) => (
               <div
                 key={c._id}
                 className="flex justify-between items-center border rounded-lg p-2"

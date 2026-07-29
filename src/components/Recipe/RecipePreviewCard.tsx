@@ -105,9 +105,9 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
       {data?.images?.length > 0 && (
         <Image
           src={data?.images[0]}
-          alt="Recipe"
-          width={100}
-          height={100}
+          alt={data?.title || "Recipe"}
+          width={600}
+          height={350}
           className="w-full h-64 object-cover"
         />
       )}
