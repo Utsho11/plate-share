@@ -176,7 +176,7 @@ export default function AdminDashboardPage() {
   };
 
   const filteredUsers = usersList.filter(
-    (u) =>
+    (u: { name: string; email: string }) =>
       u.name.toLowerCase().includes(userSearch.toLowerCase()) ||
       u.email.toLowerCase().includes(userSearch.toLowerCase())
   );

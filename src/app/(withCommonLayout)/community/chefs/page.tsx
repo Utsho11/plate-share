@@ -7,7 +7,7 @@ import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import { toast } from "sonner";
-import { useFollowUserMutation, useUnfollowUserMutation } from "@/src/redux/api/followerApi";
+import { useFollowUserMutation } from "@/src/redux/api/followerApi";
 
 const CHEFS = [
   {
