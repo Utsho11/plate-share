@@ -17,7 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/src
 import { Badge } from "@/src/components/ui/badge";
 import GroceryListModal from "@/src/components/MealPlanner/GroceryListModal";
 import SubscriptionModal from "@/src/components/Subscription/SubscriptionModal";
-import { useGetAllRecipesQuery } from "@/src/redux/api/recipeApi";
+import { useGetAllRecipeQuery } from "@/src/redux/api/recipeApi";
 import { toast } from "sonner";
 import Image from "next/image";
 import type { IRecipe } from "@/src/types";
@@ -75,7 +75,7 @@ export default function MealPlannerPage() {
   const [groceryOpen, setGroceryOpen] = useState(false);
   const [subscriptionOpen, setSubscriptionOpen] = useState(false);
 
-  const { data: recipesData } = useGetAllRecipesQuery(undefined);
+  const { data: recipesData } = useGetAllRecipeQuery(undefined);
   const allRecipes: IRecipe[] = recipesData?.data || [];
 
   const handleAddMeal = (recipe: IRecipe, day: string, type: string) => {
