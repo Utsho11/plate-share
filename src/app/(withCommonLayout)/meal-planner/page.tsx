@@ -75,7 +75,7 @@ export default function MealPlannerPage() {
   const [subscriptionOpen, setSubscriptionOpen] = useState(false);
 
   const { data: recipesData } = useGetAllRecipeQuery({});
-  const allRecipes: IRecipe[] = recipesData?.recipies || recipesData?.data || [];
+  const allRecipes: IRecipe[] = recipesData?.recipies || [];
 
   const handleAddMeal = (recipe: IRecipe, day: string, type: string) => {
     const newMeal: PlannedMeal = {
