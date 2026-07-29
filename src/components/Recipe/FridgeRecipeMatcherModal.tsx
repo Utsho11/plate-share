@@ -56,9 +56,9 @@ export default function FridgeRecipeMatcherModal({
     "Onion",
     "Garlic",
   ]);
+  const [customInput, setCustomInput] = useState("");
 
   if (!isOpen) return null;
-  const [customInput, setCustomInput] = useState("");
 
   const toggleIngredient = (item: string) => {
     if (selectedIngredients.includes(item)) {
