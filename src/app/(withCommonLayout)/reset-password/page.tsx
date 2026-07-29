@@ -35,7 +35,7 @@ export default function ResetPasswordPage() {
       await resetPassword({ token, newPassword }).unwrap();
       setIsSuccess(true);
       toast.success("Password has been reset successfully!");
-    } catch (err: any) {
+    } catch {
       setIsSuccess(true);
       toast.success("Password updated successfully!");
     }

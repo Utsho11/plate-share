@@ -4,7 +4,7 @@ import { baseApi } from "./baseApi";
 export const userApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAllUsers: build.query({
-      query: (arg: Record<string, any>) => ({
+      query: (arg: Record<string, unknown>) => ({
         url: "/users",
         method: "GET",
         params: arg,

@@ -54,7 +54,6 @@ const CHEFS = [
 
 export default function TopChefsPage() {
   const [followUser] = useFollowUserMutation();
-  const [unfollowUser] = useUnfollowUserMutation();
 
   const handleFollow = async (id: string, name: string) => {
     try {

@@ -25,7 +25,7 @@ export default function ForgotPasswordPage() {
       await forgetPassword({ email }).unwrap();
       setIsSent(true);
       toast.success("Password reset instructions have been sent to your email!");
-    } catch (err: any) {
+    } catch {
       toast.success("Password reset instructions sent! Check your inbox.");
       setIsSent(true);
     }

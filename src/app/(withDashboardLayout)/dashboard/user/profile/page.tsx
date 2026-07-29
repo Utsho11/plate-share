@@ -30,8 +30,8 @@ export default function UserProfilePage() {
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
 
   const { data: meData } = useGetMeQuery(undefined);
-  const [updateMyProfile, { isLoading: isUpdatingProfile }] = useUpdateMyProfileMutation();
-  const [changePassword, { isLoading: isChangingPassword }] = useChangePasswordMutation();
+  const [updateMyProfile] = useUpdateMyProfileMutation();
+  const [changePassword] = useChangePasswordMutation();
 
   const user = meData?.data;
 

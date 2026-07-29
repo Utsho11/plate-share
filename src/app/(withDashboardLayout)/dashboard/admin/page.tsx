@@ -27,7 +27,7 @@ export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState<"users" | "recipes" | "analytics">("users");
   const [userSearch, setUserSearch] = useState("");
 
-  const { data: apiUsersData, isLoading: isUsersLoading } = useGetAllUsersQuery({});
+  const { data: apiUsersData } = useGetAllUsersQuery({});
   const [updateUserStatusRole] = useUpdateUserStatusRoleMutation();
 
   const rawUsers = apiUsersData?.data || [];
@@ -85,9 +85,9 @@ export default function AdminDashboardPage() {
   ];
 
   const usersList = rawUsers.length > 0
-    ? rawUsers.map((u: any) => ({
-        id: u._id || u.id,
-        name: u.firstName ? `${u.firstName} ${u.lastName || ""}` : u.name || "User",
+    ? rawUsers.map((u: Record<string, unknown>) => ({
+        id: (u._id || u.id) as string,
+        name: u.firstName ? `${u.firstName} ${u.lastName || ""}` : (u.name as string) || "User",
         email: u.email,
         role: u.role || "USER",
         status: u.status || "ACTIVE",
