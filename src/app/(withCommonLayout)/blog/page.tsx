@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BookOpen, Clock, ArrowRight, Sparkles } from "lucide-react";
+import { BookOpen, Clock, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import RecipeFeed from "../home/components/RecipeFeed";
-import { Utensils, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export default function RecipesPage() {
   return (

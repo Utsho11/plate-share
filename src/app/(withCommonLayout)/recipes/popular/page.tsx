@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Flame, Trophy, Star } from "lucide-react";
+import { Flame, Trophy } from "lucide-react";
 import RecipeFeed from "../../home/components/RecipeFeed";
 
 export default function PopularRecipesPage() {

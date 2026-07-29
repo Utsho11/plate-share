@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Bookmark, Heart, Sparkles } from "lucide-react";
+import { Bookmark, Heart } from "lucide-react";
 import RecipeFeed from "../home/components/RecipeFeed";
 
 export default function SavedRecipesPage() {

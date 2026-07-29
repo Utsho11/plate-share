@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { HelpCircle, Search, Mail, MessageSquare, Send, ChevronDown } from "lucide-react";
+import { HelpCircle, Search, Mail, Send, ChevronDown } from "lucide-react";
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
 import { Textarea } from "@/src/components/ui/textarea";

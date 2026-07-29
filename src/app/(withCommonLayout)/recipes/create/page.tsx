@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Image as ImageIcon, Clock, ChefHat, Sparkles, CheckCircle2 } from "lucide-react";
+import { Plus, Image as ImageIcon, Clock, ChefHat, Sparkles } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { UtensilsCrossed, Heart, Globe, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { UtensilsCrossed, Heart, ShieldCheck, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/src/components/ui/card";
 
 export default function AboutPage() {
@@ -37,7 +37,7 @@ export default function AboutPage() {
         ))}
       </div>
 
-      {/* Core Values */}
+      {/* Core Pillars */}
       <div className="space-y-6">
         <h2 className="text-2xl font-bold text-center">Our Core Pillars</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -67,7 +67,7 @@ export default function AboutPage() {
             </div>
             <h3 className="font-bold text-lg">Trusted Quality</h3>
             <p className="text-xs text-gray-500 leading-relaxed">
-              Community-tested recipes with verified photo reviews ("I Made This!") ensure every meal comes out delicious.
+              Community-tested recipes with verified photo reviews (&quot;I Made This!&quot;) ensure every meal comes out delicious.
             </p>
           </Card>
         </div>
