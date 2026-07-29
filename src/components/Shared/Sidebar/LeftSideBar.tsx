@@ -3,11 +3,6 @@
 import Link from "next/link";
 import { Home, Compass, Bookmark, Users, TrendingUp, Hash } from "lucide-react";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/src/components/ui/avatar";
-import {
   Card,
   CardContent,
   CardHeader,

@@ -21,7 +21,7 @@ const PSInput = ({
     <Controller
       control={control}
       name={name}
-      render={({ field, fieldState: { error } }) => (
+      render={({ field }) => (
         <Input
           {...field}
           value={field.value ?? ""}

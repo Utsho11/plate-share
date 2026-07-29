@@ -4,9 +4,7 @@ import React, { useState } from "react";
 import {
   X,
   Sparkles,
-  Search,
   CheckCircle2,
-  Utensils,
   ArrowRight,
   Lightbulb,
 } from "lucide-react";
@@ -107,7 +105,7 @@ export default function FridgeRecipeMatcherModal({
               <Sparkles className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-lg font-bold">"What's in Your Fridge?" AI Matcher</h2>
+              <h2 className="text-lg font-bold">&quot;What&apos;s in Your Fridge?&quot; AI Matcher</h2>
               <p className="text-xs text-orange-100">Select available ingredients to find matching recipes</p>
             </div>
           </div>
@@ -204,7 +202,7 @@ export default function FridgeRecipeMatcherModal({
               </p>
             ) : (
               <div className="space-y-2.5">
-                {matchedResults.slice(0, 5).map(({ recipe, matchPercentage, matchedCount }) => (
+                {matchedResults.slice(0, 5).map(({ recipe, matchPercentage }) => (
                   <Card key={recipe._id} className="border shadow-xs hover:border-orange-300 transition">
                     <CardContent className="p-3.5 flex items-center justify-between gap-3">
                       <div className="space-y-1 min-w-0">

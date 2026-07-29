@@ -61,7 +61,7 @@ const RecipeFeed = () => {
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-bold text-sm">"What's in Your Fridge?" AI Matcher</h3>
+            <h3 className="font-bold text-sm">&quot;What&apos;s in Your Fridge?&quot; AI Matcher</h3>
             <p className="text-xs text-orange-100">Select ingredients to get instant recipe matches!</p>
           </div>
         </div>

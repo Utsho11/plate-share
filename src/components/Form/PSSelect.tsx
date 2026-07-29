@@ -17,7 +17,7 @@ type TFormInput = {
   className?: string;
 };
 
-const PSSelect = ({ name, options, placeholder, required }: TFormInput) => {
+const PSSelect = ({ name, options, placeholder }: TFormInput) => {
   const { control } = useFormContext();
 
   return (
@@ -25,7 +25,7 @@ const PSSelect = ({ name, options, placeholder, required }: TFormInput) => {
       control={control}
       name={name}
       defaultValue=""
-      render={({ field, fieldState: { error } }) => (
+      render={({ field }) => (
         <Select value={field.value} onValueChange={field.onChange}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder={placeholder} />

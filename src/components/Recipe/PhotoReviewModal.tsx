@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Camera, Star, UploadCloud, CheckCircle } from "lucide-react";
+import { X, Camera, Star, UploadCloud } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { toast } from "sonner";
 
@@ -49,7 +49,7 @@ export default function PhotoReviewModal({
               <Camera className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-sm text-gray-900">"I Made This!" Photo Review</h3>
+              <h3 className="font-bold text-sm text-gray-900">&quot;I Made This!&quot; Photo Review</h3>
               <p className="text-xs text-gray-500 truncate max-w-[240px]">{recipeTitle}</p>
             </div>
           </div>

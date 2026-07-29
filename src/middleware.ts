@@ -61,7 +61,7 @@ export async function middleware(request: NextRequest) {
 
   try {
     decodedData = jwtDecode(accessToken);
-  } catch (error) {
+  } catch {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 

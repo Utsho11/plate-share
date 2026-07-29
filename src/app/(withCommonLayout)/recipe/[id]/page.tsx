@@ -20,6 +20,7 @@ import { useGetAllCommentsQuery } from "@/src/redux/api/commentApi";
 import CommentCard from "./component/CommentCard";
 import RecipeDetailsSkeleton from "@/src/components/Recipe/Skeleton/RecipeDetailsSkeleton";
 import NutritionCard from "@/src/components/Recipe/NutritionCard";
+import CookModeModal from "@/src/components/Recipe/CookModeModal";
 import PhotoReviewModal from "@/src/components/Recipe/PhotoReviewModal";
 import { Camera, Star } from "lucide-react";
 
@@ -172,7 +173,7 @@ export default function RecipeDetailPage() {
           <div>
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
               <Camera className="w-5 h-5 text-orange-500" />
-              "I Made This!" Photo Reviews
+              &quot;I Made This!&quot; Photo Reviews
             </CardTitle>
             <CardDescription>Community photos and ratings for this dish</CardDescription>
           </div>
@@ -212,7 +213,7 @@ export default function RecipeDetailPage() {
                     </div>
                   </div>
                   <p className="text-xs text-gray-600 leading-relaxed italic">
-                    "{rev.comment}"
+                    &quot;{rev.comment}&quot;
                   </p>
                 </div>
               </div>

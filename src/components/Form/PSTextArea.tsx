@@ -15,7 +15,7 @@ const PSTextArea = ({ name, placeholder, required }: TFormInput) => {
     <Controller
       control={control}
       name={name}
-      render={({ field, fieldState: { error } }) => (
+      render={({ field }) => (
         <Textarea
           {...field}
           value={field.value ?? ""}
