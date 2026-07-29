@@ -3,17 +3,18 @@ import RightSidebar from "@/src/components/Shared/Sidebar/RightSideBar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 py-4 grid grid-cols-1 md:grid-cols-12 gap-4">
-        <aside className="hidden md:block md:col-span-3">
-          <LeftSidebar />
-        </aside>
+    <div className="min-h-screen bg-gray-50/50 dark:bg-slate-950 transition-colors">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* Left Sidebar */}
+        <LeftSidebar />
 
-        <main className="col-span-12 md:col-span-6">{children}</main>
+        {/* Central Main Content */}
+        <main className="col-span-1 lg:col-span-6 space-y-6">
+          {children}
+        </main>
 
-        <aside className="hidden lg:block lg:col-span-3">
-          <RightSidebar />
-        </aside>
+        {/* Right Sidebar */}
+        <RightSidebar />
       </div>
     </div>
   );

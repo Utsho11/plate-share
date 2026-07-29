@@ -18,35 +18,35 @@ export const menu = [
   {
     title: "Home",
     url: "/",
-    icon: <Home className="w-5 h-5 shrink-0 text-black" />,
+    icon: <Home className="w-4 h-4 shrink-0 text-orange-500" />,
   },
   {
     title: "Recipes",
     url: "/recipes",
-    icon: <UtensilsCrossed className="w-5 h-5 shrink-0 text-black" />,
+    icon: <UtensilsCrossed className="w-4 h-4 shrink-0 text-orange-500" />,
     items: [
       {
         title: "All Recipes",
         description: "Browse all recipes shared by our community",
-        icon: <UtensilsCrossed className="w-5 h-5 shrink-0 text-black" />,
+        icon: <UtensilsCrossed className="w-4 h-4 shrink-0 text-orange-500" />,
         url: "/recipes",
       },
       {
         title: "Categories",
         description: "Explore recipes by cuisine, meal type, or diet",
-        icon: <Leaf className="w-5 h-5 shrink-0 text-black" />,
+        icon: <Leaf className="w-4 h-4 shrink-0 text-emerald-500" />,
         url: "/recipes/categories",
       },
       {
         title: "Popular",
         description: "Most loved and trending recipes this week",
-        icon: <Flame className="w-5 h-5 shrink-0 text-black" />,
+        icon: <Flame className="w-4 h-4 shrink-0 text-amber-500" />,
         url: "/recipes/popular",
       },
       {
         title: "Quick & Easy",
         description: "Simple and fast recipes for busy days",
-        icon: <BookOpen className="w-5 h-5 shrink-0 text-black" />,
+        icon: <BookOpen className="w-4 h-4 shrink-0 text-blue-500" />,
         url: "/recipes/quick-and-easy",
       },
     ],
@@ -54,30 +54,30 @@ export const menu = [
   {
     title: "Community",
     url: "/community",
-    icon: <Users className="w-5 h-5 shrink-0 text-black" />,
+    icon: <Users className="w-4 h-4 shrink-0 text-orange-500" />,
     items: [
       {
         title: "All Community",
         description: "Join the conversation with food lovers",
-        icon: <MessageCircle className="w-5 h-5 shrink-0 text-black" />,
+        icon: <MessageCircle className="w-4 h-4 shrink-0 text-indigo-500" />,
         url: "/community",
       },
       {
         title: "Share a Recipe",
         description: "Submit your own recipe and inspire others",
-        icon: <PlusCircle className="w-5 h-5 shrink-0 text-black" />,
+        icon: <PlusCircle className="w-4 h-4 shrink-0 text-rose-500" />,
         url: "/recipes/create",
       },
       {
         title: "Top Chefs",
         description: "Meet our most active and talented creators",
-        icon: <ChefHat className="w-5 h-5 shrink-0 text-black" />,
+        icon: <ChefHat className="w-4 h-4 shrink-0 text-amber-500" />,
         url: "/community/chefs",
       },
       {
         title: "Saved Recipes",
         description: "View your bookmarked recipes",
-        icon: <Heart className="w-5 h-5 shrink-0 text-black" />,
+        icon: <Heart className="w-4 h-4 shrink-0 text-pink-500" />,
         url: "/saved",
       },
     ],
@@ -85,21 +85,21 @@ export const menu = [
   {
     title: "Meal Planner",
     url: "/meal-planner",
-    icon: <Calendar className="w-5 h-5 shrink-0 text-black" />,
+    icon: <Calendar className="w-4 h-4 shrink-0 text-orange-500" />,
   },
   {
     title: "Blog",
     url: "/blog",
-    icon: <BookOpen className="w-5 h-5 shrink-0 text-black" />,
+    icon: <BookOpen className="w-4 h-4 shrink-0 text-orange-500" />,
   },
   {
     title: "About",
     url: "/about",
-    icon: <Info className="w-5 h-5 shrink-0 text-black" />,
+    icon: <Info className="w-4 h-4 shrink-0 text-orange-500" />,
   },
   {
     title: "Help",
     url: "/help",
-    icon: <Phone className="w-5 h-5 shrink-0 text-black" />,
+    icon: <Phone className="w-4 h-4 shrink-0 text-orange-500" />,
   },
 ];
