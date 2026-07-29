@@ -1,9 +1,10 @@
 "use client";
 
+import React, { useState } from "react";
 import { useGetRecipeByIdQuery } from "@/src/redux/api/recipeApi";
 import { useParams } from "next/navigation";
 
-import { Clock, User, ChevronRight, Utensils, ImageIcon } from "lucide-react";
+import { Clock, User, ChevronRight, Utensils, ImageIcon, ChefHat } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -12,16 +13,18 @@ import {
   CardDescription,
 } from "@/src/components/ui/card";
 import { Badge } from "@/src/components/ui/badge";
+import { Button } from "@/src/components/ui/button";
 import Image from "next/image";
 import CommentForm from "./component/CommentForm";
 import { useGetAllCommentsQuery } from "@/src/redux/api/commentApi";
 import CommentCard from "./component/CommentCard";
 import RecipeDetailsSkeleton from "@/src/components/Recipe/Skeleton/RecipeDetailsSkeleton";
+import NutritionCard from "@/src/components/Recipe/NutritionCard";
+import CookModeModal from "@/src/components/Recipe/CookModeModal";
 
 export default function RecipeDetailPage() {
   const { id } = useParams();
-
-  // console.log(id);
+  const [cookModeOpen, setCookModeOpen] = useState(false);
 
   const {
     data: recipe,
@@ -33,10 +36,6 @@ export default function RecipeDetailPage() {
 
   const { data: allComments } = useGetAllCommentsQuery(id, { skip: !id });
 
-  console.log(allComments);
-
-  // console.log(recipe);
-
   if (isLoading) {
     return <RecipeDetailsSkeleton />;
   }
@@ -44,16 +43,28 @@ export default function RecipeDetailPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
-      {/* Title + Description */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold">{recipe.title}</h1>
-        <p className="text-muted-foreground">{recipe.description}</p>
+      {/* Title + Description + Cook Mode CTA */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">{recipe.title}</h1>
+          <p className="text-muted-foreground">{recipe.description}</p>
 
-        <div className="flex items-center gap-2 mt-2 flex-wrap">
-          <Badge variant="secondary">{recipe.category}</Badge>
-          <Badge>{recipe.recipeType}</Badge>
-          <Badge>{recipe.recipeStatus}</Badge>
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
+            <Badge variant="secondary">{recipe.category}</Badge>
+            <Badge>{recipe.recipeType}</Badge>
+            <Badge>{recipe.recipeStatus}</Badge>
+          </div>
         </div>
+
+        {recipe.instructions?.length > 0 && (
+          <Button
+            size="lg"
+            onClick={() => setCookModeOpen(true)}
+            className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold shadow-md self-start shrink-0"
+          >
+            <ChefHat className="w-5 h-5 mr-2" /> Start Cook Mode
+          </Button>
+        )}
       </div>
 
       {/* Image */}
@@ -116,6 +127,13 @@ export default function RecipeDetailPage() {
         </CardContent>
       </Card>
 
+      {/* Nutritional Breakdown Widget */}
+      <NutritionCard
+        ingredients={recipe.ingredients}
+        recipeType={recipe.recipeType}
+        category={recipe.category}
+      />
+
       {/* Instructions */}
       <Card className="rounded-xl border">
         <CardHeader>
@@ -149,6 +167,15 @@ export default function RecipeDetailPage() {
         <CommentCard allComments={allComments} />
       ) : (
         <p>No comments found!!</p>
+      )}
+
+      {/* Fullscreen Hands-Free Cook Mode Modal */}
+      {cookModeOpen && (
+        <CookModeModal
+          title={recipe.title}
+          instructions={recipe.instructions || []}
+          onClose={() => setCookModeOpen(false)}
+        />
       )}
     </div>
   );
