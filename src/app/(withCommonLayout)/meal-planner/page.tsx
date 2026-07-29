@@ -84,7 +84,7 @@ export default function MealPlannerPage() {
       type,
       recipeTitle: recipe.title,
       calories: 550,
-      image: recipe.image,
+      image: recipe.images?.[0],
     };
     setPlan((prev) => [...prev, newMeal]);
     toast.success(`Added "${recipe.title}" to ${day} (${type})`);
@@ -265,9 +265,9 @@ export default function MealPlannerPage() {
                     className="p-3 border rounded-xl bg-white hover:border-orange-300 transition space-y-2"
                   >
                     <div className="flex items-center gap-2.5">
-                      {recipe.image && (
+                      {recipe.images?.[0] && (
                         <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 relative border bg-gray-100">
-                          <Image src={recipe.image} alt={recipe.title} fill className="object-cover" />
+                          <Image src={recipe.images[0]} alt={recipe.title} fill className="object-cover" />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">
