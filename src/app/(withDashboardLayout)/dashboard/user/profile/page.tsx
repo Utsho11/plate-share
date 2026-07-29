@@ -6,14 +6,11 @@ import {
   Lock,
   Crown,
   ChefHat,
-  Camera,
   Save,
   CheckCircle2,
   ShieldCheck,
-  CreditCard,
   Trash2,
   Edit,
-  Sparkles,
 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
@@ -24,8 +21,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar"
 import { toast } from "sonner";
 import SubscriptionModal from "@/src/components/Subscription/SubscriptionModal";
 
+type ProfileTab = "info" | "security" | "subscription" | "recipes";
+
 export default function UserProfilePage() {
-  const [activeTab, setActiveTab] = useState<"info" | "security" | "subscription" | "recipes">("info");
+  const [activeTab, setActiveTab] = useState<ProfileTab>("info");
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
 
   // Form states
@@ -121,7 +120,7 @@ export default function UserProfilePage() {
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as ProfileTab)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition whitespace-nowrap ${
                 isActive
                   ? "bg-orange-500 text-white shadow-md shadow-orange-500/20"

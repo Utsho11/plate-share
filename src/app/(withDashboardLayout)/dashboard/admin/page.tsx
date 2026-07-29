@@ -8,14 +8,12 @@ import {
   TrendingUp,
   ShieldCheck,
   CheckCircle2,
-  XCircle,
   Ban,
   Shield,
   UserCheck,
   Trash2,
   DollarSign,
   Search,
-  Filter,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
