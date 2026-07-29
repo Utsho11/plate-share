@@ -6,16 +6,20 @@ import { Button } from "@/src/components/ui/button";
 import { toast } from "sonner";
 
 interface SubscriptionModalProps {
+  isOpen?: boolean;
   onClose: () => void;
   onSuccess?: () => void;
 }
 
 export default function SubscriptionModal({
+  isOpen = true,
   onClose,
   onSuccess,
 }: SubscriptionModalProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("yearly");
+
+  if (!isOpen) return null;
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
