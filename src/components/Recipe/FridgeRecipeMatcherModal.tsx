@@ -41,11 +41,13 @@ const SUBSTITUTION_TIPS: Record<string, string> = {
 };
 
 interface FridgeRecipeMatcherModalProps {
-  recipes: IRecipe[];
+  isOpen?: boolean;
+  recipes?: IRecipe[];
   onClose: () => void;
 }
 
 export default function FridgeRecipeMatcherModal({
+  isOpen = true,
   recipes = [],
   onClose,
 }: FridgeRecipeMatcherModalProps) {
@@ -54,6 +56,8 @@ export default function FridgeRecipeMatcherModal({
     "Onion",
     "Garlic",
   ]);
+
+  if (!isOpen) return null;
   const [customInput, setCustomInput] = useState("");
 
   const toggleIngredient = (item: string) => {

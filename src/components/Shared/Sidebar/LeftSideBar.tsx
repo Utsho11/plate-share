@@ -14,8 +14,6 @@ import {
   Flame,
   PlusCircle,
   TrendingUp,
-  Hash,
-  Award,
 } from "lucide-react";
 import {
   Card,
