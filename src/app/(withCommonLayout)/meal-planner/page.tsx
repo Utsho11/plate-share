@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/src/components/ui/card";
-import { Badge } from "@/src/components/ui/badge";
 import GroceryListModal from "@/src/components/MealPlanner/GroceryListModal";
 import SubscriptionModal from "@/src/components/Subscription/SubscriptionModal";
 import { useGetAllRecipeQuery } from "@/src/redux/api/recipeApi";
@@ -75,8 +74,8 @@ export default function MealPlannerPage() {
   const [groceryOpen, setGroceryOpen] = useState(false);
   const [subscriptionOpen, setSubscriptionOpen] = useState(false);
 
-  const { data: recipesData } = useGetAllRecipeQuery(undefined);
-  const allRecipes: IRecipe[] = recipesData?.data || [];
+  const { data: recipesData } = useGetAllRecipeQuery({});
+  const allRecipes: IRecipe[] = recipesData?.recipies || recipesData?.data || [];
 
   const handleAddMeal = (recipe: IRecipe, day: string, type: string) => {
     const newMeal: PlannedMeal = {

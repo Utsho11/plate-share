@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, ShoppingBag, Copy, Download, CheckCircle2, Sparkles, Filter } from "lucide-react";
+import { X, ShoppingBag, Copy, Download, CheckCircle2, Filter } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import { toast } from "sonner";
