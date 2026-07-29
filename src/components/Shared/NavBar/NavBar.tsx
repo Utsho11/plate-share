@@ -17,6 +17,7 @@ import { menu } from "./menu";
 import { NavigationMenu, NavigationMenuList } from "../../ui/navigation-menu";
 import { renderMenuItem, renderMobileMenuItem } from "./renderItem";
 import { Accordion } from "../../ui/accordion";
+import ThemeToggle from "../ThemeToggle";
 
 const lobster = Lobster({
   weight: "400", // Lobster only has one weight
@@ -58,52 +59,56 @@ const Navbar = () => {
             </div>
 
             {/* Right (3 columns) */}
-            <div className="col-span-6 sm:col-span-3 flex justify-end">
+            <div className="col-span-6 sm:col-span-3 flex items-center justify-end gap-2">
+              <ThemeToggle />
               <AuthButton />
             </div>
           </div>
         </nav>
 
         {/* Mobile Menu */}
-        <div className="bg-white border px-2 block lg:hidden">
+        <div className="bg-white dark:bg-slate-900 border px-2 block lg:hidden">
           <div className="flex items-center justify-between py-1">
             {/* Logo */}
-            <a href={"/"} className="flex items-center gap-2">
-              <div className="flex justify-center items-center border-2 border-black rounded-full w-12 h-12">
-                <UtensilsCrossed />
+            <Link href={"/"} className="flex items-center gap-2">
+              <div className="flex justify-center items-center border-2 border-black dark:border-white rounded-full w-10 h-10">
+                <UtensilsCrossed className="w-5 h-5" />
               </div>
-            </a>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="size-4" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent className="overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle>
-                    <Link href={"/"} className="flex items-center gap-2">
-                      <div className="flex justify-center items-center border-2 border-black rounded-full w-12 h-12">
-                        <UtensilsCrossed />
-                      </div>
-                    </Link>
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-6 p-4">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="flex w-full flex-col gap-4"
-                  >
-                    {menu.map((item) => renderMobileMenuItem(item))}
-                  </Accordion>
+            </Link>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Menu className="size-4" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>
+                      <Link href={"/"} className="flex items-center gap-2">
+                        <div className="flex justify-center items-center border-2 border-black dark:border-white rounded-full w-10 h-10">
+                          <UtensilsCrossed className="w-5 h-5" />
+                        </div>
+                      </Link>
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col gap-6 p-4">
+                    <Accordion
+                      type="single"
+                      collapsible
+                      className="flex w-full flex-col gap-4"
+                    >
+                      {menu.map((item) => renderMobileMenuItem(item))}
+                    </Accordion>
 
-                  <div className="flex flex-col gap-3">
-                    <AuthButton />
+                    <div className="flex flex-col gap-3">
+                      <AuthButton />
+                    </div>
                   </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>

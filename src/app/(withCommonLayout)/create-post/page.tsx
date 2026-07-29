@@ -1,5 +1,7 @@
-const CreatePost = () => {
-  return <div className="bg-amber-100">This is create Post page</div>;
-};
+"use client";
 
-export default CreatePost;
+import CreateRecipePage from "../recipes/create/page";
+
+export default function CreatePostPage() {
+  return <CreateRecipePage />;
+}
