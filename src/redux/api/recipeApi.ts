@@ -15,16 +15,59 @@ export const recipeApi = baseApi.injectEndpoints({
 
     getAllRecipe: build.query({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      query: (args: Record<string, any>) => ({
+      query: (args: Record<string, any> = {}) => ({
         url: "/recipe",
         method: "GET",
         params: args,
       }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformResponse: (response: any, meta: any) => {
+        const recipies = Array.isArray(response?.data)
+          ? response.data
+          : Array.isArray(response)
+          ? response
+          : [];
         return {
-          recipies: response,
+          recipies,
           meta,
+        };
+      },
+      providesTags: [tagTypes.recipies],
+    }),
+
+    getMyRecipes: build.query({
+      query: () => ({
+        url: "/recipe/my-recipes",
+        method: "GET",
+      }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformResponse: (response: any) => {
+        const recipies = Array.isArray(response?.data)
+          ? response.data
+          : Array.isArray(response)
+          ? response
+          : [];
+        return {
+          recipies,
+        };
+      },
+      providesTags: [tagTypes.recipies],
+    }),
+
+    getRecipesByAuthor: build.query({
+      query: (authorId: string) => ({
+        url: `/recipe/author/${authorId}`,
+        method: "GET",
+      }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformResponse: (response: any) => {
+        const recipies = Array.isArray(response?.data)
+          ? response.data
+          : Array.isArray(response)
+          ? response
+          : [];
+        return {
+          recipies,
         };
       },
       providesTags: [tagTypes.recipies],
@@ -35,7 +78,37 @@ export const recipeApi = baseApi.injectEndpoints({
         url: `/recipe/${id}`,
         method: "GET",
       }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformResponse: (response: any) => {
+        return response?.data || response;
+      },
       providesTags: [tagTypes.recipies],
+    }),
+
+    updateRecipe: build.mutation({
+      query: ({ id, data }) => ({
+        url: `/recipe/update/${id}`,
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: [tagTypes.recipies],
+    }),
+
+    changeRecipeStatus: build.mutation({
+      query: ({ id, recipeStatus }) => ({
+        url: `/recipe/change-status/${id}`,
+        method: "PATCH",
+        data: { recipeStatus },
+      }),
+      invalidatesTags: [tagTypes.recipies],
+    }),
+
+    deleteRecipe: build.mutation({
+      query: (id: string) => ({
+        url: `/recipe/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.recipies],
     }),
   }),
 });
@@ -43,5 +116,10 @@ export const recipeApi = baseApi.injectEndpoints({
 export const {
   useCreateRecipeMutation,
   useGetAllRecipeQuery,
+  useGetMyRecipesQuery,
+  useGetRecipesByAuthorQuery,
   useGetRecipeByIdQuery,
+  useUpdateRecipeMutation,
+  useChangeRecipeStatusMutation,
+  useDeleteRecipeMutation,
 } = recipeApi;

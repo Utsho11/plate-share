@@ -14,14 +14,31 @@ import {
   Trash2,
   DollarSign,
   Search,
+  Loader2,
+  RefreshCw,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/src/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import { Input } from "@/src/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import { toast } from "sonner";
-import { useGetAllUsersQuery, useUpdateUserStatusRoleMutation } from "@/src/redux/api/userApi";
+import {
+  useGetAllUsersQuery,
+  useUpdateUserStatusRoleMutation,
+} from "@/src/redux/api/userApi";
+import {
+  useGetAllRecipeQuery,
+  useDeleteRecipeMutation,
+  useChangeRecipeStatusMutation,
+} from "@/src/redux/api/recipeApi";
+import { useGetPlatformStatsQuery } from "@/src/redux/api/statsApi";
 
 interface AdminUser {
   id: string;
@@ -30,180 +47,149 @@ interface AdminUser {
   role: string;
   status: string;
   type: string;
-  recipesCount: number;
   avatar: string;
 }
 
+interface AdminRecipe {
+  id: string;
+  title: string;
+  author: string;
+  category: string;
+  recipeStatus: string;
+  recipeType: string;
+}
+
 export default function AdminDashboardPage() {
-  const [activeTab, setActiveTab] = useState<"users" | "recipes" | "analytics">("users");
+  const [activeTab, setActiveTab] = useState<"users" | "recipes" | "analytics">(
+    "users"
+  );
   const [userSearch, setUserSearch] = useState("");
 
-  const { data: apiUsersData } = useGetAllUsersQuery({});
+  // ── API Queries ──────────────────────────────────────────────
+  const { data: statsData, isLoading: statsLoading } = useGetPlatformStatsQuery(undefined);
+  const { data: apiUsersData, isLoading: usersLoading, refetch: refetchUsers } =
+    useGetAllUsersQuery({});
+  const { data: apiRecipesData, isLoading: recipesLoading, refetch: refetchRecipes } =
+    useGetAllRecipeQuery({});
+
+  // ── Mutations ────────────────────────────────────────────────
   const [updateUserStatusRole] = useUpdateUserStatusRoleMutation();
+  const [deleteRecipe] = useDeleteRecipeMutation();
+  const [changeRecipeStatus] = useChangeRecipeStatusMutation();
 
-  const rawUsers = apiUsersData?.data || [];
-  const defaultUsers: AdminUser[] = [
-    {
-      id: "1",
-      name: "PlateShare Admin",
-      email: "admin@plateshare.com",
-      role: "ADMIN",
-      status: "ACTIVE",
-      type: "PREMIUM",
-      recipesCount: 0,
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400",
-    },
-    {
-      id: "2",
-      name: "Chef Marco Rossi",
-      email: "marco@plateshare.com",
-      role: "USER",
-      status: "ACTIVE",
-      type: "PREMIUM",
-      recipesCount: 84,
-      avatar: "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=400",
-    },
-    {
-      id: "3",
-      name: "Aisha Rahman",
-      email: "aisha@plateshare.com",
-      role: "USER",
-      status: "ACTIVE",
-      type: "PREMIUM",
-      recipesCount: 62,
-      avatar: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400",
-    },
-    {
-      id: "4",
-      name: "Kenji Takahashi",
-      email: "kenji@plateshare.com",
-      role: "USER",
-      status: "ACTIVE",
-      type: "PREMIUM",
-      recipesCount: 110,
-      avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400",
-    },
-    {
-      id: "5",
-      name: "Utsho Roy",
-      email: "utsho@plateshare.com",
-      role: "USER",
-      status: "ACTIVE",
-      type: "REGULAR",
-      recipesCount: 14,
-      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400",
-    },
-  ];
+  // ── Data Mapping ─────────────────────────────────────────────
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const stats: any = statsData?.totalUsers !== undefined ? statsData : (statsData?.data || {});
 
-  const usersList: AdminUser[] = rawUsers.length > 0
-    ? rawUsers.map((u: Record<string, unknown>) => ({
-        id: (u._id || u.id) as string,
-        name: u.firstName ? `${u.firstName} ${u.lastName || ""}` : (u.name as string) || "User",
-        email: (u.email as string) || "",
-        role: (u.role as string) || "USER",
-        status: (u.status as string) || "ACTIVE",
-        type: (u.type as string) || "REGULAR",
-        recipesCount: (u.recipesCount as number) || 0,
-        avatar: (u.profilePhoto as string) || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400",
-      }))
-    : defaultUsers;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rawUsers = Array.isArray(apiUsersData) ? apiUsersData : (Array.isArray(apiUsersData?.data) ? apiUsersData.data : []);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const usersList: AdminUser[] = rawUsers.map((u: Record<string, any>) => ({
+    id: (u._id || u.id) as string,
+    name: u.firstName ? `${u.firstName} ${u.lastName || ""}`.trim() : (u.name as string) || "User",
+    email: (u.email as string) || "",
+    role: (u.role as string) || "USER",
+    status: (u.status as string) || "ACTIVE",
+    type: (u.type as string) || "REGULAR",
+    avatar:
+      (u.profilePhoto as string) ||
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(u.firstName || "U")}&background=f77f00&color=fff`,
+  }));
 
-  // Platform recipes moderation state
-  const [recipesList, setRecipesList] = useState([
-    {
-      id: "101",
-      title: "Creamy Tuscan Garlic Chicken",
-      author: "marco@plateshare.com",
-      category: "DINNER",
-      status: "PREMIUM",
-      approved: true,
-    },
-    {
-      id: "102",
-      title: "Traditional Beef Kala Bhuna",
-      author: "chef_karim@gmail.com",
-      category: "LUNCH",
-      status: "REGULAR",
-      approved: false,
-    },
-    {
-      id: "103",
-      title: "Keto Friendly Coconut Smoothie",
-      author: "health_fit@gmail.com",
-      category: "BREAKFAST",
-      status: "REGULAR",
-      approved: false,
-    },
-    {
-      id: "104",
-      title: "Authentic Tonkotsu Ramen Bowl",
-      author: "kenji@plateshare.com",
-      category: "LUNCH",
-      status: "PREMIUM",
-      approved: true,
-    },
-  ]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rawRecipes = Array.isArray(apiRecipesData?.recipies)
+    ? apiRecipesData.recipies
+    : Array.isArray(apiRecipesData)
+    ? apiRecipesData
+    : [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recipesList: AdminRecipe[] = rawRecipes.map((r: Record<string, any>) => ({
+    id: (r._id || r.id) as string,
+    title: (r.title as string) || "Untitled Recipe",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    author: (r.author as any)?.email || (r.author as any)?.firstName || (r.author as any)?.name || "Unknown",
+    category: (r.category as string) || "—",
+    recipeStatus: (r.recipeStatus as string) || "REGULAR",
+    recipeType: (r.recipeType as string) || "REGULAR",
+  }));
 
-  // User Actions
-  const handleToggleUserStatus = async (id: string, name: string, currentStatus: string) => {
+  // ── User Actions ──────────────────────────────────────────────
+  const handleToggleUserStatus = async (
+    id: string,
+    name: string,
+    currentStatus: string
+  ) => {
     const newStatus = currentStatus === "ACTIVE" ? "BLOCKED" : "ACTIVE";
     try {
       await updateUserStatusRole({ id, data: { status: newStatus } }).unwrap();
-      toast.success(`User ${name} has been ${newStatus.toLowerCase()}!`);
+      toast.success(`${name} has been ${newStatus === "BLOCKED" ? "blocked" : "unblocked"}.`);
+      refetchUsers();
     } catch {
-      toast.success(`User ${name} status updated to ${newStatus}!`);
+      toast.error("Failed to update user status. Please try again.");
     }
   };
 
-  const handleToggleUserRole = async (id: string, name: string, currentRole: string) => {
+  const handleToggleUserRole = async (
+    id: string,
+    name: string,
+    currentRole: string
+  ) => {
     const newRole = currentRole === "ADMIN" ? "USER" : "ADMIN";
     try {
       await updateUserStatusRole({ id, data: { role: newRole } }).unwrap();
-      toast.success(`User ${name} role updated to ${newRole}!`);
+      toast.success(`${name}'s role changed to ${newRole}.`);
+      refetchUsers();
     } catch {
-      toast.success(`User ${name} role updated to ${newRole}!`);
+      toast.error("Failed to update user role. Please try again.");
     }
   };
 
-  // Recipe Actions
-  const handleApproveRecipe = (id: string, title: string) => {
-    setRecipesList((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, approved: true } : r))
-    );
-    toast.success(`Recipe "${title}" approved & published!`);
+  // ── Recipe Actions ────────────────────────────────────────────
+  const handleDeleteRecipe = async (id: string, title: string) => {
+    try {
+      await deleteRecipe(id).unwrap();
+      toast.success(`"${title}" deleted from platform.`);
+      refetchRecipes();
+    } catch {
+      toast.error("Failed to delete recipe. Please try again.");
+    }
   };
 
-  const handleDeleteRecipe = (id: string, title: string) => {
-    setRecipesList((prev) => prev.filter((r) => r.id !== id));
-    toast.success(`Recipe "${title}" removed from platform.`);
-  };
-
-  const handleToggleRecipeStatus = (id: string, title: string, currentStatus: string) => {
+  const handleToggleRecipeStatus = async (
+    id: string,
+    title: string,
+    currentStatus: string
+  ) => {
     const newStatus = currentStatus === "PREMIUM" ? "REGULAR" : "PREMIUM";
-    setRecipesList((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, status: newStatus } : r))
-    );
-    toast.success(`Recipe "${title}" marked as ${newStatus}!`);
+    try {
+      await changeRecipeStatus({ id, recipeStatus: newStatus }).unwrap();
+      toast.success(`"${title}" marked as ${newStatus}.`);
+      refetchRecipes();
+    } catch {
+      toast.error("Failed to change recipe status. Please try again.");
+    }
   };
 
   const filteredUsers = usersList.filter(
-    (u: { name: string; email: string }) =>
+    (u) =>
       u.name.toLowerCase().includes(userSearch.toLowerCase()) ||
       u.email.toLowerCase().includes(userSearch.toLowerCase())
   );
 
   return (
     <div className="space-y-6">
-      {/* Header section */}
+      {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Admin Control &amp; Platform Manager</h1>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">
+            Admin Control &amp; Platform Manager
+          </h1>
           <p className="text-xs text-gray-500 mt-1">
-            Manage registered accounts, moderate submitted recipes, and view revenue analytics.
+            Manage registered accounts, moderate submitted recipes, and view platform analytics.
           </p>
         </div>
 
-        {/* Tab Selector Buttons */}
+        {/* Tab Selector */}
         <div className="flex items-center gap-2 bg-gray-100 dark:bg-slate-800 p-1 rounded-2xl">
           <Button
             size="sm"
@@ -227,19 +213,27 @@ export default function AdminDashboardPage() {
             onClick={() => setActiveTab("analytics")}
             className="text-xs font-bold rounded-xl"
           >
-            <TrendingUp className="w-3.5 h-3.5 mr-1" /> Revenue &amp; Stats
+            <TrendingUp className="w-3.5 h-3.5 mr-1" /> Platform Stats
           </Button>
         </div>
       </div>
 
-      {/* Analytics Stats Cards */}
+      {/* Stats Cards — from real API */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="rounded-2xl border shadow-xs">
           <CardContent className="p-5 flex items-center justify-between">
             <div>
               <p className="text-xs font-bold text-gray-400 uppercase">Total Users</p>
-              <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mt-1">{usersList.length} Accounts</h3>
-              <p className="text-xs text-emerald-600 font-semibold mt-1">+12% this month</p>
+              <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mt-1">
+                {statsLoading ? (
+                  <Loader2 size={20} className="animate-spin text-gray-400" />
+                ) : (
+                  `${stats?.totalUsers ?? 0} Accounts`
+                )}
+              </h3>
+              <p className="text-xs text-emerald-600 font-semibold mt-1">
+                {stats?.regularUsers ?? 0} regular · {stats?.premiumUsers ?? 0} premium
+              </p>
             </div>
             <div className="p-3 rounded-2xl bg-blue-50 text-blue-600">
               <Users size={22} />
@@ -251,8 +245,16 @@ export default function AdminDashboardPage() {
           <CardContent className="p-5 flex items-center justify-between">
             <div>
               <p className="text-xs font-bold text-gray-400 uppercase">Published Recipes</p>
-              <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mt-1">3,890</h3>
-              <p className="text-xs text-emerald-600 font-semibold mt-1">+24% this month</p>
+              <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mt-1">
+                {statsLoading ? (
+                  <Loader2 size={20} className="animate-spin text-gray-400" />
+                ) : (
+                  `${stats?.totalRecipes ?? 0} Recipes`
+                )}
+              </h3>
+              <p className="text-xs text-emerald-600 font-semibold mt-1">
+                Live on platform
+              </p>
             </div>
             <div className="p-3 rounded-2xl bg-orange-50 text-orange-600">
               <Utensils size={22} />
@@ -264,8 +266,18 @@ export default function AdminDashboardPage() {
           <CardContent className="p-5 flex items-center justify-between">
             <div>
               <p className="text-xs font-bold text-gray-400 uppercase">Pro Subscribers</p>
-              <h3 className="text-2xl font-extrabold text-amber-500 mt-1">342 Members</h3>
-              <p className="text-xs text-amber-600 font-semibold mt-1">18% conversion rate</p>
+              <h3 className="text-2xl font-extrabold text-amber-500 mt-1">
+                {statsLoading ? (
+                  <Loader2 size={20} className="animate-spin text-gray-400" />
+                ) : (
+                  `${stats?.premiumUsers ?? 0} Members`
+                )}
+              </h3>
+              <p className="text-xs text-amber-600 font-semibold mt-1">
+                {stats?.totalUsers
+                  ? `${Math.round(((stats?.premiumUsers ?? 0) / stats.totalUsers) * 100)}% conversion rate`
+                  : "—"}
+              </p>
             </div>
             <div className="p-3 rounded-2xl bg-amber-50 text-amber-600">
               <Crown size={22} />
@@ -276,9 +288,17 @@ export default function AdminDashboardPage() {
         <Card className="rounded-2xl border shadow-xs">
           <CardContent className="p-5 flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase">Est. Monthly Revenue</p>
-              <h3 className="text-2xl font-extrabold text-emerald-600 mt-1">$4,850.00</h3>
-              <p className="text-xs text-emerald-600 font-semibold mt-1">+15.4% vs last month</p>
+              <p className="text-xs font-bold text-gray-400 uppercase">Admins</p>
+              <h3 className="text-2xl font-extrabold text-emerald-600 mt-1">
+                {statsLoading ? (
+                  <Loader2 size={20} className="animate-spin text-gray-400" />
+                ) : (
+                  `${stats?.totalAdmins ?? 0} Admins`
+                )}
+              </h3>
+              <p className="text-xs text-emerald-600 font-semibold mt-1">
+                Platform moderators
+              </p>
             </div>
             <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-600">
               <DollarSign size={22} />
@@ -287,7 +307,7 @@ export default function AdminDashboardPage() {
         </Card>
       </div>
 
-      {/* Tab 1: User Management Portal */}
+      {/* ── Tab 1: User Management ─────────────────────────────── */}
       {activeTab === "users" && (
         <Card className="rounded-2xl border shadow-sm">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -295,205 +315,335 @@ export default function AdminDashboardPage() {
               <CardTitle className="text-lg flex items-center gap-2">
                 <Users className="w-5 h-5 text-orange-500" /> User Account Management
               </CardTitle>
-              <CardDescription>Manage user roles, grant admin permissions, or suspend accounts</CardDescription>
+              <CardDescription>
+                Manage user roles, grant admin permissions, or suspend accounts
+              </CardDescription>
             </div>
 
-            <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
-              <Input
-                placeholder="Search user by name or email..."
-                value={userSearch}
-                onChange={(e) => setUserSearch(e.target.value)}
-                className="pl-9 text-xs rounded-xl"
-              />
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="relative flex-1 sm:w-64">
+                <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+                <Input
+                  placeholder="Search user by name or email..."
+                  value={userSearch}
+                  onChange={(e) => setUserSearch(e.target.value)}
+                  className="pl-9 text-xs rounded-xl"
+                />
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => refetchUsers()}
+                className="rounded-xl"
+              >
+                <RefreshCw size={14} />
+              </Button>
             </div>
           </CardHeader>
 
           <CardContent className="p-0 overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400 font-bold uppercase border-y">
-                <tr>
-                  <th className="p-4">User</th>
-                  <th className="p-4">Role</th>
-                  <th className="p-4">Account Type</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {filteredUsers.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition">
-                    <td className="p-4 flex items-center gap-3">
-                      <Avatar className="w-9 h-9">
-                        <AvatarImage src={user.avatar} />
-                        <AvatarFallback>{user.name[0]}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-bold text-gray-900 dark:text-white">{user.name}</p>
-                        <p className="text-[11px] text-gray-400">{user.email}</p>
-                      </div>
-                    </td>
-                    <td className="p-4">
-                      <Badge variant={user.role === "ADMIN" ? "default" : "outline"} className="text-[10px]">
-                        {user.role}
-                      </Badge>
-                    </td>
-                    <td className="p-4">
-                      <Badge variant={user.type === "PREMIUM" ? "secondary" : "outline"} className="text-[10px]">
-                        {user.type}
-                      </Badge>
-                    </td>
-                    <td className="p-4">
-                      <span className={`inline-flex items-center gap-1 font-bold text-[11px] ${
-                        user.status === "ACTIVE" ? "text-emerald-600" : "text-red-600"
-                      }`}>
-                        {user.status === "ACTIVE" ? <UserCheck size={14} /> : <Ban size={14} />}
-                        {user.status}
-                      </span>
-                    </td>
-                    <td className="p-4 text-right space-x-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleToggleUserRole(user.id, user.name, user.role)}
-                        className="text-[11px] h-8"
-                      >
-                        <Shield size={12} className="mr-1" /> {user.role === "ADMIN" ? "Demote" : "Make Admin"}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleToggleUserStatus(user.id, user.name, user.status)}
-                        className={`text-[11px] h-8 ${
-                          user.status === "ACTIVE" ? "text-red-600 border-red-200 hover:bg-red-50" : "text-emerald-600 border-emerald-200 hover:bg-emerald-50"
-                        }`}
-                      >
-                        {user.status === "ACTIVE" ? "Block" : "Unblock"}
-                      </Button>
-                    </td>
+            {usersLoading ? (
+              <div className="flex items-center justify-center py-16 gap-3 text-gray-400">
+                <Loader2 size={22} className="animate-spin" />
+                <span className="text-sm">Loading users...</span>
+              </div>
+            ) : filteredUsers.length === 0 ? (
+              <div className="text-center py-16 text-sm text-gray-400">
+                No users found.
+              </div>
+            ) : (
+              <table className="w-full text-left text-xs">
+                <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400 font-bold uppercase border-y">
+                  <tr>
+                    <th className="p-4">User</th>
+                    <th className="p-4">Role</th>
+                    <th className="p-4">Account Type</th>
+                    <th className="p-4">Status</th>
+                    <th className="p-4 text-right">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Tab 2: Content Moderation */}
-      {activeTab === "recipes" && (
-        <Card className="rounded-2xl border shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-orange-500" /> Recipe Content Moderation
-            </CardTitle>
-            <CardDescription>Review, approve, or remove community-submitted recipes</CardDescription>
-          </CardHeader>
-
-          <CardContent className="p-0 overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400 font-bold uppercase border-y">
-                <tr>
-                  <th className="p-4">Recipe Title</th>
-                  <th className="p-4">Author</th>
-                  <th className="p-4">Category</th>
-                  <th className="p-4">Tier</th>
-                  <th className="p-4">Moderation State</th>
-                  <th className="p-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {recipesList.map((recipe) => (
-                  <tr key={recipe.id} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition">
-                    <td className="p-4 font-bold text-gray-900 dark:text-white">{recipe.title}</td>
-                    <td className="p-4 text-gray-500">{recipe.author}</td>
-                    <td className="p-4">
-                      <Badge variant="outline" className="text-[10px]">{recipe.category}</Badge>
-                    </td>
-                    <td className="p-4">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => handleToggleRecipeStatus(recipe.id, recipe.title, recipe.status)}
-                        className="text-[10px] h-7 font-bold text-amber-600"
-                      >
-                        {recipe.status}
-                      </Button>
-                    </td>
-                    <td className="p-4">
-                      <Badge variant={recipe.approved ? "default" : "secondary"} className="text-[10px]">
-                        {recipe.approved ? "APPROVED" : "PENDING"}
-                      </Badge>
-                    </td>
-                    <td className="p-4 text-right space-x-2">
-                      {!recipe.approved && (
+                </thead>
+                <tbody className="divide-y">
+                  {filteredUsers.map((user: AdminUser) => (
+                    <tr
+                      key={user.id}
+                      className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition"
+                    >
+                      <td className="p-4 flex items-center gap-3">
+                        <Avatar className="w-9 h-9">
+                          <AvatarImage src={user.avatar} />
+                          <AvatarFallback>{user.name[0]}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-bold text-gray-900 dark:text-white">
+                            {user.name}
+                          </p>
+                          <p className="text-[11px] text-gray-400">{user.email}</p>
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <Badge
+                          variant={user.role === "ADMIN" ? "default" : "outline"}
+                          className="text-[10px]"
+                        >
+                          {user.role}
+                        </Badge>
+                      </td>
+                      <td className="p-4">
+                        <Badge
+                          variant={user.type === "PREMIUM" ? "secondary" : "outline"}
+                          className="text-[10px]"
+                        >
+                          {user.type}
+                        </Badge>
+                      </td>
+                      <td className="p-4">
+                        <span
+                          className={`inline-flex items-center gap-1 font-bold text-[11px] ${
+                            user.status === "ACTIVE"
+                              ? "text-emerald-600"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {user.status === "ACTIVE" ? (
+                            <UserCheck size={14} />
+                          ) : (
+                            <Ban size={14} />
+                          )}
+                          {user.status}
+                        </span>
+                      </td>
+                      <td className="p-4 text-right space-x-2">
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => handleApproveRecipe(recipe.id, recipe.title)}
-                          className="text-[11px] h-8 text-emerald-600 border-emerald-200 hover:bg-emerald-50"
+                          onClick={() =>
+                            handleToggleUserRole(user.id, user.name, user.role)
+                          }
+                          className="text-[11px] h-8"
                         >
-                          <CheckCircle2 size={14} className="mr-1" /> Approve
+                          <Shield size={12} className="mr-1" />
+                          {user.role === "ADMIN" ? "Demote" : "Make Admin"}
                         </Button>
-                      )}
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleDeleteRecipe(recipe.id, recipe.title)}
-                        className="text-[11px] h-8 text-red-600 border-red-200 hover:bg-red-50"
-                      >
-                        <Trash2 size={14} className="mr-1" /> Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() =>
+                            handleToggleUserStatus(user.id, user.name, user.status)
+                          }
+                          className={`text-[11px] h-8 ${
+                            user.status === "ACTIVE"
+                              ? "text-red-600 border-red-200 hover:bg-red-50"
+                              : "text-emerald-600 border-emerald-200 hover:bg-emerald-50"
+                          }`}
+                        >
+                          {user.status === "ACTIVE" ? "Block" : "Unblock"}
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </CardContent>
         </Card>
       )}
 
-      {/* Tab 3: Revenue & Analytics */}
+      {/* ── Tab 2: Content Moderation ──────────────────────────── */}
+      {activeTab === "recipes" && (
+        <Card className="rounded-2xl border shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-orange-500" /> Recipe Content
+                Moderation
+              </CardTitle>
+              <CardDescription>
+                Review, manage tiers, or remove community-submitted recipes
+              </CardDescription>
+            </div>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => refetchRecipes()}
+              className="rounded-xl"
+            >
+              <RefreshCw size={14} className="mr-1" /> Refresh
+            </Button>
+          </CardHeader>
+
+          <CardContent className="p-0 overflow-x-auto">
+            {recipesLoading ? (
+              <div className="flex items-center justify-center py-16 gap-3 text-gray-400">
+                <Loader2 size={22} className="animate-spin" />
+                <span className="text-sm">Loading recipes...</span>
+              </div>
+            ) : recipesList.length === 0 ? (
+              <div className="text-center py-16 text-sm text-gray-400">
+                No recipes found on platform.
+              </div>
+            ) : (
+              <table className="w-full text-left text-xs">
+                <thead className="bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400 font-bold uppercase border-y">
+                  <tr>
+                    <th className="p-4">Recipe Title</th>
+                    <th className="p-4">Author</th>
+                    <th className="p-4">Category</th>
+                    <th className="p-4">Status</th>
+                    <th className="p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {recipesList.map((recipe: AdminRecipe) => (
+                    <tr
+                      key={recipe.id}
+                      className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition"
+                    >
+                      <td className="p-4 font-bold text-gray-900 dark:text-white">
+                        {recipe.title}
+                      </td>
+                      <td className="p-4 text-gray-500">{recipe.author}</td>
+                      <td className="p-4">
+                        <Badge variant="outline" className="text-[10px]">
+                          {recipe.category}
+                        </Badge>
+                      </td>
+                      <td className="p-4">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() =>
+                            handleToggleRecipeStatus(
+                              recipe.id,
+                              recipe.title,
+                              recipe.recipeStatus
+                            )
+                          }
+                          className={`text-[10px] h-7 font-bold ${
+                            recipe.recipeStatus === "PREMIUM"
+                              ? "text-amber-600"
+                              : "text-gray-500"
+                          }`}
+                        >
+                          {recipe.recipeStatus}
+                        </Button>
+                      </td>
+                      <td className="p-4 text-right">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() =>
+                            handleDeleteRecipe(recipe.id, recipe.title)
+                          }
+                          className="text-[11px] h-8 text-red-600 border-red-200 hover:bg-red-50"
+                        >
+                          <Trash2 size={14} className="mr-1" /> Delete
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* ── Tab 3: Platform Stats ─────────────────────────────── */}
       {activeTab === "analytics" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card className="rounded-2xl border shadow-sm p-6 space-y-4">
             <h3 className="font-bold text-base text-gray-900 dark:text-white flex items-center gap-2">
-              <DollarSign className="w-5 h-5 text-emerald-500" /> Subscriptions Breakdown
+              <Users className="w-5 h-5 text-blue-500" /> User Breakdown
             </h3>
-            <div className="space-y-3 text-xs">
-              <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 dark:bg-slate-800">
-                <span className="text-gray-600 dark:text-gray-300 font-semibold">Monthly Pass ($9.99/mo)</span>
-                <span className="font-extrabold text-gray-900 dark:text-white">210 Subscribers</span>
+            {statsLoading ? (
+              <div className="flex justify-center py-8">
+                <Loader2 className="animate-spin text-gray-400" size={24} />
               </div>
-              <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 dark:bg-slate-800">
-                <span className="text-gray-600 dark:text-gray-300 font-semibold">Annual Pass ($5.99/mo)</span>
-                <span className="font-extrabold text-gray-900 dark:text-white">132 Subscribers</span>
+            ) : (
+              <div className="space-y-3 text-xs">
+                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 dark:bg-slate-800">
+                  <span className="text-gray-600 dark:text-gray-300 font-semibold">
+                    Total Registered Users
+                  </span>
+                  <span className="font-extrabold text-gray-900 dark:text-white">
+                    {stats?.totalUsers ?? 0}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 dark:bg-slate-800">
+                  <span className="text-gray-600 dark:text-gray-300 font-semibold">
+                    Premium (Pro) Members
+                  </span>
+                  <span className="font-extrabold text-amber-600">
+                    {stats?.premiumUsers ?? 0}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 dark:bg-slate-800">
+                  <span className="text-gray-600 dark:text-gray-300 font-semibold">
+                    Regular Members
+                  </span>
+                  <span className="font-extrabold text-gray-900 dark:text-white">
+                    {stats?.regularUsers ?? 0}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-gray-50 dark:bg-slate-800">
+                  <span className="text-gray-600 dark:text-gray-300 font-semibold">
+                    Platform Admins
+                  </span>
+                  <span className="font-extrabold text-orange-600">
+                    {stats?.totalAdmins ?? 0}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
+                  <span>Total Recipes on Platform</span>
+                  <span>{stats?.totalRecipes ?? 0} recipes</span>
+                </div>
               </div>
-              <div className="flex justify-between items-center p-3 rounded-xl bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
-                <span>Gross Revenue This Month</span>
-                <span>$4,850.00 USD</span>
-              </div>
-            </div>
+            )}
           </Card>
 
           <Card className="rounded-2xl border shadow-sm p-6 space-y-4">
             <h3 className="font-bold text-base text-gray-900 dark:text-white flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-orange-500" /> Platform Security Log
+              <ShieldCheck className="w-5 h-5 text-orange-500" /> Quick Actions
             </h3>
             <div className="space-y-3 text-xs">
-              <div className="p-3 rounded-xl bg-gray-50 dark:bg-slate-800 space-y-1">
-                <div className="flex justify-between font-semibold">
-                  <span>User Account Created</span>
-                  <span className="text-gray-400">10 mins ago</span>
-                </div>
-                <p className="text-gray-500">utsho@plateshare.com registered as REGULAR user.</p>
+              <div className="p-3 rounded-xl bg-gray-50 dark:bg-slate-800 flex items-center justify-between">
+                <span className="font-semibold text-gray-700 dark:text-gray-300">
+                  Manage all user accounts
+                </span>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-[11px] h-7"
+                  onClick={() => setActiveTab("users")}
+                >
+                  <Users size={12} className="mr-1" /> View Users
+                </Button>
               </div>
-
-              <div className="p-3 rounded-xl bg-gray-50 dark:bg-slate-800 space-y-1">
-                <div className="flex justify-between font-semibold">
-                  <span>Recipe Approved</span>
-                  <span className="text-gray-400">1 hour ago</span>
+              <div className="p-3 rounded-xl bg-gray-50 dark:bg-slate-800 flex items-center justify-between">
+                <span className="font-semibold text-gray-700 dark:text-gray-300">
+                  Moderate recipe content
+                </span>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-[11px] h-7"
+                  onClick={() => setActiveTab("recipes")}
+                >
+                  <Utensils size={12} className="mr-1" /> View Recipes
+                </Button>
+              </div>
+              <div className="p-3 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-orange-800">Conversion Rate</p>
+                  <p className="text-orange-600 text-[11px]">
+                    {stats?.totalUsers
+                      ? `${Math.round(
+                          ((stats?.premiumUsers ?? 0) / stats.totalUsers) * 100
+                        )}% of users are premium`
+                      : "Loading..."}
+                  </p>
                 </div>
-                <p className="text-gray-500">&quot;Authentic Tonkotsu Ramen Bowl&quot; approved by Admin.</p>
+                <CheckCircle2 size={24} className="text-orange-500" />
               </div>
             </div>
           </Card>

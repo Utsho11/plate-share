@@ -9,7 +9,7 @@ const lobster = Lobster({
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4  sm:p-6">
-      <Logo />
+      <Logo size="lg"/>
 
       <h1
         className={`${lobster.className} text-xl sm:text-3xl mt-6 mb-2 text-gray-900`}

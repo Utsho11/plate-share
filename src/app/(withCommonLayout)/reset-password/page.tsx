@@ -17,6 +17,7 @@ export default function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || "";
+  const id = searchParams.get("id") || "";
 
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
@@ -32,7 +33,11 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      await resetPassword({ token, newPassword }).unwrap();
+
+      console.log(id,newPassword,token);
+      
+
+      await resetPassword({ id, newPassword, token }).unwrap();
       setIsSuccess(true);
       toast.success("Password has been reset successfully!");
     } catch {

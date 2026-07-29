@@ -4,11 +4,19 @@ import { baseApi } from "./baseApi";
 export const userApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAllUsers: build.query({
-      query: (arg: Record<string, unknown>) => ({
+      query: (arg: Record<string, unknown> = {}) => ({
         url: "/users",
         method: "GET",
         params: arg,
       }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformResponse: (response: any) => {
+        return Array.isArray(response?.data)
+          ? response.data
+          : Array.isArray(response)
+          ? response
+          : [];
+      },
       providesTags: [tagTypes.users],
     }),
     getSingleUser: build.query({
@@ -16,6 +24,10 @@ export const userApi = baseApi.injectEndpoints({
         url: `/users/${id}`,
         method: "GET",
       }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformResponse: (response: any) => {
+        return response?.data || response;
+      },
       providesTags: [tagTypes.users],
     }),
     getMe: build.query({
@@ -23,6 +35,10 @@ export const userApi = baseApi.injectEndpoints({
         url: "/users/me",
         method: "GET",
       }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      transformResponse: (response: any) => {
+        return response?.data || response;
+      },
       providesTags: [tagTypes.users],
     }),
     updateMyProfile: build.mutation({

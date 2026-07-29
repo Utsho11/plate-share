@@ -57,7 +57,7 @@ setIsLoading(true)
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 py-8">
-      <Logo />
+      <Logo size="lg"/>
 
       <Card className="w-full max-w-sm mt-8 shadow-sm">
         <PSForm onSubmit={handleSubmit}>
