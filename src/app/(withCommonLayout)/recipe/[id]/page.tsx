@@ -20,11 +20,23 @@ import { useGetAllCommentsQuery } from "@/src/redux/api/commentApi";
 import CommentCard from "./component/CommentCard";
 import RecipeDetailsSkeleton from "@/src/components/Recipe/Skeleton/RecipeDetailsSkeleton";
 import NutritionCard from "@/src/components/Recipe/NutritionCard";
-import CookModeModal from "@/src/components/Recipe/CookModeModal";
+import PhotoReviewModal from "@/src/components/Recipe/PhotoReviewModal";
+import { Camera, Star } from "lucide-react";
 
 export default function RecipeDetailPage() {
   const { id } = useParams();
   const [cookModeOpen, setCookModeOpen] = useState(false);
+  const [photoReviewOpen, setPhotoReviewOpen] = useState(false);
+  const [userReviews, setUserReviews] = useState<
+    Array<{ rating: number; comment: string; photoUrl: string; author: string }>
+  >([
+    {
+      author: "Chef Sara",
+      rating: 5,
+      comment: "Turned out fantastic! The aromatic spices were spot on.",
+      photoUrl: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500",
+    },
+  ]);
 
   const {
     data: recipe,
@@ -154,6 +166,61 @@ export default function RecipeDetailPage() {
         </CardContent>
       </Card>
 
+      {/* "I Made This!" Photo Reviews Gallery & CTA */}
+      <Card className="rounded-xl border shadow-sm">
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <div>
+            <CardTitle className="text-lg font-semibold flex items-center gap-2">
+              <Camera className="w-5 h-5 text-orange-500" />
+              "I Made This!" Photo Reviews
+            </CardTitle>
+            <CardDescription>Community photos and ratings for this dish</CardDescription>
+          </div>
+          <Button
+            size="sm"
+            onClick={() => setPhotoReviewOpen(true)}
+            className="bg-orange-500 hover:bg-orange-600 text-white font-bold"
+          >
+            <Camera className="w-4 h-4 mr-1.5" /> Post My Photo
+          </Button>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {userReviews.map((rev, index) => (
+              <div
+                key={index}
+                className="p-3 border rounded-xl bg-gray-50/50 flex items-start gap-3"
+              >
+                {rev.photoUrl && (
+                  <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0 relative bg-gray-200 border">
+                    <Image
+                      src={rev.photoUrl}
+                      alt="User dish"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
+                <div className="space-y-1 min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-semibold text-xs text-gray-900">{rev.author}</span>
+                    <div className="flex items-center text-amber-400">
+                      {Array.from({ length: rev.rating }).map((_, i) => (
+                        <Star key={i} className="w-3 h-3 fill-amber-400" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-600 leading-relaxed italic">
+                    "{rev.comment}"
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Created & Updated */}
       <div className="text-xs text-muted-foreground text-center py-4">
         Created: {new Date(recipe.createdAt).toLocaleString()}
@@ -175,6 +242,20 @@ export default function RecipeDetailPage() {
           title={recipe.title}
           instructions={recipe.instructions || []}
           onClose={() => setCookModeOpen(false)}
+        />
+      )}
+
+      {/* Photo Review Submission Modal */}
+      {photoReviewOpen && (
+        <PhotoReviewModal
+          recipeTitle={recipe.title}
+          onClose={() => setPhotoReviewOpen(false)}
+          onSuccess={(newReview) => {
+            setUserReviews([
+              { ...newReview, author: "You (Community Chef)" },
+              ...userReviews,
+            ]);
+          }}
         />
       )}
     </div>

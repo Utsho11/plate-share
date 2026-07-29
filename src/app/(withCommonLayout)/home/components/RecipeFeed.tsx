@@ -5,9 +5,10 @@ import RecipePreviewCard from "@/src/components/Recipe/RecipePreviewCard";
 import RecipeCardSkeleton from "@/src/components/Recipe/Skeleton/RecipeCardSkeleton";
 import { useGetAllRecipeQuery } from "@/src/redux/api/recipeApi";
 import type { IRecipe } from "@/src/types";
-import { Search, Filter, RefreshCw, UtensilsCrossed } from "lucide-react";
+import { Search, Filter, RefreshCw, UtensilsCrossed, Sparkles } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent } from "@/src/components/ui/card";
+import FridgeRecipeMatcherModal from "@/src/components/Recipe/FridgeRecipeMatcherModal";
 
 const CATEGORIES = ["ALL", "BREAKFAST", "LUNCH", "DINNER", "SNACK", "DESSERT"];
 const RECIPE_TYPES = ["ALL", "VEG", "NON_VEG"];
@@ -16,6 +17,7 @@ const RecipeFeed = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [selectedType, setSelectedType] = useState("ALL");
+  const [fridgeMatcherOpen, setFridgeMatcherOpen] = useState(false);
 
   // Query parameters build
   const queryParams: Record<string, string> = {};
@@ -52,6 +54,26 @@ const RecipeFeed = () => {
 
   return (
     <div className="space-y-6 my-4">
+      {/* AI Pantry Matcher Callout Banner */}
+      <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-xl p-4 text-white shadow-md flex items-center justify-between gap-3 max-w-xl mx-auto">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm shrink-0">
+            <Sparkles className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h3 className="font-bold text-sm">"What's in Your Fridge?" AI Matcher</h3>
+            <p className="text-xs text-orange-100">Select ingredients to get instant recipe matches!</p>
+          </div>
+        </div>
+
+        <Button
+          size="sm"
+          onClick={() => setFridgeMatcherOpen(true)}
+          className="bg-white text-orange-600 hover:bg-orange-50 font-bold shrink-0 shadow-sm"
+        >
+          Find Recipes
+        </Button>
+      </div>
       {/* Search & Filter Toolbar */}
       <Card className="border shadow-sm max-w-xl mx-auto rounded-xl">
         <CardContent className="p-4 space-y-4">
@@ -156,6 +178,14 @@ const RecipeFeed = () => {
           </Card>
         )}
       </div>
+
+      {/* AI Pantry Matcher Modal */}
+      {fridgeMatcherOpen && (
+        <FridgeRecipeMatcherModal
+          recipes={recipesList}
+          onClose={() => setFridgeMatcherOpen(false)}
+        />
+      )}
     </div>
   );
 };
