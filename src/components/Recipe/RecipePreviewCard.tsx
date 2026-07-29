@@ -25,6 +25,7 @@ import {
   Share2,
   ThumbsDown,
   ThumbsUp,
+  Crown,
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -94,10 +95,18 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
         </p>
 
         {/* Meta info */}
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Clock className="w-4 h-4" /> {data?.cookingTime}
-          <span>•</span>
-          {data?.category}
+        <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground pt-1">
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-orange-500" /> {data?.cookingTime} mins
+            <span>•</span>
+            <span className="font-semibold text-gray-700">{data?.category}</span>
+          </div>
+
+          {(data as { isPremium?: boolean })?.isPremium && (
+            <span className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-xs">
+              <Crown className="w-3 h-3 fill-white" /> PRO
+            </span>
+          )}
         </div>
       </CardContent>
 

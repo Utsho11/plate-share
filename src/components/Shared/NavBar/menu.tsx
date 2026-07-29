@@ -11,6 +11,7 @@ import {
   MessageCircle,
   Phone,
   Info,
+  Calendar,
 } from "lucide-react";
 
 export const menu = [
@@ -80,6 +81,11 @@ export const menu = [
         url: "/saved",
       },
     ],
+  },
+  {
+    title: "Meal Planner",
+    url: "/meal-planner",
+    icon: <Calendar className="w-5 h-5 shrink-0 text-black" />,
   },
   {
     title: "Blog",
