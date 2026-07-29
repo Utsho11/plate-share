@@ -267,8 +267,8 @@ export default function UserProfilePage() {
                 <label className="text-xs font-bold text-gray-700 dark:text-gray-300">Current Password</label>
                 <Input
                   type="password"
-                  value={currentPassword}
-                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
                   required
                   className="rounded-xl"
                 />
