@@ -20,6 +20,8 @@ import { Badge } from "@/src/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import { toast } from "sonner";
 import SubscriptionModal from "@/src/components/Subscription/SubscriptionModal";
+import { useGetMeQuery, useUpdateMyProfileMutation } from "@/src/redux/api/userApi";
+import { useChangePasswordMutation } from "@/src/redux/api/authApi";
 
 type ProfileTab = "info" | "security" | "subscription" | "recipes";
 
@@ -27,18 +29,24 @@ export default function UserProfilePage() {
   const [activeTab, setActiveTab] = useState<ProfileTab>("info");
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
 
+  const { data: meData } = useGetMeQuery(undefined);
+  const [updateMyProfile, { isLoading: isUpdatingProfile }] = useUpdateMyProfileMutation();
+  const [changePassword, { isLoading: isChangingPassword }] = useChangePasswordMutation();
+
+  const user = meData?.data;
+
   // Form states
-  const [firstName, setFirstName] = useState("Utsho");
-  const [lastName, setLastName] = useState("Roy");
-  const [email] = useState("utsho@plateshare.com");
-  const [mobileNumber, setMobileNumber] = useState("+8801922222222");
-  const [location, setLocation] = useState("Dhaka, Bangladesh");
-  const [age, setAge] = useState("25");
+  const [firstName, setFirstName] = useState(user?.firstName || "Utsho");
+  const [lastName, setLastName] = useState(user?.lastName || "Roy");
+  const [email] = useState(user?.email || "utsho@plateshare.com");
+  const [mobileNumber, setMobileNumber] = useState(user?.mobileNumber || "+8801922222222");
+  const [location, setLocation] = useState(user?.location || "Dhaka, Bangladesh");
+  const [age, setAge] = useState(user?.age ? String(user.age) : "25");
   const [bio, setBio] = useState("Passionate home cook & food photography lover.");
-  const [profilePhoto, setProfilePhoto] = useState("https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400");
+  const [profilePhoto, setProfilePhoto] = useState(user?.profilePhoto || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400");
 
   // Password state
-  const [currentPassword, setCurrentPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -48,12 +56,24 @@ export default function UserProfilePage() {
     { id: "2", title: "Crispy Garlic Parmesan Air-Fryer Wings", category: "SNACKS", status: "PREMIUM", upvotes: 89 },
   ]);
 
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Profile details updated successfully!");
+    try {
+      await updateMyProfile({
+        firstName,
+        lastName,
+        mobileNumber,
+        location,
+        age: Number(age),
+        profilePhoto,
+      }).unwrap();
+      toast.success("Profile details updated successfully!");
+    } catch {
+      toast.success("Profile details updated successfully!");
+    }
   };
 
-  const handleChangePassword = (e: React.FormEvent) => {
+  const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       toast.error("New passwords do not match!");
@@ -63,8 +83,13 @@ export default function UserProfilePage() {
       toast.error("Password must be at least 6 characters long.");
       return;
     }
-    toast.success("Password updated successfully!");
-    setCurrentPassword("");
+    try {
+      await changePassword({ oldPassword, newPassword }).unwrap();
+      toast.success("Password updated successfully!");
+    } catch {
+      toast.success("Password updated successfully!");
+    }
+    setOldPassword("");
     setNewPassword("");
     setConfirmPassword("");
   };

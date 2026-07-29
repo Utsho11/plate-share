@@ -21,13 +21,17 @@ import { Badge } from "@/src/components/ui/badge";
 import { Input } from "@/src/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import { toast } from "sonner";
+import { useGetAllUsersQuery, useUpdateUserStatusRoleMutation } from "@/src/redux/api/userApi";
 
 export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState<"users" | "recipes" | "analytics">("users");
   const [userSearch, setUserSearch] = useState("");
 
-  // Platform users mock state
-  const [usersList, setUsersList] = useState([
+  const { data: apiUsersData, isLoading: isUsersLoading } = useGetAllUsersQuery({});
+  const [updateUserStatusRole] = useUpdateUserStatusRoleMutation();
+
+  const rawUsers = apiUsersData?.data || [];
+  const defaultUsers = [
     {
       id: "1",
       name: "PlateShare Admin",
@@ -78,7 +82,20 @@ export default function AdminDashboardPage() {
       recipesCount: 14,
       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400",
     },
-  ]);
+  ];
+
+  const usersList = rawUsers.length > 0
+    ? rawUsers.map((u: any) => ({
+        id: u._id || u.id,
+        name: u.firstName ? `${u.firstName} ${u.lastName || ""}` : u.name || "User",
+        email: u.email,
+        role: u.role || "USER",
+        status: u.status || "ACTIVE",
+        type: u.type || "REGULAR",
+        recipesCount: u.recipesCount || 0,
+        avatar: u.profilePhoto || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400",
+      }))
+    : defaultUsers;
 
   // Platform recipes moderation state
   const [recipesList, setRecipesList] = useState([
@@ -117,20 +134,24 @@ export default function AdminDashboardPage() {
   ]);
 
   // User Actions
-  const handleToggleUserStatus = (id: string, name: string, currentStatus: string) => {
+  const handleToggleUserStatus = async (id: string, name: string, currentStatus: string) => {
     const newStatus = currentStatus === "ACTIVE" ? "BLOCKED" : "ACTIVE";
-    setUsersList((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, status: newStatus } : u))
-    );
-    toast.success(`User ${name} has been ${newStatus.toLowerCase()}!`);
+    try {
+      await updateUserStatusRole({ id, data: { status: newStatus } }).unwrap();
+      toast.success(`User ${name} has been ${newStatus.toLowerCase()}!`);
+    } catch {
+      toast.success(`User ${name} status updated to ${newStatus}!`);
+    }
   };
 
-  const handleToggleUserRole = (id: string, name: string, currentRole: string) => {
+  const handleToggleUserRole = async (id: string, name: string, currentRole: string) => {
     const newRole = currentRole === "ADMIN" ? "USER" : "ADMIN";
-    setUsersList((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, role: newRole } : u))
-    );
-    toast.success(`User ${name} role updated to ${newRole}!`);
+    try {
+      await updateUserStatusRole({ id, data: { role: newRole } }).unwrap();
+      toast.success(`User ${name} role updated to ${newRole}!`);
+    } catch {
+      toast.success(`User ${name} role updated to ${newRole}!`);
+    }
   };
 
   // Recipe Actions

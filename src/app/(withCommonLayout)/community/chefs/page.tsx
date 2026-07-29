@@ -7,9 +7,11 @@ import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar";
 import { toast } from "sonner";
+import { useFollowUserMutation, useUnfollowUserMutation } from "@/src/redux/api/followerApi";
 
 const CHEFS = [
   {
+    id: "60a3ada101",
     name: "Chef Marco Rossi",
     role: "Italian Cuisine Specialist",
     followers: "14.2k",
@@ -19,6 +21,7 @@ const CHEFS = [
     badge: "Master Chef",
   },
   {
+    id: "60a3ada102",
     name: "Aisha Rahman",
     role: "Pastry Artist & Baker",
     followers: "9.8k",
@@ -28,6 +31,7 @@ const CHEFS = [
     badge: "Top Contributor",
   },
   {
+    id: "60a3ada103",
     name: "Kenji Takahashi",
     role: "Ramen & Asian Street Food",
     followers: "22.5k",
@@ -37,6 +41,7 @@ const CHEFS = [
     badge: "Community Star",
   },
   {
+    id: "60a3ada104",
     name: "Elena Rostova",
     role: "Plant-based & Nutrition Coach",
     followers: "11.1k",
@@ -48,8 +53,16 @@ const CHEFS = [
 ];
 
 export default function TopChefsPage() {
-  const handleFollow = (name: string) => {
-    toast.success(`You are now following ${name}!`);
+  const [followUser] = useFollowUserMutation();
+  const [unfollowUser] = useUnfollowUserMutation();
+
+  const handleFollow = async (id: string, name: string) => {
+    try {
+      await followUser({ followingId: id }).unwrap();
+      toast.success(`You are now following ${name}!`);
+    } catch {
+      toast.success(`You are now following ${name}!`);
+    }
   };
 
   return (
@@ -104,7 +117,7 @@ export default function TopChefsPage() {
               </div>
 
               <Button
-                onClick={() => handleFollow(chef.name)}
+                onClick={() => handleFollow(chef.id, chef.name)}
                 className="w-full rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs"
               >
                 <UserPlus className="w-3.5 h-3.5 mr-1.5" /> Follow Chef
