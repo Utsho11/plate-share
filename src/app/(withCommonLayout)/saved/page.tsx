@@ -16,10 +16,10 @@ export default function SavedRecipesPage() {
   return (
     <div className="container mx-auto px-4 py-8 space-y-6 max-w-4xl">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex items-center justify-between gap-4">
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-            <Bookmark className="w-4 h-4 text-pink-200" />
+          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-amber-100">
+            <Bookmark className="w-4 h-4 text-amber-200" />
             Personal Cookbook
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight">Saved &amp; Favorite Recipes</h1>

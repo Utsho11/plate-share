@@ -31,7 +31,7 @@ export default function CulinaryBlogPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-8 max-w-5xl">
-      <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-rose-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex items-center justify-between">
+      <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex items-center justify-between">
         <div className="space-y-2">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
             <BookOpen className="w-4 h-4 text-amber-200" />

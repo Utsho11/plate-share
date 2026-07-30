@@ -79,22 +79,22 @@ export default function AdminBlogsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-indigo-500 rounded-3xl p-6 text-white shadow-xl flex items-center justify-between">
+      <div className="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 rounded-3xl p-6 text-white shadow-xl flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <BookOpen size={16} className="text-purple-200" />
-            <span className="text-xs font-bold uppercase tracking-wider text-purple-100">
+            <BookOpen size={16} className="text-amber-200" />
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-100">
               Admin Control
             </span>
           </div>
           <h1 className="text-2xl font-extrabold">Blog Content Moderation</h1>
-          <p className="text-sm text-purple-100 mt-1">
+          <p className="text-sm text-amber-100 mt-1">
             Review and moderate all blog posts published on the platform.
           </p>
         </div>
         <div className="text-right">
           <p className="text-3xl font-extrabold">{allBlogs.length}</p>
-          <p className="text-xs text-purple-200">Total Posts</p>
+          <p className="text-xs text-amber-200">Total Posts</p>
         </div>
       </div>
 

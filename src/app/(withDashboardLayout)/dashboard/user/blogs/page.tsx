@@ -191,12 +191,12 @@ export default function UserBlogsPage() {
   if (mode === "create" || mode === "edit") {
     return (
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-500 rounded-3xl p-6 text-white shadow-xl flex items-center justify-between">
+        <div className="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 rounded-3xl p-6 text-white shadow-xl flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold">
               {mode === "create" ? "Write New Blog Post" : "Edit Blog Post"}
             </h1>
-            <p className="text-xs text-purple-200 mt-1">
+            <p className="text-xs text-orange-100 mt-1">
               {mode === "create"
                 ? "Share your culinary knowledge with the community"
                 : "Update your blog post content"}

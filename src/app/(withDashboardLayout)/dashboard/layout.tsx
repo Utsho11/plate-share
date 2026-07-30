@@ -120,7 +120,7 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50/50">
+    <div className="min-h-screen flex bg-gray-50/50 dark:bg-slate-950 text-gray-900 dark:text-gray-100">
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
@@ -131,13 +131,13 @@ export default function DashboardLayout({
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col justify-between transition-transform duration-200 lg:static lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 flex flex-col justify-between transition-transform duration-200 lg:static lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full overflow-hidden">
           {/* Logo + close */}
-          <div className="flex items-center justify-between px-4 py-4 border-b">
+          <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-slate-800">
             <Logo size="md" />
             <button
               className="lg:hidden text-gray-500 hover:text-gray-700"
@@ -183,8 +183,8 @@ export default function DashboardLayout({
                     href={link.href}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
                       isActive(link)
-                        ? "bg-orange-50 text-[#f77f00] font-semibold"
-                        : "text-gray-700 hover:bg-orange-50 hover:text-[#f77f00]"
+                        ? "bg-orange-50 dark:bg-orange-950/40 text-[#f77f00] font-semibold"
+                        : "text-gray-700 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-slate-800 hover:text-[#f77f00]"
                     }`}
                     onClick={() => setSidebarOpen(false)}
                   >
@@ -211,8 +211,8 @@ export default function DashboardLayout({
                     href={link.href}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
                       isActive(link)
-                        ? "bg-orange-50 text-[#f77f00] font-semibold"
-                        : "text-gray-700 hover:bg-orange-50 hover:text-[#f77f00]"
+                        ? "bg-orange-50 dark:bg-orange-950/40 text-[#f77f00] font-semibold"
+                        : "text-gray-700 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-slate-800 hover:text-[#f77f00]"
                     }`}
                     onClick={() => setSidebarOpen(false)}
                   >
