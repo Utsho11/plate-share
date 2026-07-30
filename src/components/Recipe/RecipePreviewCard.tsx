@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardHeader,
@@ -26,6 +28,7 @@ import {
   ThumbsDown,
   ThumbsUp,
   Crown,
+  Bookmark,
 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -34,18 +37,31 @@ import {
   useDownVoteMutation,
   useUpVoteMutation,
 } from "@/src/redux/api/voteApi";
+import {
+  useToggleBookmarkMutation,
+  useGetUserBookmarkIdsQuery,
+} from "@/src/redux/api/bookmarkApi";
 import { toast } from "sonner";
 import type { IRecipe } from "@/src/types";
 import CommentForm from "@/src/app/(withCommonLayout)/recipe/[id]/component/CommentForm";
+import { getFromLocalStorage } from "@/src/utils/local-storage";
 
 const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
   const [upVote] = useUpVoteMutation();
   const [downVote] = useDownVoteMutation();
+  const [toggleBookmark] = useToggleBookmarkMutation();
   const router = useRouter();
 
+  const token = typeof window !== "undefined" ? getFromLocalStorage("accessToken") : null;
+  const { data: bookmarkedIds = [] } = useGetUserBookmarkIdsQuery(undefined, {
+    skip: !token,
+  });
+
+  const recipeId = data?._id || (data as unknown as { id?: string })?.id || "";
+  const isBookmarked = Array.isArray(bookmarkedIds) && bookmarkedIds.includes(recipeId);
+
   const handleClick = (id: string) => {
-    // console.log(id);
-    router.push(`recipe/${id}`);
+    router.push(`/recipe/${id}`);
   };
 
   const handleUpVote = (id: string) => {
@@ -56,6 +72,42 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
   const handleDownVote = (id: string) => {
     downVote(id);
     toast.success("Your vote has been recorded.");
+  };
+
+  const handleShare = async () => {
+    const url = `${window.location.origin}/recipe/${recipeId}`;
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({
+          title: data.title,
+          text: data.description,
+          url,
+        });
+      } catch {
+        // User cancelled or share aborted
+      }
+    } else {
+      await navigator.clipboard.writeText(url);
+      toast.success("Recipe link copied to clipboard!");
+    }
+  };
+
+  const handleBookmark = async () => {
+    if (!token) {
+      toast.error("Please log in to save recipes to your cookbook!");
+      return;
+    }
+
+    try {
+      const res = await toggleBookmark(recipeId).unwrap();
+      if (res?.data?.isBookmarked) {
+        toast.success("Recipe saved to your cookbook!");
+      } else {
+        toast.info("Recipe removed from saved cookbook.");
+      }
+    } catch {
+      toast.error("Failed to bookmark recipe.");
+    }
   };
 
   return (
@@ -89,7 +141,7 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
 
         <p
           className="font-semibold hover:text-blue-400 hover:underline hover:cursor-pointer text-sm"
-          onClick={() => handleClick(data._id)}
+          onClick={() => handleClick(recipeId)}
         >
           See more...
         </p>
@@ -121,41 +173,70 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
         />
       )}
 
-      {/* Footer Actions Like Facebook */}
-      <CardFooter className="flex items-center justify-between px-4 py-3 border-t mt-2">
-        <Button
-          variant={"outline"}
-          className="p-2"
-          onClick={() => handleUpVote(data._id)}
-        >
-          <ThumbsUp className="w-4 h-4" /> | {data.upvoteCount}
-        </Button>
+      {/* Footer Actions */}
+      <CardFooter className="flex items-center justify-between px-4 py-3 border-t mt-2 gap-1.5 flex-wrap">
+        <div className="flex items-center gap-1.5">
+          <Button
+            variant={"outline"}
+            size={"sm"}
+            className="px-2.5 text-xs"
+            onClick={() => handleUpVote(recipeId)}
+          >
+            <ThumbsUp className="w-3.5 h-3.5 mr-1" /> {data.upvoteCount || 0}
+          </Button>
 
-        <Button
-          variant={"outline"}
-          className="p-2"
-          onClick={() => handleDownVote(data._id)}
-        >
-          <ThumbsDown className="w-4 h-4" />| {data.downvoteCount}
-        </Button>
+          <Button
+            variant={"outline"}
+            size={"sm"}
+            className="px-2.5 text-xs"
+            onClick={() => handleDownVote(recipeId)}
+          >
+            <ThumbsDown className="w-3.5 h-3.5 mr-1" /> {data.downvoteCount || 0}
+          </Button>
+        </div>
 
-        <Dialog>
-          <DialogTrigger>
-            <span className="flex justify-center items-center p-2 gap-2 border rounded-lg hover:bg-accent font-semibold text-sm">
-              <MessageCircle className="w-4 h-4" /> Comment
-            </span>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Leave a comment</DialogTitle>
-            </DialogHeader>
-            <CommentForm recipeId={data?._id} />
-          </DialogContent>
-        </Dialog>
+        <div className="flex items-center gap-1.5">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm" className="px-2.5 text-xs">
+                <MessageCircle className="w-3.5 h-3.5 mr-1" /> Comment
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Leave a comment</DialogTitle>
+              </DialogHeader>
+              <CommentForm recipeId={recipeId} />
+            </DialogContent>
+          </Dialog>
 
-        <Button variant={"outline"}>
-          <Share2 className="w-4 h-4" /> Share
-        </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="px-2.5 text-xs hover:text-orange-600"
+            onClick={handleShare}
+          >
+            <Share2 className="w-3.5 h-3.5 mr-1" /> Share
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            className={`px-2.5 text-xs transition ${
+              isBookmarked
+                ? "bg-orange-50 border-orange-300 text-orange-600 font-bold"
+                : "hover:text-orange-600"
+            }`}
+            onClick={handleBookmark}
+          >
+            <Bookmark
+              className={`w-3.5 h-3.5 mr-1 ${
+                isBookmarked ? "fill-orange-500 text-orange-500" : ""
+              }`}
+            />
+            {isBookmarked ? "Saved" : "Save"}
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );
