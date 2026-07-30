@@ -7,7 +7,6 @@ import Logo from "@/src/components/logo/Logo";
 import {
   LayoutDashboard,
   UtensilsCrossed,
-  Users,
   Home,
   LogOut,
   Menu,

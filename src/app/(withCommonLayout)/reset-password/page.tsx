@@ -34,7 +34,7 @@ export default function ResetPasswordPage() {
 
     try {
 
-      console.log(id,newPassword,token);
+      // console.log(id,newPassword,token);
       
 
       await resetPassword({ id, newPassword, token }).unwrap();
