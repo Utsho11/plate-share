@@ -12,6 +12,7 @@ import {
   Plus,
   ImageIcon,
   Tag,
+  Upload,
 } from "lucide-react";
 import {
   Card,
@@ -91,10 +92,14 @@ export default function UserBlogsPage() {
   const [mode, setMode] = useState<"list" | "create" | "edit">("list");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<BlogFormState>(defaultForm());
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const openCreate = () => {
     setForm(defaultForm());
     setEditingId(null);
+    setImageFile(null);
+    setImagePreview(null);
     setMode("create");
   };
 
@@ -102,12 +107,29 @@ export default function UserBlogsPage() {
   const openEdit = (blog: Record<string, any>) => {
     setForm(blogToForm(blog));
     setEditingId(blog._id || blog.id);
+    setImageFile(null);
+    setImagePreview(blog.coverImage || null);
     setMode("edit");
   };
 
   const closeForm = () => {
     setMode("list");
     setEditingId(null);
+    setImageFile(null);
+    setImagePreview(null);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const removeSelectedFile = () => {
+    setImageFile(null);
+    setImagePreview(null);
   };
 
   const setField = <K extends keyof BlogFormState>(
@@ -133,12 +155,18 @@ export default function UserBlogsPage() {
         .filter(Boolean),
     };
 
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(payload));
+    if (imageFile) {
+      formData.append("file", imageFile);
+    }
+
     try {
       if (mode === "create") {
-        await createBlog(payload).unwrap();
+        await createBlog(formData).unwrap();
         toast.success("Blog post published!");
       } else if (mode === "edit" && editingId) {
-        await updateBlog({ id: editingId, data: payload }).unwrap();
+        await updateBlog({ id: editingId, data: formData }).unwrap();
         toast.success("Blog post updated!");
       }
       refetch();
@@ -195,32 +223,64 @@ export default function UserBlogsPage() {
               </div>
 
               {/* Category */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-700">Category</label>
-                  <select
-                    value={form.category}
-                    onChange={(e) => setField("category", e.target.value)}
-                    className="w-full h-10 px-3 border rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
-                  >
-                    {BLOG_CATEGORIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c.replace("_", " ")}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-700 flex items-center gap-1">
-                    <ImageIcon size={12} className="text-purple-500" /> Cover Image URL
-                  </label>
-                  <Input
-                    value={form.coverImage}
-                    onChange={(e) => setField("coverImage", e.target.value)}
-                    placeholder="https://images.unsplash.com/..."
-                    className="rounded-xl"
-                  />
-                </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-gray-700">Category</label>
+                <select
+                  value={form.category}
+                  onChange={(e) => setField("category", e.target.value)}
+                  className="w-full h-10 px-3 border rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+                >
+                  {BLOG_CATEGORIES.map((c) => (
+                    <option key={c} value={c}>
+                      {c.replace("_", " ")}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Cloudinary Cover Image Upload */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-gray-700 flex items-center gap-1">
+                  <ImageIcon size={12} className="text-purple-500" /> Cover Image (Cloudinary Upload or URL)
+                </label>
+
+                {imagePreview ? (
+                  <div className="relative w-full h-44 rounded-xl overflow-hidden border">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={removeSelectedFile}
+                      className="absolute top-2 right-2 p-1.5 bg-red-600 text-white rounded-full hover:bg-red-700 shadow-md"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="flex flex-col items-center justify-center h-20 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-purple-400 bg-gray-50/50 hover:bg-purple-50/30 transition">
+                        <Upload size={18} className="text-gray-400 mb-1" />
+                        <span className="text-xs font-semibold text-gray-600">Upload to Cloudinary</span>
+                        <span className="text-[10px] text-gray-400">PNG, JPG up to 5MB</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      <Input
+                        value={form.coverImage}
+                        onChange={(e) => setField("coverImage", e.target.value)}
+                        placeholder="Or paste Image URL (https://...)"
+                        className="rounded-xl h-20 text-xs"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Tags */}

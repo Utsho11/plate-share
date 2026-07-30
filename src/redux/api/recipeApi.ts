@@ -89,6 +89,7 @@ export const recipeApi = baseApi.injectEndpoints({
       query: ({ id, data }) => ({
         url: `/recipe/update/${id}`,
         method: "PATCH",
+        contentType: data instanceof FormData ? "multipart/form-data" : undefined,
         data,
       }),
       invalidatesTags: [tagTypes.recipies],

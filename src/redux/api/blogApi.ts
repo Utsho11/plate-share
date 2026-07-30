@@ -7,6 +7,7 @@ export const blogApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/blog/create",
         method: "POST",
+        contentType: data instanceof FormData ? "multipart/form-data" : undefined,
         data,
       }),
       invalidatesTags: [tagTypes.blogs],
@@ -45,6 +46,7 @@ export const blogApi = baseApi.injectEndpoints({
       query: ({ id, data }) => ({
         url: `/blog/update/${id}`,
         method: "PATCH",
+        contentType: data instanceof FormData ? "multipart/form-data" : undefined,
         data,
       }),
       invalidatesTags: [tagTypes.blogs],
