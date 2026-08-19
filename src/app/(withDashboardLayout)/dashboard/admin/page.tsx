@@ -551,7 +551,7 @@ export default function AdminDashboardPage() {
       {/* ── Tab 3: Platform Stats ─────────────────────────────── */}
       {activeTab === "analytics" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card className="rounded-2xl border shadow-sm p-6 space-y-4">
+          <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm p-6 space-y-4">
             <h3 className="font-bold text-base text-gray-900 dark:text-white flex items-center gap-2">
               <Users className="w-5 h-5 text-blue-500" /> User Breakdown
             </h3>
@@ -573,7 +573,7 @@ export default function AdminDashboardPage() {
                   <span className="text-gray-600 dark:text-gray-300 font-semibold">
                     Premium (Pro) Members
                   </span>
-                  <span className="font-extrabold text-amber-600">
+                  <span className="font-extrabold text-amber-600 dark:text-amber-400">
                     {stats?.premiumUsers ?? 0}
                   </span>
                 </div>
@@ -589,11 +589,11 @@ export default function AdminDashboardPage() {
                   <span className="text-gray-600 dark:text-gray-300 font-semibold">
                     Platform Admins
                   </span>
-                  <span className="font-extrabold text-orange-600">
+                  <span className="font-extrabold text-orange-600 dark:text-orange-400">
                     {stats?.totalAdmins ?? 0}
                   </span>
                 </div>
-                <div className="flex justify-between items-center p-3 rounded-xl bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
+                <div className="flex justify-between items-center p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-900/50">
                   <span>Total Recipes on Platform</span>
                   <span>{stats?.totalRecipes ?? 0} recipes</span>
                 </div>
@@ -601,7 +601,7 @@ export default function AdminDashboardPage() {
             )}
           </Card>
 
-          <Card className="rounded-2xl border shadow-sm p-6 space-y-4">
+          <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm p-6 space-y-4">
             <h3 className="font-bold text-base text-gray-900 dark:text-white flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-orange-500" /> Quick Actions
             </h3>

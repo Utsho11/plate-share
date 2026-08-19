@@ -123,17 +123,17 @@ export default function FridgeRecipeMatcherModal({
         </div>
 
         {/* Modal Body */}
-        <div className="p-5 overflow-y-auto space-y-6 flex-1">
+        <div className="p-5 overflow-y-auto space-y-6 flex-1 bg-white dark:bg-slate-900">
           {/* Ingredient Selector */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">
+              <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">
                 Select Your Ingredients ({selectedIngredients.length} selected)
               </span>
               {selectedIngredients.length > 0 && (
                 <button
                   onClick={() => setSelectedIngredients([])}
-                  className="text-xs text-orange-600 hover:underline"
+                  className="text-xs text-orange-600 dark:text-orange-400 hover:underline"
                 >
                   Clear All
                 </button>
@@ -150,7 +150,7 @@ export default function FridgeRecipeMatcherModal({
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1.5 ${
                       isSelected
                         ? "bg-orange-500 text-white shadow-sm"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        : "bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-700"
                     }`}
                   >
                     {isSelected && <CheckCircle2 size={13} />}
@@ -167,7 +167,7 @@ export default function FridgeRecipeMatcherModal({
                 placeholder="Add custom ingredient (e.g. Mushrooms)..."
                 value={customInput}
                 onChange={(e) => setCustomInput(e.target.value)}
-                className="flex-1 px-3 py-1.5 text-xs bg-gray-50 border rounded-lg focus:outline-none focus:border-orange-500"
+                className="flex-1 px-3 py-1.5 text-xs bg-gray-50 dark:bg-slate-800 border dark:border-slate-700 dark:text-white rounded-lg focus:outline-none focus:border-orange-500"
               />
               <Button type="submit" size="sm" variant="secondary" className="text-xs">
                 Add
@@ -177,9 +177,9 @@ export default function FridgeRecipeMatcherModal({
 
           {/* AI Substitutions Tip Box */}
           {selectedIngredients.some((i) => SUBSTITUTION_TIPS[i]) && (
-            <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-2.5">
-              <Lightbulb className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-              <div className="text-xs text-amber-900 space-y-1">
+            <div className="p-3.5 bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-900/50 rounded-xl flex items-start gap-2.5">
+              <Lightbulb className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+              <div className="text-xs text-amber-900 dark:text-amber-200 space-y-1">
                 <p className="font-semibold">AI Substitution Suggestions:</p>
                 {selectedIngredients.map(
                   (i) =>
@@ -195,23 +195,23 @@ export default function FridgeRecipeMatcherModal({
 
           {/* Matched Recipes Results */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-gray-800 flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-gray-800 dark:text-white flex items-center justify-between">
               <span>Matched Recipes ({matchedResults.length})</span>
-              <span className="text-xs font-normal text-gray-500">Sorted by best match</span>
+              <span className="text-xs font-normal text-gray-500 dark:text-gray-400">Sorted by best match</span>
             </h3>
 
             {matchedResults.length === 0 ? (
-              <p className="text-xs text-center py-6 text-gray-500">
+              <p className="text-xs text-center py-6 text-gray-500 dark:text-gray-400">
                 No matching recipes found. Try selecting more ingredients.
               </p>
             ) : (
               <div className="space-y-2.5">
                 {matchedResults.slice(0, 5).map(({ recipe, matchPercentage }) => (
-                  <Card key={recipe._id} className="border shadow-xs hover:border-orange-300 transition">
+                  <Card key={recipe._id} className="border dark:border-slate-800 dark:bg-slate-900 shadow-xs hover:border-orange-300 dark:hover:border-orange-700 transition">
                     <CardContent className="p-3.5 flex items-center justify-between gap-3">
                       <div className="space-y-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <h4 className="font-semibold text-sm text-gray-900 truncate">
+                          <h4 className="font-semibold text-sm text-gray-900 dark:text-white truncate">
                             {recipe.title}
                           </h4>
                           <Badge
@@ -226,7 +226,7 @@ export default function FridgeRecipeMatcherModal({
                             {matchPercentage}% Match
                           </Badge>
                         </div>
-                        <p className="text-xs text-gray-500 truncate max-w-md">
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-md">
                           {recipe.description}
                         </p>
                       </div>

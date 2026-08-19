@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="plateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb5607"/>
+      <stop offset="100%" stop-color="#f77f00"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Outer Plate Rim -->
+  <circle cx="32" cy="32" r="30" fill="url(#plateGrad)" filter="url(#shadow)"/>
+  
+  <!-- Inner Plate Depth Ring -->
+  <circle cx="32" cy="32" r="24" fill="#ffffff" fill-opacity="0.15"/>
+  <circle cx="32" cy="32" r="21" fill="#ffffff"/>
+
+  <!-- Crossed Fork and Knife Culinary Symbol in PlateShare Orange -->
+  <g fill="#f77f00" stroke="#f77f00" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Fork (Left Diagonal) -->
+    <path d="M22 19 L22 25 C22 27.5 24 29 26.5 29 L28 29 L21 45 C20.5 46 19 45.5 19.5 44.5 L25 31 C23.5 30.5 21 29 20 25 L20 19 Z" fill="#f77f00" stroke-width="0.5"/>
+    <line x1="21" y1="19" x2="21" y2="24" stroke="#ffffff" stroke-width="0.8"/>
+    <line x1="23" y1="19" x2="23" y2="24" stroke="#ffffff" stroke-width="0.8"/>
+    <line x1="25" y1="19" x2="25" y2="24" stroke="#ffffff" stroke-width="0.8"/>
+
+    <!-- Knife (Right Diagonal) -->
+    <path d="M42 19 C42 19 44 23 41 28 L43 45 C43 46 41.5 46 41.5 44.5 L39 29 C37.5 27 38 23 42 19 Z" fill="#f77f00" stroke-width="0.5"/>
+    
+    <!-- Center Spark / Garnish Star -->
+    <path d="M32 23 L33 26 L36 27 L33 28 L32 31 L31 28 L28 27 L31 26 Z" fill="#fb5607" stroke="none"/>
+  </g>
+</svg>

@@ -55,14 +55,14 @@ export default function SavedRecipesPage() {
 
       {/* Empty State */}
       {!isLoading && savedRecipes.length === 0 && (
-        <Card className="w-full rounded-2xl border shadow-xs text-center p-12 bg-gray-50/50">
+        <Card className="w-full rounded-2xl border dark:border-slate-800 shadow-xs text-center p-12 bg-gray-50/50 dark:bg-slate-900">
           <CardContent className="space-y-4">
-            <div className="w-16 h-16 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center mx-auto shadow-xs">
+            <div className="w-16 h-16 bg-pink-100 dark:bg-pink-950/60 text-pink-500 rounded-full flex items-center justify-center mx-auto shadow-xs">
               <Utensils className="w-8 h-8" />
             </div>
             <div className="space-y-1">
-              <h3 className="font-bold text-lg text-gray-800">Your Cookbook is Empty</h3>
-              <p className="text-xs text-gray-500 max-w-sm mx-auto">
+              <h3 className="font-bold text-lg text-gray-800 dark:text-white">Your Cookbook is Empty</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
                 You haven&apos;t bookmarked any recipes yet. Browse recipes in your feed and click the &quot;Save&quot; button to keep them handy here!
               </p>
             </div>

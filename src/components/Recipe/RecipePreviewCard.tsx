@@ -111,7 +111,7 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
   };
 
   return (
-    <Card className="w-full max-w-xl mx-auto rounded-xl border shadow-sm my-4">
+    <Card className="w-full max-w-xl mx-auto rounded-xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm my-4">
       {/* Post Header */}
       <CardHeader className="flex flex-row items-center justify-between p-4">
         <div className="flex items-center gap-3">
@@ -122,7 +122,7 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
             </AvatarFallback>
           </Avatar>
           <div>
-            <h2 className="font-semibold text-sm">{data?.author?.email}</h2>
+            <h2 className="font-semibold text-sm text-gray-900 dark:text-white">{data?.author?.email}</h2>
             <p className="text-xs text-muted-foreground">
               {new Date(data?.createdAt).toDateString()}
             </p>
@@ -133,14 +133,14 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
 
       {/* Text Content */}
       <CardContent className="p-4 pt-0 space-y-2">
-        <h1 className="font-semibold text-lg">{data?.title}</h1>
+        <h1 className="font-semibold text-lg text-gray-900 dark:text-white">{data?.title}</h1>
 
         <p className="text-sm text-muted-foreground line-clamp-2">
           {data?.description}
         </p>
 
         <p
-          className="font-semibold hover:text-blue-400 hover:underline hover:cursor-pointer text-sm"
+          className="font-semibold text-orange-600 dark:text-orange-400 hover:underline hover:cursor-pointer text-sm"
           onClick={() => handleClick(recipeId)}
         >
           See more...
@@ -151,7 +151,7 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-orange-500" /> {data?.cookingTime} mins
             <span>•</span>
-            <span className="font-semibold text-gray-700">{data?.category}</span>
+            <span className="font-semibold text-gray-700 dark:text-gray-300">{data?.category}</span>
           </div>
 
           {(data as { isPremium?: boolean })?.isPremium && (
@@ -174,12 +174,12 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
       )}
 
       {/* Footer Actions */}
-      <CardFooter className="flex items-center justify-between px-4 py-3 border-t mt-2 gap-1.5 flex-wrap">
+      <CardFooter className="flex items-center justify-between px-4 py-3 border-t dark:border-slate-800 mt-2 gap-1.5 flex-wrap">
         <div className="flex items-center gap-1.5">
           <Button
             variant={"outline"}
             size={"sm"}
-            className="px-2.5 text-xs"
+            className="px-2.5 text-xs dark:border-slate-700 dark:hover:bg-slate-800"
             onClick={() => handleUpVote(recipeId)}
           >
             <ThumbsUp className="w-3.5 h-3.5 mr-1" /> {data.upvoteCount || 0}
@@ -188,7 +188,7 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
           <Button
             variant={"outline"}
             size={"sm"}
-            className="px-2.5 text-xs"
+            className="px-2.5 text-xs dark:border-slate-700 dark:hover:bg-slate-800"
             onClick={() => handleDownVote(recipeId)}
           >
             <ThumbsDown className="w-3.5 h-3.5 mr-1" /> {data.downvoteCount || 0}
@@ -198,7 +198,7 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
         <div className="flex items-center gap-1.5">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline" size="sm" className="px-2.5 text-xs">
+              <Button variant="outline" size="sm" className="px-2.5 text-xs dark:border-slate-700 dark:hover:bg-slate-800">
                 <MessageCircle className="w-3.5 h-3.5 mr-1" /> Comment
               </Button>
             </DialogTrigger>
@@ -213,7 +213,7 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
           <Button
             variant="outline"
             size="sm"
-            className="px-2.5 text-xs hover:text-orange-600"
+            className="px-2.5 text-xs hover:text-orange-600 dark:border-slate-700 dark:hover:bg-slate-800"
             onClick={handleShare}
           >
             <Share2 className="w-3.5 h-3.5 mr-1" /> Share
@@ -224,8 +224,8 @@ const RecipePreviewCard = ({ data }: { data: IRecipe }) => {
             size="sm"
             className={`px-2.5 text-xs transition ${
               isBookmarked
-                ? "bg-orange-50 border-orange-300 text-orange-600 font-bold"
-                : "hover:text-orange-600"
+                ? "bg-orange-50 dark:bg-orange-950/60 border-orange-300 dark:border-orange-900/50 text-orange-600 dark:text-orange-400 font-bold"
+                : "dark:border-slate-700 dark:hover:bg-slate-800 hover:text-orange-600"
             }`}
             onClick={handleBookmark}
           >

@@ -64,38 +64,39 @@ export default function HelpPage() {
         <div className="max-w-md mx-auto relative">
           <Search className="absolute left-3.5 top-3 w-4 h-4 text-gray-400" />
           <Input
-            placeholder="Search FAQs, features, guides..."
+            placeholder="Search questions, billing, recipe guides..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 py-5 rounded-2xl bg-white text-gray-900 shadow-md border-0 focus-visible:ring-2 focus-visible:ring-amber-300"
+            className="pl-10 py-5 rounded-2xl bg-white dark:bg-slate-900 text-gray-900 dark:text-white border dark:border-slate-800 shadow-md focus-visible:ring-2 focus-visible:ring-amber-300"
           />
         </div>
       </div>
 
       {/* FAQs List */}
       <div className="space-y-4">
-        <h2 className="text-xl font-bold">Frequently Asked Questions</h2>
+        <h2 className="text-xl font-bold dark:text-white">Frequently Asked Questions</h2>
 
+        {/* FAQ Accordion List */}
         <div className="space-y-3">
           {filteredFaqs.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
               <Card
                 key={idx}
-                className="rounded-2xl border shadow-xs transition overflow-hidden cursor-pointer"
+                className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-xs transition overflow-hidden cursor-pointer"
                 onClick={() => setOpenIndex(isOpen ? null : idx)}
               >
                 <CardContent className="p-4 flex items-center justify-between gap-3">
-                  <span className="font-semibold text-sm text-gray-900">{faq.q}</span>
+                  <span className="font-semibold text-sm text-gray-900 dark:text-white">{faq.q}</span>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-400 transition-transform ${
+                    className={`w-4 h-4 text-gray-400 dark:text-gray-400 transition-transform ${
                       isOpen ? "rotate-180 text-orange-500" : ""
                     }`}
                   />
                 </CardContent>
 
                 {isOpen && (
-                  <div className="px-4 pb-4 pt-1 text-xs text-gray-600 border-t border-gray-100 leading-relaxed bg-gray-50/50">
+                  <div className="px-4 pb-4 pt-2 text-xs text-gray-600 dark:text-gray-300 border-t border-gray-100 dark:border-slate-800 leading-relaxed bg-gray-50/50 dark:bg-slate-800/60">
                     {faq.a}
                   </div>
                 )}
@@ -106,36 +107,36 @@ export default function HelpPage() {
       </div>
 
       {/* Support Contact Ticket Form */}
-      <Card className="rounded-2xl border shadow-sm">
+      <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
+          <CardTitle className="text-lg flex items-center gap-2 text-gray-900 dark:text-white">
             <Mail className="w-5 h-5 text-orange-500" />
             Contact Support Team
           </CardTitle>
-          <CardDescription>Need personalized assistance? Send us a ticket</CardDescription>
+          <CardDescription className="text-gray-500 dark:text-gray-400">Need personalized assistance? Send us a ticket</CardDescription>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleSubmitTicket} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-700">Subject</label>
+              <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Subject</label>
               <Input
                 placeholder="e.g. Question about PlateShare Pro subscription"
                 value={ticketSubject}
                 onChange={(e) => setTicketSubject(e.target.value)}
                 required
-                className="rounded-xl"
+                className="rounded-xl dark:bg-slate-800 dark:border-slate-700 dark:text-white"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-700">Message</label>
+              <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Message</label>
               <Textarea
                 placeholder="Describe your issue or question in detail..."
                 value={ticketMessage}
                 onChange={(e) => setTicketMessage(e.target.value)}
                 required
-                className="rounded-xl min-h-[100px]"
+                className="rounded-xl min-h-[100px] dark:bg-slate-800 dark:border-slate-700 dark:text-white"
               />
             </div>
 

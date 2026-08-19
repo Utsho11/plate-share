@@ -111,7 +111,7 @@ const RecipeFeed = () => {
                   className={`px-3 py-1 text-xs font-medium rounded-full transition whitespace-nowrap ${
                     selectedCategory === cat
                       ? "bg-[#f77f00] text-white shadow-sm"
-                      : "bg-accent hover:bg-muted text-gray-700"
+                      : "bg-accent hover:bg-muted text-gray-700 dark:text-gray-200"
                   }`}
                 >
                   {cat === "ALL" ? "All Categories" : cat}
@@ -121,7 +121,7 @@ const RecipeFeed = () => {
           </div>
 
           {/* Dietary Type Filter */}
-          <div className="flex items-center justify-between pt-2 border-t text-xs">
+          <div className="flex items-center justify-between pt-2 border-t dark:border-slate-800 text-xs">
             <span className="font-semibold text-muted-foreground">Dietary Type:</span>
             <div className="flex items-center gap-1.5">
               {RECIPE_TYPES.map((type) => (
@@ -130,8 +130,8 @@ const RecipeFeed = () => {
                   onClick={() => setSelectedType(type)}
                   className={`px-2.5 py-0.5 rounded-md font-medium transition ${
                     selectedType === type
-                      ? "bg-gray-900 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      ? "bg-gray-900 text-white dark:bg-orange-500"
+                      : "bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700"
                   }`}
                 >
                   {type === "ALL" ? "All Types" : type === "VEG" ? "🌱 Veg" : "🍖 Non-Veg"}
@@ -159,10 +159,10 @@ const RecipeFeed = () => {
         )}
 
         {!isLoading && filteredRecipes.length === 0 && (
-          <Card className="w-full max-w-xl mx-auto rounded-xl border text-center p-8">
+          <Card className="w-full max-w-xl mx-auto rounded-xl border dark:border-slate-800 dark:bg-slate-900 text-center p-8">
             <CardContent className="space-y-3">
               <UtensilsCrossed className="w-12 h-12 text-muted-foreground mx-auto" />
-              <h3 className="font-semibold text-lg text-gray-800">No Recipes Found</h3>
+              <h3 className="font-semibold text-lg text-gray-800 dark:text-white">No Recipes Found</h3>
               <p className="text-xs text-muted-foreground max-w-xs mx-auto">
                 We couldn&apos;t find any recipes matching your search criteria. Try adjusting your filters.
               </p>
@@ -170,7 +170,7 @@ const RecipeFeed = () => {
                 variant="outline"
                 size="sm"
                 onClick={handleResetFilters}
-                className="mt-2 text-orange-600 border-orange-200 hover:bg-orange-50"
+                className="mt-2 text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-900/50 hover:bg-orange-50 dark:hover:bg-orange-950/40"
               >
                 <RefreshCw className="w-3.5 h-3.5 mr-1.5" /> Reset Filters
               </Button>

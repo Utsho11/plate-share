@@ -81,9 +81,12 @@ export default function TopChefsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {CHEFS.map((chef, idx) => (
-          <Card key={idx} className="rounded-2xl border shadow-sm hover:shadow-md transition text-center overflow-hidden">
+          <Card
+            key={chef.id}
+            className="text-center rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm hover:shadow-md transition overflow-hidden"
+          >
             <CardContent className="p-6 space-y-4">
-              <div className="relative mx-auto w-24 h-24 rounded-full overflow-hidden border-4 border-orange-100 shadow-md">
+              <div className="relative mx-auto w-24 h-24 rounded-full overflow-hidden border-4 border-orange-100 dark:border-orange-950 shadow-md">
                 <Avatar className="w-full h-full">
                   <AvatarImage src={chef.avatar} />
                   <AvatarFallback>{chef.name[0]}</AvatarFallback>
@@ -91,27 +94,27 @@ export default function TopChefsPage() {
               </div>
 
               <div>
-                <Badge variant="outline" className="text-[10px] uppercase font-bold text-orange-600 border-orange-200 mb-1">
+                <Badge variant="outline" className="text-[10px] uppercase font-bold text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-900/50 mb-1">
                   {chef.badge}
                 </Badge>
-                <h3 className="font-bold text-base text-gray-900">{chef.name}</h3>
-                <p className="text-xs text-gray-500">{chef.role}</p>
+                <h3 className="font-bold text-base text-gray-900 dark:text-white">{chef.name}</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{chef.role}</p>
               </div>
 
-              <div className="grid grid-cols-3 gap-1 py-2 bg-gray-50 rounded-xl text-xs">
+              <div className="grid grid-cols-3 gap-1 py-2 bg-gray-50 dark:bg-slate-800 rounded-xl text-xs">
                 <div>
-                  <p className="font-bold text-gray-900">{chef.followers}</p>
-                  <p className="text-[10px] text-gray-400">Followers</p>
+                  <p className="font-bold text-gray-900 dark:text-white">{chef.followers}</p>
+                  <p className="text-[10px] text-gray-400 dark:text-gray-400">Followers</p>
                 </div>
                 <div>
-                  <p className="font-bold text-gray-900">{chef.recipes}</p>
-                  <p className="text-[10px] text-gray-400">Recipes</p>
+                  <p className="font-bold text-gray-900 dark:text-white">{chef.recipes}</p>
+                  <p className="text-[10px] text-gray-400 dark:text-gray-400">Recipes</p>
                 </div>
                 <div>
                   <p className="font-bold text-amber-500 flex items-center justify-center gap-0.5">
                     <Star className="w-3 h-3 fill-amber-400" /> {chef.rating}
                   </p>
-                  <p className="text-[10px] text-gray-400">Rating</p>
+                  <p className="text-[10px] text-gray-400 dark:text-gray-400">Rating</p>
                 </div>
               </div>
 

@@ -241,12 +241,12 @@ export default function UserRecipesPage() {
           </button>
         </div>
 
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Title */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-700">Recipe Title *</label>
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Recipe Title *</label>
                 <Input
                   value={form.title}
                   onChange={(e) => setField("title", e.target.value)}
@@ -258,7 +258,7 @@ export default function UserRecipesPage() {
 
               {/* Description */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-700">Description *</label>
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Description *</label>
                 <Textarea
                   value={form.description}
                   onChange={(e) => setField("description", e.target.value)}
@@ -271,7 +271,7 @@ export default function UserRecipesPage() {
               {/* Grid fields */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-700 flex items-center gap-1">
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1">
                     <Clock size={12} className="text-orange-500" /> Cooking Time
                   </label>
                   <Input
@@ -283,11 +283,11 @@ export default function UserRecipesPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-700">Category</label>
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Category</label>
                   <select
                     value={form.category}
                     onChange={(e) => setField("category", e.target.value)}
-                    className="w-full h-10 px-3 border rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    className="w-full h-10 px-3 border rounded-xl bg-white dark:bg-slate-800 text-gray-900 dark:text-white dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                   >
                     {CATEGORIES.map((c) => (
                       <option key={c} value={c}>{c}</option>
@@ -296,11 +296,11 @@ export default function UserRecipesPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-700">Type</label>
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Type</label>
                   <select
                     value={form.recipeType}
                     onChange={(e) => setField("recipeType", e.target.value)}
-                    className="w-full h-10 px-3 border rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    className="w-full h-10 px-3 border rounded-xl bg-white dark:bg-slate-800 text-gray-900 dark:text-white dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                   >
                     {RECIPE_TYPES.map((t) => (
                       <option key={t} value={t}>{t}</option>
@@ -311,11 +311,11 @@ export default function UserRecipesPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-700">Status</label>
+                  <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Status</label>
                   <select
                     value={form.recipeStatus}
                     onChange={(e) => setField("recipeStatus", e.target.value)}
-                    className="w-full h-10 px-3 border rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                    className="w-full h-10 px-3 border rounded-xl bg-white dark:bg-slate-800 text-gray-900 dark:text-white dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                   >
                     {RECIPE_STATUSES.map((s) => (
                       <option key={s} value={s}>{s}</option>
@@ -323,12 +323,12 @@ export default function UserRecipesPage() {
                   </select>
                 </div>
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-700 flex items-center gap-1">
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1">
                   <ImageIcon size={12} className="text-orange-500" /> Dish Photo (Cloudinary Upload or URL)
                 </label>
 
                 {imagePreview ? (
-                  <div className="relative w-full h-44 rounded-xl overflow-hidden border">
+                  <div className="relative w-full h-44 rounded-xl overflow-hidden border dark:border-slate-700">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                     <button
@@ -342,10 +342,10 @@ export default function UserRecipesPage() {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="flex flex-col items-center justify-center h-20 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-orange-400 bg-gray-50/50 hover:bg-orange-50/30 transition">
-                        <Upload size={18} className="text-gray-400 mb-1" />
-                        <span className="text-xs font-semibold text-gray-600">Upload to Cloudinary</span>
-                        <span className="text-[10px] text-gray-400">PNG, JPG up to 5MB</span>
+                      <label className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-xl cursor-pointer hover:border-orange-400 dark:hover:border-orange-400 bg-gray-50/50 dark:bg-slate-800/60 hover:bg-orange-50/30 transition">
+                        <Upload size={18} className="text-gray-400 dark:text-gray-300 mb-1" />
+                        <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">Upload to Cloudinary</span>
+                        <span className="text-[10px] text-gray-400 dark:text-gray-400">PNG, JPG, WEBP up to 5MB</span>
                         <input
                           type="file"
                           accept="image/*"
@@ -359,7 +359,7 @@ export default function UserRecipesPage() {
                         value={form.imageUrl}
                         onChange={(e) => setField("imageUrl", e.target.value)}
                         placeholder="Or paste Image URL (https://...)"
-                        className="rounded-xl h-20 text-xs"
+                        className="rounded-xl h-24 text-xs"
                       />
                     </div>
                   </div>
@@ -525,15 +525,15 @@ export default function UserRecipesPage() {
       </div>
 
       {/* Recipes */}
-      <Card className="rounded-2xl border shadow-sm">
+      <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="text-base flex items-center gap-2 text-gray-900 dark:text-white">
             <Utensils size={16} className="text-orange-500" /> Published Recipes
             <Badge variant="outline" className="text-xs ml-1">
               {recipes.length}
             </Badge>
           </CardTitle>
-          <CardDescription>Only your own recipes — create, edit, delete</CardDescription>
+          <CardDescription className="text-gray-500 dark:text-gray-400">Only your own recipes — create, edit, delete</CardDescription>
         </CardHeader>
 
         <CardContent className="p-0">
@@ -544,8 +544,8 @@ export default function UserRecipesPage() {
             </div>
           ) : recipes.length === 0 ? (
             <div className="text-center py-16 space-y-3">
-              <Utensils size={36} className="mx-auto text-gray-200" />
-              <p className="text-sm text-gray-400">
+              <Utensils size={36} className="mx-auto text-gray-200 dark:text-gray-700" />
+              <p className="text-sm text-gray-400 dark:text-gray-500">
                 You haven&apos;t published any recipes yet.
               </p>
               <Button
@@ -556,11 +556,11 @@ export default function UserRecipesPage() {
               </Button>
             </div>
           ) : (
-            <div className="divide-y">
+            <div className="divide-y dark:divide-slate-800">
               {recipes.map((recipe) => (
                 <div
                   key={recipe._id}
-                  className="flex items-start sm:items-center justify-between p-4 gap-4 hover:bg-gray-50/50 transition"
+                  className="flex items-start sm:items-center justify-between p-4 gap-4 hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition"
                 >
                   <div className="flex items-start gap-3 flex-1 min-w-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -568,14 +568,14 @@ export default function UserRecipesPage() {
                       <img
                         src={recipe.images[0]}
                         alt={recipe.title}
-                        className="w-14 h-14 rounded-xl object-cover shrink-0 border"
+                        className="w-14 h-14 rounded-xl object-cover shrink-0 border dark:border-slate-700"
                       />
                     )}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm text-gray-900 truncate">
+                      <h3 className="font-semibold text-sm text-gray-900 dark:text-white truncate">
                         {recipe.title}
                       </h3>
-                      <p className="text-xs text-gray-500 truncate mt-0.5 line-clamp-1">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5 line-clamp-1">
                         {recipe.description}
                       </p>
                       <div className="flex flex-wrap items-center gap-2 mt-1.5">
@@ -592,10 +592,10 @@ export default function UserRecipesPage() {
                         >
                           {recipe.recipeStatus}
                         </Badge>
-                        <span className="text-[10px] text-gray-400 flex items-center gap-1">
+                        <span className="text-[10px] text-gray-400 dark:text-gray-500 flex items-center gap-1">
                           <Clock size={10} /> {recipe.cookingTime}
                         </span>
-                        <span className="text-[10px] text-emerald-600 font-semibold">
+                        <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
                           ↑ {recipe.upvoteCount || 0} upvotes
                         </span>
                       </div>
@@ -607,7 +607,7 @@ export default function UserRecipesPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => openEdit(recipe)}
-                      className="text-xs h-8"
+                      className="text-xs h-8 dark:border-slate-700 dark:hover:bg-slate-800"
                     >
                       <Edit size={13} className="mr-1" /> Edit
                     </Button>
@@ -618,7 +618,7 @@ export default function UserRecipesPage() {
                       onClick={() =>
                         handleDelete(recipe._id, recipe.title)
                       }
-                      className="text-xs h-8 text-red-600 border-red-200 hover:bg-red-50"
+                      className="text-xs h-8 text-red-600 dark:text-red-400 border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-950/40"
                     >
                       {isDeleting ? (
                         <Loader2 size={12} className="animate-spin" />

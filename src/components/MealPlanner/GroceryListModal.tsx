@@ -107,7 +107,7 @@ export default function GroceryListModal({
         </div>
 
         {/* Category Filters */}
-        <div className="p-4 bg-gray-50 border-b flex items-center gap-1.5 overflow-x-auto">
+        <div className="p-4 bg-gray-50 dark:bg-slate-900 border-b dark:border-slate-800 flex items-center gap-1.5 overflow-x-auto">
           <Filter className="w-4 h-4 text-gray-400 shrink-0 ml-1 mr-1" />
           {categories.map((cat) => (
             <button
@@ -116,7 +116,7 @@ export default function GroceryListModal({
               className={`px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition ${
                 selectedCategory === cat
                   ? "bg-emerald-600 text-white shadow-xs"
-                  : "bg-white text-gray-600 hover:bg-gray-200 border"
+                  : "bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 border dark:border-slate-700"
               }`}
             >
               {cat}
@@ -125,9 +125,9 @@ export default function GroceryListModal({
         </div>
 
         {/* Checklist */}
-        <div className="p-5 overflow-y-auto flex-1 space-y-2">
+        <div className="p-5 overflow-y-auto flex-1 space-y-2 bg-white dark:bg-slate-900">
           {filteredItems.length === 0 ? (
-            <p className="text-center py-8 text-xs text-gray-500">
+            <p className="text-center py-8 text-xs text-gray-500 dark:text-gray-400">
               No items in this category.
             </p>
           ) : (
@@ -141,8 +141,8 @@ export default function GroceryListModal({
                   onClick={() => toggleCheck(originalIndex)}
                   className={`p-3.5 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3 ${
                     item.checked
-                      ? "bg-emerald-50/60 border-emerald-200 text-gray-400 line-through"
-                      : "bg-white hover:border-gray-300 text-gray-800"
+                      ? "bg-emerald-50/60 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50 text-gray-400 dark:text-gray-500 line-through"
+                      : "bg-white dark:bg-slate-900 border dark:border-slate-800 hover:border-gray-300 dark:hover:border-slate-700 text-gray-800 dark:text-white"
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -150,18 +150,18 @@ export default function GroceryListModal({
                       className={`w-5 h-5 rounded-md border flex items-center justify-center transition ${
                         item.checked
                           ? "bg-emerald-500 border-emerald-500 text-white"
-                          : "border-gray-300 bg-white"
+                          : "border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800"
                       }`}
                     >
                       {item.checked && <CheckCircle2 className="w-4 h-4" />}
                     </div>
                     <div>
                       <p className="font-semibold text-sm">{item.name}</p>
-                      <p className="text-xs text-gray-400">{item.amount}</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500">{item.amount}</p>
                     </div>
                   </div>
 
-                  <Badge variant="outline" className="text-[10px] uppercase font-bold text-gray-500">
+                  <Badge variant="outline" className="text-[10px] uppercase font-bold text-gray-500 dark:text-gray-400 dark:border-slate-700">
                     {item.category}
                   </Badge>
                 </div>
@@ -171,7 +171,7 @@ export default function GroceryListModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t bg-gray-50 flex items-center justify-between gap-3">
+        <div className="p-4 border-t dark:border-slate-800 bg-gray-50 dark:bg-slate-900 flex items-center justify-between gap-3">
           <Button
             variant="outline"
             size="sm"

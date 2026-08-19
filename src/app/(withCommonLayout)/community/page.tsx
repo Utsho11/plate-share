@@ -85,11 +85,11 @@ export default function CommunityPage() {
     <div className="max-w-4xl mx-auto p-4 space-y-6 my-4">
       {/* Page Title Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
           <Sparkles className="w-6 h-6 text-orange-500" />
           Culinary Community Hub
         </h1>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           Connect with foodies, share cooking tips, and enter weekly cooking challenges.
         </p>
       </div>
@@ -98,11 +98,11 @@ export default function CommunityPage() {
       <WeeklyChallengeCard />
 
       {/* Create New Post Widget */}
-      <Card className="border shadow-sm">
+      <Card className="border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
         <CardContent className="p-4">
           <form onSubmit={handleCreatePost} className="space-y-3">
             <div className="flex items-start gap-3">
-              <Avatar className="w-9 h-9 border">
+              <Avatar className="w-9 h-9 border dark:border-slate-700">
                 <AvatarFallback className="bg-orange-500 text-white font-bold text-sm">
                   Y
                 </AvatarFallback>
@@ -112,7 +112,7 @@ export default function CommunityPage() {
                 placeholder="Share a cooking tip, recipe idea, or food question..."
                 value={newPostText}
                 onChange={(e) => setNewPostText(e.target.value)}
-                className="w-full text-sm p-2.5 bg-gray-50 rounded-xl border border-transparent focus:border-orange-500 focus:bg-white focus:outline-none transition resize-none"
+                className="w-full text-sm p-2.5 bg-gray-50 dark:bg-slate-800 dark:text-white rounded-xl border border-transparent dark:border-slate-700 focus:border-orange-500 focus:bg-white dark:focus:bg-slate-800 focus:outline-none transition resize-none"
               />
             </div>
             <div className="flex justify-end">
@@ -131,17 +131,17 @@ export default function CommunityPage() {
       {/* Community Feed Posts */}
       <div className="space-y-4">
         {posts.map((post) => (
-          <Card key={post.id} className="border shadow-sm hover:border-gray-300 transition">
+          <Card key={post.id} className="border dark:border-slate-800 dark:bg-slate-900 shadow-sm hover:border-gray-300 dark:hover:border-slate-700 transition">
             <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between">
               <div className="flex items-center gap-3">
-                <Avatar className="w-10 h-10 border">
-                  <AvatarFallback className="bg-orange-100 text-orange-600 font-bold text-base">
+                <Avatar className="w-10 h-10 border dark:border-slate-700">
+                  <AvatarFallback className="bg-orange-100 dark:bg-orange-950 text-orange-600 dark:text-orange-400 font-bold text-base">
                     {post.avatar}
                   </AvatarFallback>
                 </Avatar>
                 <div>
                   <div className="flex items-center gap-2">
-                    <CardTitle className="text-sm font-semibold">{post.author}</CardTitle>
+                    <CardTitle className="text-sm font-semibold text-gray-900 dark:text-white">{post.author}</CardTitle>
                     <Badge variant="secondary" className="text-[10px] py-0 px-2 font-normal">
                       {post.badge}
                     </Badge>
@@ -152,19 +152,19 @@ export default function CommunityPage() {
             </CardHeader>
 
             <CardContent className="p-4 pt-2 space-y-3">
-              <p className="text-sm text-gray-800 leading-relaxed">{post.content}</p>
+              <p className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">{post.content}</p>
 
               {/* Tags */}
               <div className="flex items-center gap-1.5 flex-wrap">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="text-xs text-orange-600 font-medium hover:underline cursor-pointer">
+                  <span key={tag} className="text-xs text-orange-600 dark:text-orange-400 font-medium hover:underline cursor-pointer">
                     {tag}
                   </span>
                 ))}
               </div>
 
               {/* Like / Comment / Share */}
-              <div className="flex items-center gap-6 pt-3 border-t text-xs text-gray-500">
+              <div className="flex items-center gap-6 pt-3 border-t dark:border-slate-800 text-xs text-gray-500 dark:text-gray-400">
                 <button
                   onClick={() => handleLike(post.id)}
                   className="flex items-center gap-1.5 hover:text-red-500 transition font-medium"
@@ -174,7 +174,7 @@ export default function CommunityPage() {
                 <button className="flex items-center gap-1.5 hover:text-orange-500 transition font-medium">
                   <MessageSquare className="w-4 h-4 text-orange-500" /> {post.comments} Comments
                 </button>
-                <button className="flex items-center gap-1.5 hover:text-gray-900 transition font-medium">
+                <button className="flex items-center gap-1.5 hover:text-gray-900 dark:hover:text-white transition font-medium">
                   <Share2 className="w-4 h-4" /> Share
                 </button>
               </div>

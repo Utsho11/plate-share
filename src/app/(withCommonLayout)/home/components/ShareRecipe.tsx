@@ -17,13 +17,13 @@ const ShareRecipe = () => {
     <div className="w-full max-w-xl mx-auto">
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="w-full h-fit justify-start rounded-2xl bg-white text-gray-700 shadow-sm border hover:bg-gray-100">
+          <Button className="w-full h-fit justify-start rounded-2xl bg-white dark:bg-slate-900 text-gray-700 dark:text-gray-200 shadow-sm border dark:border-slate-800 hover:bg-gray-50 dark:hover:bg-slate-800 py-2.5 px-3.5">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 flex items-center justify-center rounded-full bg-orange-500 text-white">
+              <div className="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-tr from-orange-500 to-amber-500 text-white shadow-xs shrink-0">
                 <ChefHat size={20} />
               </div>
-              <span className="text-gray-700 font-medium">
-                Share your recipe...
+              <span className="text-gray-600 dark:text-gray-300 font-medium text-sm">
+                Share your recipe with the world...
               </span>
             </div>
           </Button>

@@ -84,16 +84,19 @@ export default function CreateRecipePage() {
         <ChefHat className="w-10 h-10 text-orange-200" />
       </div>
 
-      <Card className="rounded-2xl border shadow-sm">
+      <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg">Recipe Details</CardTitle>
-          <CardDescription>Share your unique ingredients and step-by-step instructions</CardDescription>
+          <CardTitle className="text-xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
+            <ChefHat className="w-5 h-5 text-orange-500" />
+            Recipe Information
+          </CardTitle>
+          <CardDescription className="text-gray-500 dark:text-gray-400">Share your unique ingredients and step-by-step instructions</CardDescription>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-700">Recipe Title</label>
+              <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Recipe Title</label>
               <Input
                 placeholder="e.g. Creamy Tuscan Garlic Chicken"
                 value={title}
@@ -104,7 +107,7 @@ export default function CreateRecipePage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-700">Short Description</label>
+              <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Short Description</label>
               <Textarea
                 placeholder="Describe your dish, flavors, and secret tips..."
                 value={description}
@@ -116,7 +119,7 @@ export default function CreateRecipePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-700 flex items-center gap-1">
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5 text-orange-500" /> Cooking Time (mins)
                 </label>
                 <Input
@@ -128,11 +131,11 @@ export default function CreateRecipePage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-700">Category</label>
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full h-10 px-3 border rounded-xl bg-white text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                  className="w-full h-10 px-3 border rounded-xl bg-white dark:bg-slate-800 text-gray-900 dark:text-white dark:border-slate-700 text-sm focus:outline-hidden focus:ring-2 focus:ring-orange-500"
                 >
                   <option value="BREAKFAST">Breakfast</option>
                   <option value="LUNCH">Lunch</option>
@@ -146,12 +149,12 @@ export default function CreateRecipePage() {
 
             {/* Cloudinary Image Upload / URL Input */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-gray-700 flex items-center gap-1">
+              <label className="text-xs font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1">
                 <ImageIcon className="w-3.5 h-3.5 text-orange-500" /> Dish Photo (Cloudinary Upload or URL)
               </label>
 
               {imagePreview ? (
-                <div className="relative w-full h-48 rounded-xl overflow-hidden border">
+                <div className="relative w-full h-48 rounded-xl overflow-hidden border dark:border-slate-700">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                   <button
@@ -165,10 +168,10 @@ export default function CreateRecipePage() {
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-orange-400 bg-gray-50/50 hover:bg-orange-50/30 transition">
-                      <Upload className="w-5 h-5 text-gray-400 mb-1" />
-                      <span className="text-xs font-semibold text-gray-600">Upload to Cloudinary</span>
-                      <span className="text-[10px] text-gray-400">PNG, JPG, WEBP up to 5MB</span>
+                    <label className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-xl cursor-pointer hover:border-orange-400 dark:hover:border-orange-400 bg-gray-50/50 dark:bg-slate-800/60 hover:bg-orange-50/30 transition">
+                      <Upload className="w-5 h-5 text-gray-400 dark:text-gray-300 mb-1" />
+                      <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">Upload to Cloudinary</span>
+                      <span className="text-[10px] text-gray-400 dark:text-gray-400">PNG, JPG, WEBP up to 5MB</span>
                       <input
                         type="file"
                         accept="image/*"
@@ -192,7 +195,7 @@ export default function CreateRecipePage() {
             {/* Ingredients */}
             <div className="space-y-2 pt-2">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-gray-700">Ingredients</label>
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Ingredients</label>
                 <Button type="button" variant="outline" size="sm" onClick={addIngredientField} className="text-xs">
                   <Plus className="w-3 h-3 mr-1" /> Add Ingredient
                 </Button>
@@ -215,7 +218,7 @@ export default function CreateRecipePage() {
             {/* Instructions */}
             <div className="space-y-2 pt-2">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-gray-700">Cooking Steps</label>
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Cooking Steps</label>
                 <Button type="button" variant="outline" size="sm" onClick={addInstructionField} className="text-xs">
                   <Plus className="w-3 h-3 mr-1" /> Add Step
                 </Button>

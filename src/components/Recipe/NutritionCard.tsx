@@ -37,10 +37,10 @@ export default function NutritionCard({
   if (parseFloat(carbs) < 20) badges.push({ label: "Keto Friendly", color: "bg-purple-600 text-white" });
 
   return (
-    <Card className="rounded-xl border shadow-sm bg-gradient-to-br from-orange-50/40 via-white to-amber-50/30">
+    <Card className="rounded-xl border dark:border-slate-800 shadow-sm bg-gradient-to-br from-orange-50/40 via-white to-amber-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900 dark:bg-slate-900">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-base font-semibold text-gray-900">
+          <CardTitle className="flex items-center gap-2 text-base font-semibold text-gray-900 dark:text-white">
             <Activity className="w-5 h-5 text-orange-500" />
             Nutritional Breakdown
           </CardTitle>
@@ -53,43 +53,43 @@ export default function NutritionCard({
       <CardContent className="space-y-4">
         {/* Macro Numbers Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="p-3 bg-white rounded-lg border border-orange-100 shadow-2xs text-center">
-            <div className="flex items-center justify-center gap-1 text-orange-600 text-xs font-semibold mb-1">
+          <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-orange-100 dark:border-slate-700 shadow-2xs text-center">
+            <div className="flex items-center justify-center gap-1 text-orange-600 dark:text-orange-400 text-xs font-semibold mb-1">
               <Flame className="w-3.5 h-3.5" /> Calories
             </div>
-            <p className="text-xl font-bold text-gray-900">{calories}</p>
-            <span className="text-[10px] text-gray-500">kcal</span>
+            <p className="text-xl font-bold text-gray-900 dark:text-white">{calories}</p>
+            <span className="text-[10px] text-gray-500 dark:text-gray-400">kcal</span>
           </div>
 
-          <div className="p-3 bg-white rounded-lg border border-blue-100 shadow-2xs text-center">
-            <div className="flex items-center justify-center gap-1 text-blue-600 text-xs font-semibold mb-1">
+          <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-blue-100 dark:border-slate-700 shadow-2xs text-center">
+            <div className="flex items-center justify-center gap-1 text-blue-600 dark:text-blue-400 text-xs font-semibold mb-1">
               <Zap className="w-3.5 h-3.5" /> Protein
             </div>
-            <p className="text-xl font-bold text-gray-900">{protein}g</p>
-            <span className="text-[10px] text-gray-500">grams</span>
+            <p className="text-xl font-bold text-gray-900 dark:text-white">{protein}g</p>
+            <span className="text-[10px] text-gray-500 dark:text-gray-400">grams</span>
           </div>
 
-          <div className="p-3 bg-white rounded-lg border border-amber-100 shadow-2xs text-center">
-            <div className="flex items-center justify-center gap-1 text-amber-600 text-xs font-semibold mb-1">
+          <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-amber-100 dark:border-slate-700 shadow-2xs text-center">
+            <div className="flex items-center justify-center gap-1 text-amber-600 dark:text-amber-400 text-xs font-semibold mb-1">
               <Apple className="w-3.5 h-3.5" /> Carbs
             </div>
-            <p className="text-xl font-bold text-gray-900">{carbs}g</p>
-            <span className="text-[10px] text-gray-500">grams</span>
+            <p className="text-xl font-bold text-gray-900 dark:text-white">{carbs}g</p>
+            <span className="text-[10px] text-gray-500 dark:text-gray-400">grams</span>
           </div>
 
-          <div className="p-3 bg-white rounded-lg border border-purple-100 shadow-2xs text-center">
-            <div className="flex items-center justify-center gap-1 text-purple-600 text-xs font-semibold mb-1">
+          <div className="p-3 bg-white dark:bg-slate-800 rounded-lg border border-purple-100 dark:border-slate-700 shadow-2xs text-center">
+            <div className="flex items-center justify-center gap-1 text-purple-600 dark:text-purple-400 text-xs font-semibold mb-1">
               <Activity className="w-3.5 h-3.5" /> Healthy Fats
             </div>
-            <p className="text-xl font-bold text-gray-900">{fats}g</p>
-            <span className="text-[10px] text-gray-500">grams</span>
+            <p className="text-xl font-bold text-gray-900 dark:text-white">{fats}g</p>
+            <span className="text-[10px] text-gray-500 dark:text-gray-400">grams</span>
           </div>
         </div>
 
         {/* Dietary Badges */}
         {badges.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-gray-100">
-            <span className="text-xs text-gray-500 font-medium mr-1">Dietary Highlights:</span>
+          <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-gray-100 dark:border-slate-800">
+            <span className="text-xs text-gray-500 dark:text-gray-400 font-medium mr-1">Dietary Highlights:</span>
             {badges.map((b) => (
               <Badge key={b.label} className={`${b.color} text-xs px-2.5 py-0.5 font-medium`}>
                 {b.label}

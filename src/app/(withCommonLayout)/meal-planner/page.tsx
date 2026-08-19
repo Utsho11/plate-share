@@ -201,23 +201,23 @@ export default function MealPlannerPage() {
                       mealsOfType.map((m) => (
                         <div
                           key={m.id}
-                          className="p-3 rounded-xl border bg-white shadow-2xs flex items-center justify-between gap-3 hover:border-orange-200 transition"
+                          className="p-3 rounded-xl border dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between gap-3 hover:border-orange-200 dark:hover:border-orange-900/50 transition"
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             {m.image ? (
-                              <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 relative bg-gray-100 border">
+                              <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 relative bg-gray-100 dark:bg-slate-800 border dark:border-slate-700">
                                 <Image src={m.image} alt={m.recipeTitle} fill className="object-cover" />
                               </div>
                             ) : (
-                              <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center shrink-0">
+                              <div className="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-950/60 flex items-center justify-center shrink-0">
                                 <ChefHat className="w-6 h-6 text-orange-500" />
                               </div>
                             )}
                             <div className="min-w-0">
-                              <h4 className="font-semibold text-sm text-gray-900 truncate">
+                              <h4 className="font-semibold text-sm text-gray-900 dark:text-white truncate">
                                 {m.recipeTitle}
                               </h4>
-                              <p className="text-xs text-gray-500">{m.calories} kcal</p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">{m.calories} kcal</p>
                             </div>
                           </div>
 
@@ -225,7 +225,7 @@ export default function MealPlannerPage() {
                             variant="ghost"
                             size="icon"
                             onClick={() => handleRemoveMeal(m.id)}
-                            className="text-gray-400 hover:text-red-500 hover:bg-red-50"
+                            className="text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40"
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
@@ -241,13 +241,13 @@ export default function MealPlannerPage() {
 
         {/* Right Column: Recipe Quick Selector */}
         <div className="space-y-6">
-          <Card className="rounded-2xl border shadow-sm">
-            <CardHeader className="pb-3 border-b">
-              <CardTitle className="text-base font-bold flex items-center gap-2">
+          <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
+            <CardHeader className="pb-3 border-b dark:border-slate-800">
+              <CardTitle className="text-base font-bold flex items-center gap-2 text-gray-900 dark:text-white">
                 <Plus className="w-4 h-4 text-orange-500" />
                 Add Recipes to Plan
               </CardTitle>
-              <CardDescription className="text-xs">
+              <CardDescription className="text-xs text-gray-500 dark:text-gray-400">
                 Pick a recipe and add it to {selectedDay}
               </CardDescription>
             </CardHeader>
@@ -255,26 +255,26 @@ export default function MealPlannerPage() {
             <CardContent className="p-4 space-y-3 max-h-[500px] overflow-y-auto">
               {allRecipes.length === 0 ? (
                 <div className="space-y-3 text-center py-6">
-                  <ChefHat className="w-8 h-8 text-gray-300 mx-auto" />
-                  <p className="text-xs text-gray-500">Loading recipe library...</p>
+                  <ChefHat className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto" />
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Loading recipe library...</p>
                 </div>
               ) : (
                 allRecipes.slice(0, 8).map((recipe) => (
                   <div
                     key={recipe._id}
-                    className="p-3 border rounded-xl bg-white hover:border-orange-300 transition space-y-2"
+                    className="p-3 border dark:border-slate-800 rounded-xl bg-white dark:bg-slate-900 hover:border-orange-300 dark:hover:border-orange-700 transition space-y-2"
                   >
                     <div className="flex items-center gap-2.5">
                       {recipe.images?.[0] && (
-                        <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 relative border bg-gray-100">
+                        <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 relative border dark:border-slate-700 bg-gray-100 dark:bg-slate-800">
                           <Image src={recipe.images[0]} alt={recipe.title} fill className="object-cover" />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">
-                        <p className="font-semibold text-xs text-gray-900 truncate">
+                        <p className="font-semibold text-xs text-gray-900 dark:text-white truncate">
                           {recipe.title}
                         </p>
-                        <p className="text-[10px] text-gray-400">{recipe.category || "General"}</p>
+                        <p className="text-[10px] text-gray-400 dark:text-gray-400">{recipe.category || "General"}</p>
                       </div>
                     </div>
 

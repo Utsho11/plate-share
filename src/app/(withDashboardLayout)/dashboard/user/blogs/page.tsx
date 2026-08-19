@@ -207,12 +207,12 @@ export default function UserBlogsPage() {
           </button>
         </div>
 
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Title */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-700">Blog Title *</label>
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Blog Title *</label>
                 <Input
                   value={form.title}
                   onChange={(e) => setField("title", e.target.value)}
@@ -224,11 +224,11 @@ export default function UserBlogsPage() {
 
               {/* Category */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-700">Category</label>
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200">Category</label>
                 <select
                   value={form.category}
                   onChange={(e) => setField("category", e.target.value)}
-                  className="w-full h-10 px-3 border rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+                  className="w-full h-10 px-3 border rounded-xl bg-white dark:bg-slate-800 text-gray-900 dark:text-white dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
                 >
                   {BLOG_CATEGORIES.map((c) => (
                     <option key={c} value={c}>
@@ -240,12 +240,12 @@ export default function UserBlogsPage() {
 
               {/* Cloudinary Cover Image Upload */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-700 flex items-center gap-1">
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1">
                   <ImageIcon size={12} className="text-purple-500" /> Cover Image (Cloudinary Upload or URL)
                 </label>
 
                 {imagePreview ? (
-                  <div className="relative w-full h-44 rounded-xl overflow-hidden border">
+                  <div className="relative w-full h-44 rounded-xl overflow-hidden border dark:border-slate-700">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                     <button
@@ -259,10 +259,10 @@ export default function UserBlogsPage() {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="flex flex-col items-center justify-center h-20 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-purple-400 bg-gray-50/50 hover:bg-purple-50/30 transition">
-                        <Upload size={18} className="text-gray-400 mb-1" />
-                        <span className="text-xs font-semibold text-gray-600">Upload to Cloudinary</span>
-                        <span className="text-[10px] text-gray-400">PNG, JPG up to 5MB</span>
+                      <label className="flex flex-col items-center justify-center h-24 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-xl cursor-pointer hover:border-purple-400 dark:hover:border-purple-400 bg-gray-50/50 dark:bg-slate-800/60 hover:bg-purple-50/30 transition">
+                        <Upload size={18} className="text-gray-400 dark:text-gray-300 mb-1" />
+                        <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">Upload to Cloudinary</span>
+                        <span className="text-[10px] text-gray-400 dark:text-gray-400">PNG, JPG, WEBP up to 5MB</span>
                         <input
                           type="file"
                           accept="image/*"
@@ -276,7 +276,7 @@ export default function UserBlogsPage() {
                         value={form.coverImage}
                         onChange={(e) => setField("coverImage", e.target.value)}
                         placeholder="Or paste Image URL (https://...)"
-                        className="rounded-xl h-20 text-xs"
+                        className="rounded-xl h-24 text-xs"
                       />
                     </div>
                   </div>
@@ -285,26 +285,26 @@ export default function UserBlogsPage() {
 
               {/* Tags */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-700 flex items-center gap-1">
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200 flex items-center gap-1">
                   <Tag size={12} className="text-purple-500" /> Tags (comma-separated)
                 </label>
                 <Input
                   value={form.tags}
                   onChange={(e) => setField("tags", e.target.value)}
-                  placeholder="e.g. cooking tips, beginner, healthy"
+                  placeholder="e.g. cooking, tips, techniques"
                   className="rounded-xl"
                 />
               </div>
 
               {/* Content */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-gray-700">
+                <label className="text-xs font-bold text-gray-700 dark:text-gray-200">
                   Blog Content *
                 </label>
                 <Textarea
                   value={form.content}
                   onChange={(e) => setField("content", e.target.value)}
-                  placeholder="Write your article here... Share tips, techniques, recipes, stories..."
+                  placeholder="Write your article here..."
                   required
                   className="rounded-xl min-h-[240px]"
                 />
@@ -361,28 +361,28 @@ export default function UserBlogsPage() {
         </Button>
       </div>
 
-      <Card className="rounded-2xl border shadow-sm">
+      <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <ScrollText size={16} className="text-purple-500" /> Published Blog Posts
+          <CardTitle className="text-base flex items-center gap-2 text-gray-900 dark:text-white">
+            <ScrollText size={16} className="text-purple-500" /> Published Blogs
             <Badge variant="outline" className="text-xs ml-1">
               {blogs.length}
             </Badge>
           </CardTitle>
-          <CardDescription>Your own blog articles — create, edit, delete</CardDescription>
+          <CardDescription className="text-gray-500 dark:text-gray-400">Articles you have published — create, edit, delete</CardDescription>
         </CardHeader>
 
         <CardContent className="p-0">
           {isLoading ? (
             <div className="flex items-center justify-center py-16 gap-3 text-gray-400">
               <Loader2 size={22} className="animate-spin" />
-              <span className="text-sm">Loading blog posts...</span>
+              <span className="text-sm">Loading blogs...</span>
             </div>
           ) : blogs.length === 0 ? (
             <div className="text-center py-16 space-y-3">
-              <ScrollText size={36} className="mx-auto text-gray-200" />
-              <p className="text-sm text-gray-400">
-                You haven&apos;t written any blog posts yet.
+              <ScrollText size={36} className="mx-auto text-gray-200 dark:text-gray-700" />
+              <p className="text-sm text-gray-400 dark:text-gray-500">
+                You haven&apos;t published any blog posts yet.
               </p>
               <Button
                 onClick={openCreate}
@@ -392,40 +392,38 @@ export default function UserBlogsPage() {
               </Button>
             </div>
           ) : (
-            <div className="divide-y">
+            <div className="divide-y dark:divide-slate-800">
               {blogs.map((blog) => (
                 <div
-                  key={blog._id}
-                  className="flex items-start sm:items-center justify-between p-4 gap-4 hover:bg-gray-50/50 transition"
+                  key={blog._id || blog.id}
+                  className="flex items-start sm:items-center justify-between p-4 gap-4 hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition"
                 >
                   <div className="flex items-start gap-3 flex-1 min-w-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     {blog.coverImage && (
-                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={blog.coverImage}
                         alt={blog.title}
-                        className="w-14 h-14 rounded-xl object-cover shrink-0 border"
+                        className="w-14 h-14 rounded-xl object-cover shrink-0 border dark:border-slate-700"
                       />
                     )}
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-sm text-gray-900 truncate">
+                      <h3 className="font-semibold text-sm text-gray-900 dark:text-white truncate">
                         {blog.title}
                       </h3>
-                      <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">
-                        {blog.content?.slice(0, 100)}...
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5 line-clamp-1">
+                        {blog.content}
                       </p>
                       <div className="flex flex-wrap items-center gap-2 mt-1.5">
                         <Badge variant="outline" className="text-[10px]">
                           {blog.category?.replace("_", " ")}
                         </Badge>
-                        {(blog.tags || []).slice(0, 2).map((tag: string) => (
-                          <span
-                            key={tag}
-                            className="text-[10px] bg-purple-50 text-purple-700 px-1.5 py-0.5 rounded-full font-medium"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
+                        <span className="text-[10px] text-gray-400 dark:text-gray-500 flex items-center gap-1">
+                          <Calendar size={10} />
+                          {blog.createdAt
+                            ? new Date(blog.createdAt).toLocaleDateString()
+                            : "Recent"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -435,7 +433,7 @@ export default function UserBlogsPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => openEdit(blog)}
-                      className="text-xs h-8"
+                      className="text-xs h-8 dark:border-slate-700 dark:hover:bg-slate-800"
                     >
                       <Edit size={13} className="mr-1" /> Edit
                     </Button>
@@ -443,8 +441,10 @@ export default function UserBlogsPage() {
                       size="sm"
                       variant="outline"
                       disabled={isDeleting}
-                      onClick={() => handleDelete(blog._id, blog.title)}
-                      className="text-xs h-8 text-red-600 border-red-200 hover:bg-red-50"
+                      onClick={() =>
+                        handleDelete(blog._id || blog.id, blog.title)
+                      }
+                      className="text-xs h-8 text-red-600 dark:text-red-400 border-red-200 dark:border-red-900/50 hover:bg-red-50 dark:hover:bg-red-950/40"
                     >
                       {isDeleting ? (
                         <Loader2 size={12} className="animate-spin" />

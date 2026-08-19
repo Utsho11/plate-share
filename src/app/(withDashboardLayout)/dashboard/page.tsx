@@ -124,18 +124,18 @@ function AdminOverview() {
         {statCards.map((s) => {
           const Icon = s.icon;
           return (
-            <Card key={s.label} className="rounded-2xl border shadow-xs">
+            <Card key={s.label} className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-xs">
               <CardContent className="p-5 flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-bold text-gray-400 uppercase">{s.label}</p>
-                  <h3 className="text-2xl font-extrabold text-gray-900 mt-1">
+                  <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">{s.label}</p>
+                  <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mt-1">
                     {statsLoading ? (
                       <Loader2 size={18} className="animate-spin text-gray-300" />
                     ) : (
                       s.value
                     )}
                   </h3>
-                  <p className="text-xs text-gray-500 mt-0.5">{s.sub}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{s.sub}</p>
                 </div>
                 <div className={`p-3 rounded-xl ${s.color}`}>
                   <Icon size={20} />
@@ -149,18 +149,18 @@ function AdminOverview() {
       {/* 3-column recent data */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Users */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-2 text-gray-900 dark:text-white">
               <Users size={16} className="text-blue-500" /> Recent Users
             </CardTitle>
             <Link href="/dashboard/admin">
-              <Button size="sm" variant="ghost" className="text-xs text-blue-600 h-7">
+              <Button size="sm" variant="ghost" className="text-xs text-blue-600 dark:text-blue-400 h-7">
                 View All <ArrowRight size={12} className="ml-1" />
               </Button>
             </Link>
           </CardHeader>
-          <CardContent className="p-0 divide-y">
+          <CardContent className="p-0 divide-y dark:divide-slate-800">
             {usersLoading ? (
               <div className="flex justify-center py-8">
                 <Loader2 size={20} className="animate-spin text-gray-300" />
@@ -172,15 +172,15 @@ function AdminOverview() {
                 <div key={u._id || u.id} className="flex items-center gap-3 px-4 py-3">
                   <Avatar className="w-8 h-8">
                     <AvatarImage src={u.profilePhoto} />
-                    <AvatarFallback className="text-xs bg-orange-100 text-orange-700">
+                    <AvatarFallback className="text-xs bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300">
                       {(u.firstName || "U")[0]}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-gray-900 truncate">
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">
                       {u.firstName ? `${u.firstName} ${u.lastName || ""}`.trim() : u.name || "User"}
                     </p>
-                    <p className="text-[10px] text-gray-400 truncate">{u.email}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate">{u.email}</p>
                   </div>
                   <Badge
                     variant={u.type === "PREMIUM" ? "default" : "outline"}
@@ -195,18 +195,18 @@ function AdminOverview() {
         </Card>
 
         {/* Recent Recipes */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-2 text-gray-900 dark:text-white">
               <Utensils size={16} className="text-orange-500" /> Recent Recipes
             </CardTitle>
             <Link href="/dashboard/user/recipes">
-              <Button size="sm" variant="ghost" className="text-xs text-orange-600 h-7">
+              <Button size="sm" variant="ghost" className="text-xs text-orange-600 dark:text-orange-400 h-7">
                 View All <ArrowRight size={12} className="ml-1" />
               </Button>
             </Link>
           </CardHeader>
-          <CardContent className="p-0 divide-y">
+          <CardContent className="p-0 divide-y dark:divide-slate-800">
             {recipesLoading ? (
               <div className="flex justify-center py-8">
                 <Loader2 size={20} className="animate-spin text-gray-300" />
@@ -216,10 +216,10 @@ function AdminOverview() {
             ) : (
               recentRecipes.map((r) => (
                 <div key={r._id || r.id} className="px-4 py-3">
-                  <p className="text-xs font-semibold text-gray-900 truncate">{r.title}</p>
+                  <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">{r.title}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Badge variant="outline" className="text-[9px]">{r.category}</Badge>
-                    <span className="text-[10px] text-gray-400">
+                    <span className="text-[10px] text-gray-400 dark:text-gray-500">
                       by {r.author?.firstName || r.author?.name || "User"}
                     </span>
                   </div>
@@ -230,18 +230,18 @@ function AdminOverview() {
         </Card>
 
         {/* Recent Blogs */}
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-2 text-gray-900 dark:text-white">
               <BookOpen size={16} className="text-purple-500" /> Recent Blogs
             </CardTitle>
             <Link href="/dashboard/admin/blogs">
-              <Button size="sm" variant="ghost" className="text-xs text-purple-600 h-7">
+              <Button size="sm" variant="ghost" className="text-xs text-purple-600 dark:text-purple-400 h-7">
                 View All <ArrowRight size={12} className="ml-1" />
               </Button>
             </Link>
           </CardHeader>
-          <CardContent className="p-0 divide-y">
+          <CardContent className="p-0 divide-y dark:divide-slate-800">
             {blogsLoading ? (
               <div className="flex justify-center py-8">
                 <Loader2 size={20} className="animate-spin text-gray-300" />
@@ -251,10 +251,10 @@ function AdminOverview() {
             ) : (
               recentBlogs.map((b) => (
                 <div key={b._id || b.id} className="px-4 py-3">
-                  <p className="text-xs font-semibold text-gray-900 truncate">{b.title}</p>
+                  <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">{b.title}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <Badge variant="outline" className="text-[9px]">{b.category}</Badge>
-                    <span className="text-[10px] text-gray-400">
+                    <span className="text-[10px] text-gray-400 dark:text-gray-500">
                       by {b.author?.firstName || "User"}
                     </span>
                   </div>
@@ -379,43 +379,43 @@ function UserOverview() {
 
       {/* My Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="rounded-2xl border shadow-xs">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-xs">
           <CardContent className="p-5 flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase">My Recipes</p>
-              <h3 className="text-2xl font-extrabold text-gray-900 mt-1">
+              <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">My Recipes</p>
+              <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mt-1">
                 {recipesLoading ? <Loader2 size={18} className="animate-spin text-gray-300" /> : myRecipes.length}
               </h3>
             </div>
-            <div className="p-3 rounded-xl bg-orange-50 text-orange-600">
+            <div className="p-3 rounded-xl bg-orange-50 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400">
               <Utensils size={20} />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border shadow-xs">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-xs">
           <CardContent className="p-5 flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase">My Blogs</p>
-              <h3 className="text-2xl font-extrabold text-gray-900 mt-1">
+              <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">My Blogs</p>
+              <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mt-1">
                 {blogsLoading ? <Loader2 size={18} className="animate-spin text-gray-300" /> : myBlogs.length}
               </h3>
             </div>
-            <div className="p-3 rounded-xl bg-purple-50 text-purple-600">
+            <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
               <ScrollText size={20} />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border shadow-xs">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-xs">
           <CardContent className="p-5 flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold text-gray-400 uppercase">Total Upvotes</p>
-              <h3 className="text-2xl font-extrabold text-gray-900 mt-1">
+              <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Total Upvotes</p>
+              <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mt-1">
                 {recipesLoading ? <Loader2 size={18} className="animate-spin text-gray-300" /> : totalUpvotes}
               </h3>
             </div>
-            <div className="p-3 rounded-xl bg-emerald-50 text-emerald-600">
+            <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
               <ThumbsUp size={20} />
             </div>
           </CardContent>
@@ -425,15 +425,15 @@ function UserOverview() {
       {/* Quick Actions */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: "New Recipe", href: "/dashboard/user/recipes", icon: Utensils, color: "bg-orange-500" },
-          { label: "New Blog", href: "/dashboard/user/blogs", icon: ScrollText, color: "bg-purple-500" },
-          { label: "Edit Profile", href: "/dashboard/user/profile", icon: UserCircle, color: "bg-blue-500" },
-          { label: "Browse Feed", href: "/home", icon: ChefHat, color: "bg-emerald-500" },
+          { label: "New Recipe", href: "/dashboard/user/recipes", icon: Utensils, color: "bg-orange-500 hover:bg-orange-600" },
+          { label: "New Blog", href: "/dashboard/user/blogs", icon: ScrollText, color: "bg-purple-500 hover:bg-purple-600" },
+          { label: "Edit Profile", href: "/dashboard/user/profile", icon: UserCircle, color: "bg-blue-500 hover:bg-blue-600" },
+          { label: "Browse Feed", href: "/home", icon: ChefHat, color: "bg-emerald-500 hover:bg-emerald-600" },
         ].map((action) => {
           const Icon = action.icon;
           return (
             <Link key={action.label} href={action.href}>
-              <div className={`${action.color} rounded-2xl p-4 text-white flex flex-col items-center justify-center gap-2 hover:opacity-90 transition cursor-pointer shadow-sm`}>
+              <div className={`${action.color} rounded-2xl p-4 text-white flex flex-col items-center justify-center gap-2 hover:opacity-95 transition cursor-pointer shadow-sm`}>
                 <Icon size={22} />
                 <span className="text-xs font-bold text-center">{action.label}</span>
               </div>
@@ -444,23 +444,23 @@ function UserOverview() {
 
       {/* My recent recipes & blogs */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-2 text-gray-900 dark:text-white">
               <Utensils size={16} className="text-orange-500" /> Recent Recipes
             </CardTitle>
             <Link href="/dashboard/user/recipes">
-              <Button size="sm" variant="ghost" className="text-xs text-orange-600 h-7">
+              <Button size="sm" variant="ghost" className="text-xs text-orange-600 dark:text-orange-400 h-7">
                 Manage <ArrowRight size={12} className="ml-1" />
               </Button>
             </Link>
           </CardHeader>
-          <CardContent className="p-0 divide-y">
+          <CardContent className="p-0 divide-y dark:divide-slate-800">
             {recipesLoading ? (
               <div className="flex justify-center py-8"><Loader2 size={20} className="animate-spin text-gray-300" /></div>
             ) : myRecipes.length === 0 ? (
               <div className="text-center py-8 space-y-2">
-                <p className="text-xs text-gray-400">No recipes published yet.</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">No recipes published yet.</p>
                 <Link href="/dashboard/user/recipes">
                   <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs">
                     <PlusCircle size={13} className="mr-1.5" /> Create First Recipe
@@ -471,10 +471,10 @@ function UserOverview() {
               myRecipes.slice(0, 3).map((r) => (
                 <div key={r._id || r.id} className="px-4 py-3 flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-semibold text-gray-900 truncate max-w-[180px]">{r.title}</p>
+                    <p className="text-xs font-semibold text-gray-900 dark:text-white truncate max-w-[180px]">{r.title}</p>
                     <div className="flex items-center gap-2 mt-0.5">
                       <Badge variant="outline" className="text-[9px]">{r.category}</Badge>
-                      <span className="text-[10px] text-emerald-600 font-semibold">
+                      <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
                         ↑ {r.upvoteCount || 0}
                       </span>
                     </div>
@@ -488,23 +488,23 @@ function UserOverview() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-2xl border shadow-sm">
+        <Card className="rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-2 text-gray-900 dark:text-white">
               <ScrollText size={16} className="text-purple-500" /> Recent Blog Posts
             </CardTitle>
             <Link href="/dashboard/user/blogs">
-              <Button size="sm" variant="ghost" className="text-xs text-purple-600 h-7">
+              <Button size="sm" variant="ghost" className="text-xs text-purple-600 dark:text-purple-400 h-7">
                 Manage <ArrowRight size={12} className="ml-1" />
               </Button>
             </Link>
           </CardHeader>
-          <CardContent className="p-0 divide-y">
+          <CardContent className="p-0 divide-y dark:divide-slate-800">
             {blogsLoading ? (
               <div className="flex justify-center py-8"><Loader2 size={20} className="animate-spin text-gray-300" /></div>
             ) : myBlogs.length === 0 ? (
               <div className="text-center py-8 space-y-2">
-                <p className="text-xs text-gray-400">No blog posts yet.</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">No blog posts yet.</p>
                 <Link href="/dashboard/user/blogs">
                   <Button size="sm" className="bg-purple-500 hover:bg-purple-600 text-white rounded-xl text-xs">
                     <PlusCircle size={13} className="mr-1.5" /> Write First Blog
@@ -514,7 +514,7 @@ function UserOverview() {
             ) : (
               myBlogs.slice(0, 3).map((b) => (
                 <div key={b._id || b.id} className="px-4 py-3">
-                  <p className="text-xs font-semibold text-gray-900 truncate">{b.title}</p>
+                  <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">{b.title}</p>
                   <Badge variant="outline" className="text-[9px] mt-1">{b.category}</Badge>
                 </div>
               ))

@@ -72,8 +72,8 @@ export default function RecipeCategoriesPage() {
           const Icon = cat.icon;
           return (
             <Link key={idx} href={`/recipes?category=${cat.query}`}>
-              <Card className="group overflow-hidden rounded-2xl border shadow-sm hover:shadow-lg transition cursor-pointer">
-                <div className="h-44 relative bg-gray-100 overflow-hidden">
+              <Card className="group overflow-hidden rounded-2xl border dark:border-slate-800 dark:bg-slate-900 shadow-sm hover:shadow-lg transition cursor-pointer">
+                <div className="h-44 relative bg-gray-100 dark:bg-slate-800 overflow-hidden">
                   <Image
                     src={cat.image}
                     alt={cat.name}
@@ -81,19 +81,19 @@ export default function RecipeCategoriesPage() {
                     className="object-cover group-hover:scale-105 transition duration-500"
                   />
                   <div className={`absolute inset-0 bg-gradient-to-t ${cat.color} opacity-40 group-hover:opacity-30 transition`} />
-                  <div className="absolute top-3 left-3 p-2 bg-white/90 backdrop-blur-md rounded-xl text-gray-900 shadow-md">
+                  <div className="absolute top-3 left-3 p-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-xl text-gray-900 dark:text-white shadow-md">
                     <Icon className="w-5 h-5 text-orange-500" />
                   </div>
                 </div>
 
                 <CardContent className="p-5 flex items-center justify-between">
                   <div>
-                    <h3 className="font-bold text-base text-gray-900 group-hover:text-orange-500 transition">
+                    <h3 className="font-bold text-base text-gray-900 dark:text-white group-hover:text-orange-500 transition">
                       {cat.name}
                     </h3>
-                    <p className="text-xs text-gray-500 mt-0.5">{cat.count}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{cat.count}</p>
                   </div>
-                  <div className="w-8 h-8 rounded-full bg-orange-50 group-hover:bg-orange-500 text-orange-500 group-hover:text-white flex items-center justify-center transition">
+                  <div className="w-8 h-8 rounded-full bg-orange-50 dark:bg-orange-950/60 group-hover:bg-orange-500 text-orange-500 group-hover:text-white flex items-center justify-center transition">
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </CardContent>
